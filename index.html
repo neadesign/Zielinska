@@ -1,22 +1,86 @@
-<!-- Aggiornato index.html con:
-1. Nuovo backend URL: https://zielinska.onrender.com
-2. Immagini da nuovo repo: https://raw.githubusercontent.com/neadesign/Zielinska/refs/heads/main/ -->
-
-<!-- Il resto del codice viene mantenuto identico tranne: -->
-
-<!-- Esempio di una modifica all'immagine -->
-<img src="https://raw.githubusercontent.com/neadesign/Zielinska/refs/heads/main/petdej.png" alt="Formule Petit-déj">
-
-<!-- E modifica all'endpoint backend -->
-fetch('https://zielinska.onrender.com/create-checkout-session', {
-  method: 'POST',
-  headers: { 'Content-Type': 'application/json' },
-  body: JSON.stringify({
-    total,
-    orderDetails: summary,
-    stripeSummary: generateStripeSummary(),
-    delivery_date: document.querySelector('[name="delivery_date"]').value
-  })
-})
-
-<!-- Applicherò questa modifica a tutte le immagini e chiamate backend nel codice HTML -->
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Commande Neaspace</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Playfair+Display:ital,wght@0,600;1,500&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #fefefe;
+      margin: 0;
+      padding: 20px;
+      color: #333;
+    }
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-weight: 600;
+      font-size: 28px;
+      text-align: center;
+      color: #444;
+    }
+    h1 em {
+      font-weight: 500;
+      font-size: 18px;
+      color: #666;
+      display: block;
+      margin-top: 5px;
+    }
+    .menu-container {
+      max-width: 800px;
+      margin: auto;
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    .gallery-item img, .formule-hero-item img {
+      width: 100%;
+      object-fit: cover;
+      border-radius: 12px;
+    }
+  </style>
+</head>
+<body>
+  <div class="menu-container">
+    <h1>Votre menu<em>en collaboration avec Zielinska</em></h1>
+    <div class="formule-hero">
+      <div class="formule-hero-item">
+        <img src="https://raw.githubusercontent.com/neadesign/Zielinska/refs/heads/main/petdej.png" alt="Formule Petit-déj">
+        <div><strong>Formule Petit-déjeuner</strong><br>1 viennoiserie, 1 latté (au choix), 1 jus d’orange pressé</div>
+      </div>
+      <div class="formule-hero-item">
+        <img src="https://raw.githubusercontent.com/neadesign/Zielinska/refs/heads/main/formbrunch.png" alt="Formule Brunch">
+        <div><strong>Formule Brunch</strong><br>Avocado toast, pain, confiture, granola, boisson chaude, jus</div>
+      </div>
+    </div>
+    <div class="gallery">
+      <div class="gallery-item">
+        <img src="https://raw.githubusercontent.com/neadesign/Zielinska/refs/heads/main/avoto.png" alt="Avocado toast">
+        Avocado toast – tartine généreuse à l’avocat frais
+      </div>
+      <div class="gallery-item">
+        <img src="https://raw.githubusercontent.com/neadesign/Zielinska/refs/heads/main/panbeur.png" alt="Pain, beurre et confiture">
+        Pain / Beurre / Confiture – classique du matin
+      </div>
+      <div class="gallery-item">
+        <img src="https://raw.githubusercontent.com/neadesign/Zielinska/refs/heads/main/babka.jpeg" alt="Babka chocolat">
+        Babka chocolat – brioche tressée au cœur chocolaté
+      </div>
+    </div>
+  </div>
+  <script>
+    fetch('https://zielinska.onrender.com/create-checkout-session', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        total,
+        orderDetails: summary,
+        stripeSummary: generateStripeSummary(),
+        delivery_date: document.querySelector('[name="delivery_date"]').value
+      })
+    });
+  </script>
+</body>
+</html>
