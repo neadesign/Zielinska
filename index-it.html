@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <title>Ordine Neaspace</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Stili identici -->
+</head>
+<body>
+<div id="toastOverlay">Grazie, verrai reindirizzato alla pagina di pagamento…</div>
+<div class="menu-container">
+  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
+    <img src="LOGO_NEA" alt="Logo Nea" style="height: 50px;">
+    <div style="text-align: center; flex: 1; margin: 0 20px;">
+      <h1 style="margin: 0; font-style: italic;">Il tuo menù</h1>
+      <em style="font-size: 16px;">in collaborazione con Zielinska</em>
+    </div>
+    <img src="LOGO_ZIELINSKA" alt="Logo Zielinska" style="height: 50px;">
+  </div>
+
+  <!-- Formule -->
+  <div class="formule-hero">
+    <div class="formule-hero-item">
+      <img src="IMG_PETITDEJ" alt="Colazione">
+      <div><strong>Formula Colazione</strong><br>1 viennoiserie, 1 latte (normale, avena o soia), 1 succo d’arancia spremuto  
+        <em>Un risveglio dolce dai sapori artigianali.</em></div>
+    </div>
+    <div class="formule-hero-item">
+      <img src="IMG_BRUNCH" alt="Brunch">
+      <div><strong>Formula Brunch</strong><br>Avocado toast, pane, burro e marmellata, granola, bevanda calda (Caffè o Espresso), succo d’arancia spremuto  
+        <em>Un brunch abbondante per iniziare bene la giornata.</em></div>
+    </div>
+  </div>
+
+  <!-- Galleria -->
+  <div class="gallery">
+    <div class="gallery-item"><img src="IMG_AVO" alt="Avocado toast">Avocado toast – fetta generosa con avocado fresco</div>
+    <div class="gallery-item"><img src="IMG_PAIN" alt="Pane, burro e marmellata">Pane / Burro / Marmellata – classico della mattina</div>
+    <div class="gallery-item"><img src="IMG_BABKA" alt="Babka cioccolato">Babka al cioccolato – brioche intrecciata dal cuore cioccolatoso</div>
+    <div class="gallery-item"><img src="IMG_ROULE" alt="Roulé cannella">Roulé alla cannella – brioche al lievito madre</div>
+    <div class="gallery-item"><img src="IMG_BRIOCHE" alt="Brioche con omelette e bacon">Omelette bacon su pane brioché – sapori salati</div>
+    <div class="gallery-item"><img src="IMG_GRANOLA" alt="Granola">Granola</div>
+    <div class="gallery-item"><img src="IMG_JUS" alt="Succo d’arancia bio">Succo d’arancia – 100% bio e fresco</div>
+  </div>
+
+  <!-- Modulo -->
+  <form id="orderForm">
+    <div class="form-row">
+      <label>Data di consegna: <input type="date" id="deliveryDate" name="delivery_date" required></label>
+      <label>Ora: <select name="delivery_time" required><option value="">Seleziona</option><option>07:30</option><option>08:00</option><option>08:30</option><option>09:00</option><option>09:30</option><option>10:00</option></select></label>
+      <label>WhatsApp: <input type="tel" name="whatsapp" placeholder="+39..." required></label>
+    </div>
+
+    <div class="btn-container">
+      <button type="button" onclick="addFormula('petitdej')">+ Aggiungi formula Colazione</button>
+      <button type="button" onclick="addFormula('brunch')">+ Aggiungi formula Brunch</button>
+    </div>
+
+    <div id="formuleContainer"></div>
+
+    <!-- Supplementi -->
+    <div style="margin-top: 40px;">
+      <h2>Supplementi</h2>
+      <div class="form-row">
+        <!-- Tutti i supplementi tradotti -->
+        <label>Avocado toast 16,5 €<input type="number" name="addon_avocado" min="0" value="0"></label>
+        <label>Pane/Burro/Marmellata 9,5 €<input type="number" name="addon_pain" min="0" value="0"></label>
+        <label>Omelette bacon pane brioché 10 €<input type="number" name="addon_brioche" min="0" value="0"></label>
+        <label>Granola 12,5 €<input type="number" name="addon_granola" min="0" value="0"></label>
+        <label>Succo d’arancia 6,5 €<input type="number" name="addon_jus" min="0" value="0"></label>
+        <label>Caffè 4 €<input type="number" name="addon_cafe" min="0" value="0"></label>
+        <label>Espresso 2,5 €<input type="number" name="addon_espresso" min="0" value="0"></label>
+        <label>Latte (normale) 6,5 €<input type="number" name="addon_latte_normal" min="0" value="0"></label>
+        <label>Latte (avena) 6,5 €<input type="number" name="addon_latte_avoine" min="0" value="0"></label>
+        <label>Latte (soia) 6,5 €<input type="number" name="addon_latte_soja" min="0" value="0"></label>
+      </div>
+      <p style="margin-top: 20px; font-style: italic; color: #666;">* Consegna 7 € tramite Delicity.</p>
+    </div>
+
+    <button type="button" onclick="generateSummary()">🧺 Aggiungi al carrello</button>
+    <pre id="orderSummary" style="display:none;"></pre>
+    <button type="submit">✅ Vai al pagamento</button>
+  </form>
+</div>
+
+<!-- Script JS rimangono invariati -->
+
+</body>
+</html>
