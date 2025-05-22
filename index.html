@@ -35,18 +35,24 @@
       border-radius: 10px;
       box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
-    label, select, input, button {
-      font-size: 16px;
-      display: block;
-      margin: 10px 0;
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      margin: 20px auto;
     }
-    button {
-      padding: 10px 15px;
+    .gallery-item img {
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
       border-radius: 6px;
-      border: none;
-      cursor: pointer;
-      background-color: #0077cc;
-      color: white;
+    }
+    .gallery-item {
+      text-align: center;
+      background: #fff;
+      padding: 8px;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
     }
   </style>
   <script>
@@ -156,10 +162,15 @@
 </head>
 <body>
   <div class="menu-container">
-    <h1><span id="menu-heading"></span><em id="menu-subheading"></em></h1>
+    <div style="text-align:center">
+      <img src="https://le-de.cdn-website.com/8bc9f943e09f48bb852cb048d9ca0a57/dms3rep/multi/opt/Senza-titolo-230w.png" alt="Logo Nea" style="height: 50px; margin-bottom: 10px;">
+      <h1><span id="menu-heading"></span><em id="menu-subheading"></em></h1>
+      <img src="https://delicity.b-cdn.net/public/merchants/fournil-zielinska/logo/dOX32S57QSm0SibS_200x200.jpg" alt="Zielinska logo" style="height: 50px; border-radius: 8px; object-fit: cover;">
+    </div>
     <form>
       <label for="delivery-date">Date de livraison:</label>
       <input type="date" name="delivery_date" id="delivery-date">
+      <br>
       <label for="delivery-time">Heure:</label>
       <select name="delivery_time" id="delivery-time">
         <option>07:30</option>
@@ -167,13 +178,25 @@
         <option>08:30</option>
         <option>09:00</option>
       </select>
+      <br>
       <label for="whatsapp">WhatsApp:</label>
       <input type="tel" name="whatsapp" id="whatsapp">
+      <br><br>
       <button type="button" id="btn-add-breakfast"></button>
       <button type="button" id="btn-add-brunch"></button>
+      <br><br>
       <button type="button" id="btn-add-to-cart"></button>
       <button type="submit" id="btn-checkout"></button>
     </form>
+    <div class="gallery">
+      <div class="gallery-item"><img src="https://raw.githubusercontent.com/neadesign/Zielinska/refs/heads/main/avoto.png" alt="Avocado toast"><p>Avocado toast</p></div>
+      <div class="gallery-item"><img src="https://raw.githubusercontent.com/neadesign/Zielinska/refs/heads/main/panbeur.png" alt="Pain, beurre et confiture"><p>Pain, beurre et confiture</p></div>
+      <div class="gallery-item"><img src="https://raw.githubusercontent.com/neadesign/Zielinska/refs/heads/main/babka.jpeg" alt="Babka chocolat"><p>Babka chocolat</p></div>
+      <div class="gallery-item"><img src="https://raw.githubusercontent.com/neadesign/Zielinska/refs/heads/main/roule.jpeg" alt="Roulé cannelle"><p>Roulé cannelle</p></div>
+      <div class="gallery-item"><img src="https://raw.githubusercontent.com/neadesign/Zielinska/refs/heads/main/panbri.png" alt="Omelette bacon"><p>Omelette bacon sur pain brioché</p></div>
+      <div class="gallery-item"><img src="https://raw.githubusercontent.com/neadesign/Zielinska/refs/heads/main/granola.png" alt="Granola"><p>Granola</p></div>
+      <div class="gallery-item"><img src="https://raw.githubusercontent.com/neadesign/Zielinska/refs/heads/main/juisbio1.png" alt="Jus d’orange"><p>Jus d’orange bio</p></div>
+    </div>
     <div id="nextUnavailable" style="margin-top:20px;"></div>
   </div>
 </body>
