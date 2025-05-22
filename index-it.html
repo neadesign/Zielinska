@@ -200,6 +200,54 @@
 // "Questa data non è disponibile", "Compila data, ora e WhatsApp", ecc.
 // Nessuna modifica strutturale necessaria
 </script>
+<script>
+let formuleId = 0;
+
+function addFormula(type) {
+  formuleId++;
+  const div = document.createElement('div');
+  div.className = 'formule-block';
+  div.id = 'formule_' + formuleId;
+  let html = '<button class="remove-btn" onclick="removeFormula(\'' + div.id + '\')">×</button>';
+  
+  if (type === 'petitdej') {
+    html += `<strong>Formula Colazione – 13 €</strong><br>
+    <label>Seleziona viennoiserie:
+      <select class="formule-select" name="petitdej_${formuleId}_viennoiserie">
+        <option value="">Seleziona</option>
+        <option value="Girella">Girella</option>
+        <option value="Babka">Babka</option>
+        <option value="Brioche">Brioche</option>
+      </select>
+    </label><br>
+    <label>Tipo di latte:
+      <select class="formule-select" name="petitdej_${formuleId}_lait">
+        <option value="">Seleziona</option>
+        <option value="Latte normale">Latte normale</option>
+        <option value="Latte di avena">Latte di avena</option>
+        <option value="Latte di soia">Latte di soia</option>
+      </select>
+    </label>`;
+  } else {
+    html += `<strong>Formula Brunch – 22 €</strong><br>
+    <label>Bevanda calda:
+      <select class="formule-select" name="brunch_${formuleId}">
+        <option value="">Seleziona</option>
+        <option value="Caffè">Caffè</option>
+        <option value="Espresso">Espresso</option>
+      </select>
+    </label>`;
+  }
+
+  div.innerHTML += html;
+  document.getElementById('formuleContainer').appendChild(div);
+}
+
+function removeFormula(id) {
+  const el = document.getElementById(id);
+  if (el) el.remove();
+}
+</script>
 
 </body>
 </html>
