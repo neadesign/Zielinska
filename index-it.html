@@ -226,3 +226,350 @@
       <button type="button" onclick="addFormula('petitdej')">+ Aggiungi una formula Colazione</button>
       <button type="button" onclick="addFormula('brunch')">+ Aggiungi una formula Brunch</button>
     </div>
+    <div id="formuleContainer"></div>
+
+<div style="margin-top: 40px;">
+<h2>Supplementi</h2>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px;">
+  <label style="display: flex; justify-content: space-between; align-items: center;">
+    Avocado toast 16,5 €
+    <input type="number" name="addon_avocado" min="0" max="5" value="0" style="width: 35px; margin-left: 10px;">
+  </label>
+
+  <label style="display: flex; justify-content: space-between; align-items: center;">
+    Pane/Burro/Marmellata 9,5 €
+    <input type="number" name="addon_pain" min="0" max="5" value="0" style="width: 35px; margin-left: 10px;">
+  </label>
+
+  <label style="display: flex; justify-content: space-between; align-items: center;">
+    Omelette e bacon su pane brioché 10 €
+    <input type="number" name="addon_brioche" min="0" max="5" value="0" style="width: 35px; margin-left: 10px;">
+  </label>
+
+  <label style="display: flex; justify-content: space-between; align-items: center;">
+    Granola 12,5 €
+    <input type="number" name="addon_granola" min="0" max="5" value="0" style="width: 35px; margin-left: 10px;">
+  </label>
+
+  <label style="display: flex; justify-content: space-between; align-items: center;">
+    Succo d’arancia spremuto 6,5 €
+    <input type="number" name="addon_jus" min="0" max="5" value="0" style="width: 35px; margin-left: 10px;">
+  </label>
+  <label style="display: flex; justify-content: space-between; align-items: center;">
+  Caffè 4 €
+  <input type="number" name="addon_cafe" min="0" max="5" value="0" style="width: 35px; margin-left: 10px;">
+</label>
+
+<label style="display: flex; justify-content: space-between; align-items: center;">
+  Espresso 2,5 €
+  <input type="number" name="addon_espresso" min="0" max="5" value="0" style="width: 35px; margin-left: 10px;">
+</label>
+  <label style="display: flex; justify-content: space-between; align-items: center;">
+  Latte (normale) 6,5 €
+  <input type="number" name="addon_latte_normal" min="0" max="5" value="0" style="width: 35px; margin-left: 10px;">
+</label>
+
+<label style="display: flex; justify-content: space-between; align-items: center;">
+  Latte (avena) 6,5 €
+  <input type="number" name="addon_latte_avoine" min="0" max="5" value="0" style="width: 35px; margin-left: 10px;">
+</label>
+
+<label style="display: flex; justify-content: space-between; align-items: center;">
+  Latte (soia) 6,5 €
+  <input type="number" name="addon_latte_soja" min="0" max="5" value="0" style="width: 35px; margin-left: 10px;">
+</label>
+
+</div>
+
+<p style="margin-top: 20px; font-style: italic; color: #666;">* Consegna 7 € tramite Delicity.</p>
+</div>
+
+<button type="button" onclick="generateSummary()">🧺 Aggiungi al carrello</button> <pre id="orderSummary" style="display:none; background:#eee; padding:15px; margin-top:20px; border-radius:8px;"></pre> <button type="submit">✅ Pagamento</button>
+
+  </form>
+</div>
+<script>
+let formuleId = 0;
+
+function addFormula(type) {
+  console.log("Aggiunta formula", type);
+  formuleId++;
+  const div = document.createElement('div');
+  div.className = 'formule-block';
+  div.id = 'formule_' + formuleId;
+  let html = '<button class="remove-btn" onclick="removeFormula(\'' + div.id + '\')">×</button>';
+  
+  if (type === 'petitdej') {
+    html += `<strong>Colazione – 17 €</strong><br>
+    <label>Scelta viennoiserie:
+      <select class="formule-select" name="petitdej_${formuleId}_viennoiserie">
+        <option value="">Seleziona</option>
+        <option value="Roulée">Rotolo alla cannella</option>
+        <option value="Babka">Babka</option>
+        <option value="Brioche">Brioche</option>
+      </select>
+    </label><br>
+    <label>Tipo di latte:
+      <select class="formule-select" name="petitdej_${formuleId}_lait">
+        <option value="">Seleziona</option>
+        <option value="Lait normal">Latte normale</option>
+        <option value="Lait d’avoine">Latte di avena</option>
+        <option value="Lait de soja">Latte di soia</option>
+      </select>
+    </label>`;
+  } else {
+    html += `<strong>Brunch – 50 €</strong><br>
+    <label>Bevanda calda:
+      <select class="formule-select" name="brunch_${formuleId}">
+        <option value="">Seleziona</option>
+        <option value="Café">Caffè</option>
+        <option value="Espresso">Espresso</option>
+      </select>
+    </label>`;
+  }
+
+  div.innerHTML += html;
+  document.getElementById('formuleContainer').appendChild(div);
+}
+function removeFormula(id) {
+  const el = document.getElementById(id);
+  if (el) el.remove();
+}
+function generateSummary() {
+  const dateInput = document.querySelector('[name="delivery_date"]').value;
+  const timeInput = document.querySelector('[name="delivery_time"]').value;
+  const phoneInput = document.querySelector('[name="whatsapp"]').value;
+
+  if (isInvalid(dateInput)) {
+  alert("❌ Questa data non è disponibile. Per favore scegli un altro giorno.");
+  return;
+}
+
+  if (!dateInput || !timeInput || !phoneInput) {
+    alert("Per favore compila la data, l'ora e il numero WhatsApp.");
+    return;
+  }
+
+  const today = new Date();
+  const deliveryDate = new Date(dateInput + 'T00:00:00');
+  const now = new Date();
+  const isSameDay = today.toDateString() === deliveryDate.toDateString();
+  const isTomorrow = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 1).toDateString() === deliveryDate.toDateString();
+  const currentHour = now.getHours();
+
+  if (isSameDay) {
+    setTimeout(() => {
+      alert("❌ Gli ordini devono essere effettuati il giorno prima entro le 18:00. Scegli un'altra data.");
+    }, 5000);
+    return;
+  }
+
+  if (isTomorrow && currentHour >= 18) {
+    setTimeout(() => {
+      alert("❌ È troppo tardi per ordinare per domani. Gli ordini chiudono alle 18:00 del giorno prima.");
+    }, 5000);
+    return;
+  }
+
+let summary = `📅 Consegna: ${dateInput} alle ${timeInput}
+📍 Indirizzo: 19 Rue Neuve, Nizza – 2° piano, porta a destra (🔔 Rossi-Lamrabet)
+📱 Contatto: ${phoneInput}
+`;
+
+  let total = 0;
+  const prix = { petitdej: 13, brunch: 22 };
+
+  document.querySelectorAll('.formule-block').forEach(block => {
+  const selects = block.querySelectorAll('select');
+
+  if (block.querySelector('select[name^="petitdej"]')) {
+    const viennoiserie = selects[0]?.value || 'non specificato';
+    const lait = selects[1]?.value || 'non specificato';
+
+    summary += `\nFormula Colazione – 13 €:\n` +
+               `- Viennoiserie: ${viennoiserie}\n` +
+               `- Latte: ${lait}\n` +
+               `- Spremuta d’arancia\n`;
+    total += prix.petitdej;
+  }
+
+  if (block.querySelector('select[name^="brunch"]')) {
+    const boisson = selects[0]?.value || 'non specificato';
+
+    summary += `\nFormula Brunch – 22 €:\n` +
+               `- Avocado toast\n` +
+               `- Pane, burro e marmellata\n` +
+               `- Granola\n` +
+               `- Bevanda calda: ${boisson}\n` +
+               `- Spremuta d’arancia\n`;
+    total += prix.brunch;
+  }
+});
+
+const addons = [
+  ["addon_avocado", "Avocado toast", 16.5],
+  ["addon_pain", "Pane / Burro / Marmellata", 9.5],
+  ["addon_brioche", "Omelette e bacon su pane brioché", 10],
+  ["addon_granola", "Granola", 12.5],
+  ["addon_jus", "Spremuta d’arancia bio", 6.5],
+  ["addon_cafe", "Caffè", 4],
+  ["addon_espresso", "Espresso", 2.5],
+  ["addon_latte_normal", "Latte (normale)", 6.5],
+  ["addon_latte_avoine", "Latte (avena)", 6.5],
+  ["addon_latte_soja", "Latte (soia)", 6.5]
+];
+
+  addons.forEach(([name, label, price]) => {
+  const el = document.querySelector(`[name="${name}"]`);
+  if (!el) return;
+
+  const qty = parseInt(el.value || 0);
+  if (qty > 0) {
+    summary += `${label} (${price} €) – Quantità: ${qty}\n`;
+    total += qty * price;
+  }
+});
+
+  summary += `\n🚚 Consegna addebitata 7 € tramite il nostro partner Delicity.`;
+  total += 7;
+  summary += `\n💰 Totale: ${total.toFixed(2)} €`;
+
+  document.getElementById('orderSummary').style.display = 'block';
+  document.getElementById('orderSummary').textContent = summary;
+}
+  function generateStripeSummary() {
+  const summary = document.getElementById("orderSummary").textContent;
+  const maxLength = 500;
+
+  if (summary.length <= maxLength) {
+    return summary;
+  }
+
+  const date = document.querySelector('[name="delivery_date"]').value;
+  const time = document.querySelector('[name="delivery_time"]').value;
+  const phone = document.querySelector('[name="whatsapp"]').value;
+  const count = document.querySelectorAll('.formule-block').length;
+
+  return `Data: ${date} ${time}, Cliente: ${phone}, Formule: ${count}, Totale: ${summary.match(/Totale: ([\d.,]+)/)?.[1]} €`;
+}
+
+document.getElementById("orderForm").addEventListener("submit", function(e) {
+  e.preventDefault();
+  const summary = document.getElementById("orderSummary").textContent;
+  const totalMatch = summary.match(/Totale: ([\d.,]+)/);
+  const total = totalMatch ? parseFloat(totalMatch[1].replace(',', '.')) : 0;
+ 
+  const toast = document.getElementById('toastOverlay');
+  toast.style.display = 'block';
+  setTimeout(() => { toast.style.display = 'none'; }, 8000);
+
+fetch('https://Zielinska.onrender.com/create-checkout-session', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({
+    total,
+    orderDetails: summary, // per email
+    stripeSummary: generateStripeSummary(), // per metadata Stripe
+    delivery_date: document.querySelector('[name="delivery_date"]').value
+  })
+})
+
+  .then(res => res.json())
+  .then(data => {
+    if (data.url) {
+      window.location.href = data.url;
+    } else {
+      alert("❌ Pagamento non disponibile al momento. Per favore riprova più tardi.");
+    }
+  })
+  .catch(err => {
+    console.error("❌ Errore Stripe:", err);
+    alert("❌ Si è verificato un errore durante il pagamento.");
+  });
+});
+</script>
+<script>
+window.addEventListener('DOMContentLoaded', async () => {
+  const dateInput = document.getElementById('deliveryDate');
+  let dateTimeout;
+  dateInput.addEventListener('input', () => {
+    clearTimeout(dateTimeout);
+    dateTimeout = setTimeout(() => {
+      const selectedDate = dateInput.value;
+      if (isInvalid(selectedDate)) {
+        alert("❌ Questa data non è disponibile. Per favore scegli un altro giorno.");
+        dateInput.value = "";
+      }
+    }, 800); // ritardo di 0.8 secondi
+  });
+
+  // Assicura che unavailableDatesFromSheet sia caricata
+  await fetchUnavailableDates();
+});
+</script>
+
+<script>
+const START_DATE = new Date("2025-05-23");
+const sheetUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vScTm1j0tp3F7h89bhmLGqEJr4nlJuqPCPm8j57qn3xqFfIYk3Mf89KXRWqbxzmxA/pub?output=csv";
+
+let unavailableDatesFromSheet = [];
+
+async function fetchUnavailableDates() {
+  try {
+    const response = await fetch(sheetUrl);
+    const text = await response.text();
+    const rows = text.split('\n');
+    unavailableDatesFromSheet = rows
+      .map(row => row.trim())
+      .filter(r => r.match(/^\d{4}-\d{2}-\d{2}$/));
+  } catch (err) {
+    console.error("❌ Errore caricamento date bloccate:", err);
+  }
+}
+
+function isWednesday(dateStr) {
+  const d = new Date(dateStr);
+  return d.getDay() === 3;
+}
+
+function isInvalid(dateStr) {
+  const d = new Date(dateStr);
+  return (
+    isNaN(d) ||
+    d < START_DATE ||
+    isWednesday(dateStr) ||
+    unavailableDatesFromSheet.includes(dateStr)
+  );
+}
+
+function formatDateShort(dateStr) {
+  const d = new Date(dateStr);
+  return d.toLocaleDateString('it-IT', {
+    day: 'numeric',
+    month: 'short'
+  });
+}
+
+async function showNextUnavailable() {
+  await fetchUnavailableDates();
+
+  const result = [];
+  const today = new Date();
+  let date = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+
+  while (result.length < 3) {
+    const iso = date.toISOString().split('T')[0];
+    if (isInvalid(iso)) result.push(formatDateShort(iso));
+    date.setDate(date.getDate() + 1);
+  }
+
+  document.getElementById("nextUnavailable").textContent =
+    `⚠️ Prossime date non disponibili: ${result.join(', ')}`;
+}
+
+document.addEventListener("DOMContentLoaded", showNextUnavailable);
+</script>
+
+</body>
+</html>
+
