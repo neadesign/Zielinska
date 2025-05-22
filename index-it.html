@@ -1,89 +1,375 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-  <meta charset="UTF-8">
-  <title>Ordine Neaspace</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- Stili identici -->
+<!-- Tutti gli stili e script rimangono invariati (omessi qui per brevità) -->
+<!-- ... -->
 </head>
 <body>
 <div id="toastOverlay">Grazie, verrai reindirizzato alla pagina di pagamento…</div>
 <div class="menu-container">
   <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
-    <img src="LOGO_NEA" alt="Logo Nea" style="height: 50px;">
+    <img src="https://le-de.cdn-website.com/8bc9f943e09f48bb852cb048d9ca0a57/dms3rep/multi/opt/Senza-titolo-230w.png" alt="Logo Nea" style="height: 50px;">
     <div style="text-align: center; flex: 1; margin: 0 20px;">
-      <h1 style="margin: 0; font-style: italic;">Il tuo menù</h1>
+      <h1 style="margin: 0; font-style: italic;">Il tuo menu</h1>
       <em style="font-size: 16px;">in collaborazione con Zielinska</em>
     </div>
-    <img src="LOGO_ZIELINSKA" alt="Logo Zielinska" style="height: 50px;">
+    <img src="https://delicity.b-cdn.net/public/merchants/fournil-zielinska/logo/dOX32S57QSm0SibS_200x200.jpg" alt="Logo Zielinska" style="height: 50px; border-radius: 8px;">
   </div>
 
-  <!-- Formule -->
   <div class="formule-hero">
     <div class="formule-hero-item">
-      <img src="IMG_PETITDEJ" alt="Colazione">
-      <div><strong>Formula Colazione</strong><br>1 viennoiserie, 1 latte (normale, avena o soia), 1 succo d’arancia spremuto  
-        <em>Un risveglio dolce dai sapori artigianali.</em></div>
+      <img src="https://raw.githubusercontent.com/neadesign/Zielinska/refs/heads/main/petdej.png" alt="Formula Colazione">
+      <div><strong>Formula Colazione</strong><br>1 viennoiserie, 1 latte (a scelta: normale, avena o soia), 1 succo d’arancia
+        <em>Un risveglio dolce con sapori artigianali.</em>
+      </div>
     </div>
     <div class="formule-hero-item">
-      <img src="IMG_BRUNCH" alt="Brunch">
-      <div><strong>Formula Brunch</strong><br>Avocado toast, pane, burro e marmellata, granola, bevanda calda (Caffè o Espresso), succo d’arancia spremuto  
-        <em>Un brunch abbondante per iniziare bene la giornata.</em></div>
+      <img src="https://raw.githubusercontent.com/neadesign/Zielinska/refs/heads/main/formbrunch.png" alt="Formula Brunch">
+      <div><strong>Formula Brunch</strong><br>Avocado toast, pane, burro e marmellata, granola, bevanda calda (caffè o espresso), succo d’arancia
+        <em>Un brunch abbondante per iniziare la giornata con piacere.</em>
+      </div>
     </div>
   </div>
 
-  <!-- Galleria -->
   <div class="gallery">
-    <div class="gallery-item"><img src="IMG_AVO" alt="Avocado toast">Avocado toast – fetta generosa con avocado fresco</div>
-    <div class="gallery-item"><img src="IMG_PAIN" alt="Pane, burro e marmellata">Pane / Burro / Marmellata – classico della mattina</div>
-    <div class="gallery-item"><img src="IMG_BABKA" alt="Babka cioccolato">Babka al cioccolato – brioche intrecciata dal cuore cioccolatoso</div>
-    <div class="gallery-item"><img src="IMG_ROULE" alt="Roulé cannella">Roulé alla cannella – brioche al lievito madre</div>
-    <div class="gallery-item"><img src="IMG_BRIOCHE" alt="Brioche con omelette e bacon">Omelette bacon su pane brioché – sapori salati</div>
-    <div class="gallery-item"><img src="IMG_GRANOLA" alt="Granola">Granola</div>
-    <div class="gallery-item"><img src="IMG_JUS" alt="Succo d’arancia bio">Succo d’arancia – 100% bio e fresco</div>
-  </div>
-
-  <!-- Modulo -->
-  <form id="orderForm">
-    <div class="form-row">
-      <label>Data di consegna: <input type="date" id="deliveryDate" name="delivery_date" required></label>
-      <label>Ora: <select name="delivery_time" required><option value="">Seleziona</option><option>07:30</option><option>08:00</option><option>08:30</option><option>09:00</option><option>09:30</option><option>10:00</option></select></label>
-      <label>WhatsApp: <input type="tel" name="whatsapp" placeholder="+39..." required></label>
+    <div class="gallery-item">
+      <img src="https://raw.githubusercontent.com/neadesign/Zielinska/refs/heads/main/avoto.png" alt="Avocado toast">
+      Avocado toast – fetta di pane con avocado fresco
     </div>
+    <div class="gallery-item">
+      <img src="https://raw.githubusercontent.com/neadesign/Zielinska/refs/heads/main/panbeur.png" alt="Pane, burro e marmellata">
+      Pane / Burro / Marmellata – classico della colazione
+    </div>
+    <div class="gallery-item">
+      <img src="https://raw.githubusercontent.com/neadesign/Zielinska/refs/heads/main/babka.jpeg" alt="Babka al cioccolato">
+      Babka al cioccolato – treccia lievitata con cuore di cioccolato
+    </div>
+    <div class="gallery-item">
+      <img src="https://raw.githubusercontent.com/neadesign/Zielinska/refs/heads/main/roule.jpeg" alt="Girella alla cannella">
+      Girella alla cannella – brioche al lievito con cannella. Il nostro best-seller!
+    </div>
+    <div class="gallery-item">
+      <img src="https://raw.githubusercontent.com/neadesign/Zielinska/refs/heads/main/panbri.png" alt="Omelette e bacon su brioche">
+      Omelette e bacon su brioche – trio salato e goloso
+    </div>
+    <div class="gallery-item">
+      <img src="https://raw.githubusercontent.com/neadesign/Zielinska/refs/heads/main/granola.png" alt="Granola">
+      Granola
+    </div>
+    <div class="gallery-item">
+      <img src="https://raw.githubusercontent.com/neadesign/Zielinska/refs/heads/main/juisbio1.png" alt="Succo d’arancia bio">
+      Succo d’arancia – 100% bio e appena spremuto
+    </div>
+  </div>
+<div id="nextUnavailable" style="margin-bottom: 15px; font-style: italic; color: #aa0000;"></div>
+  <form id="orderForm">
+    <label>Data di consegna: <input type="date" name="delivery_date" required></label>
+    <label>Ora: 
+      <select name="delivery_time" required>
+        <option value="">Seleziona</option>
+        <option>07:30</option><option>08:00</option><option>08:30</option>
+        <option>09:00</option><option>09:30</option><option>10:00</option>
+      </select>
+    </label>
+    <label>WhatsApp: <input type="tel" name="whatsapp" required placeholder="+39 3..."></label>
 
     <div class="btn-container">
-      <button type="button" onclick="addFormula('petitdej')">+ Aggiungi formula Colazione</button>
-      <button type="button" onclick="addFormula('brunch')">+ Aggiungi formula Brunch</button>
+      <button type="button" onclick="addFormula('petitdej')">+ Aggiungi Formula Colazione</button>
+      <button type="button" onclick="addFormula('brunch')">+ Aggiungi Formula Brunch</button>
     </div>
 
     <div id="formuleContainer"></div>
 
-    <!-- Supplementi -->
-    <div style="margin-top: 40px;">
-      <h2>Supplementi</h2>
-      <div class="form-row">
-        <!-- Tutti i supplementi tradotti -->
-        <label>Avocado toast 16,5 €<input type="number" name="addon_avocado" min="0" value="0"></label>
-        <label>Pane/Burro/Marmellata 9,5 €<input type="number" name="addon_pain" min="0" value="0"></label>
-        <label>Omelette bacon pane brioché 10 €<input type="number" name="addon_brioche" min="0" value="0"></label>
-        <label>Granola 12,5 €<input type="number" name="addon_granola" min="0" value="0"></label>
-        <label>Succo d’arancia 6,5 €<input type="number" name="addon_jus" min="0" value="0"></label>
-        <label>Caffè 4 €<input type="number" name="addon_cafe" min="0" value="0"></label>
-        <label>Espresso 2,5 €<input type="number" name="addon_espresso" min="0" value="0"></label>
-        <label>Latte (normale) 6,5 €<input type="number" name="addon_latte_normal" min="0" value="0"></label>
-        <label>Latte (avena) 6,5 €<input type="number" name="addon_latte_avoine" min="0" value="0"></label>
-        <label>Latte (soia) 6,5 €<input type="number" name="addon_latte_soja" min="0" value="0"></label>
-      </div>
-      <p style="margin-top: 20px; font-style: italic; color: #666;">* Consegna 7 € tramite Delicity.</p>
-    </div>
+    <h2>Supplementi</h2>
+    <label>Avocado toast 16.5 € <input type="number" name="addon_avocado" min="0" max="5" value="0"></label>
+    <label>Pain / Burro / Marmellata 9.5 € <input type="number" name="addon_pain" min="0" max="5" value="0"></label>
+    <label>Omelette bacon su brioche 10 € <input type="number" name="addon_brioche" min="0" max="5" value="0"></label>
+    <label>Granola 12.5 € <input type="number" name="addon_granola" min="0" max="5" value="0"></label>
+    <label>Succo d’arancia bio 6.5 € <input type="number" name="addon_jus" min="0" max="5" value="0"></label>
+    <label>Caffè 4 € <input type="number" name="addon_cafe" min="0" max="5" value="0"></label>
+    <label>Espresso 2.5 € <input type="number" name="addon_espresso" min="0" max="5" value="0"></label>
+    <label>Latte (normale) 6.5 € <input type="number" name="addon_latte_normal" min="0" max="5" value="0"></label>
+    <label>Latte (avena) 6.5 € <input type="number" name="addon_latte_avoine" min="0" max="5" value="0"></label>
+    <label>Latte (soia) 6.5 € <input type="number" name="addon_latte_soja" min="0" max="5" value="0"></label>
+
+    <p>* Consegna 7 € con il nostro partner Delicity.</p>
 
     <button type="button" onclick="generateSummary()">🧺 Aggiungi al carrello</button>
     <pre id="orderSummary" style="display:none;"></pre>
-    <button type="submit">✅ Vai al pagamento</button>
+    <button type="submit">✅ Pagamento</button>
   </form>
 </div>
+<script>
+let formuleId = 0;
 
-<!-- Script JS rimangono invariati -->
+function addFormula(tipo) {
+  console.log("Aggiunta formula", tipo);
+  formuleId++;
+  const div = document.createElement('div');
+  div.className = 'formule-block';
+  div.id = 'formule_' + formuleId;
+  let html = '<button class="remove-btn" onclick="removeFormula(\'' + div.id + '\')">×</button>';
+  
+  if (tipo === 'petitdej') {
+    html += `<strong>Colazione – 13 €</strong><br>
+    <label>Scelta viennoiserie:
+      <select class="formule-select" name="petitdej_${formuleId}_viennoiserie">
+        <option value="">Seleziona</option>
+        <option value="Girella">Girella</option>
+        <option value="Babka">Babka</option>
+        <option value="Brioche">Brioche</option>
+      </select>
+    </label><br>
+    <label>Tipo di latte:
+      <select class="formule-select" name="petitdej_${formuleId}_lait">
+        <option value="">Seleziona</option>
+        <option value="Latte normale">Latte normale</option>
+        <option value="Latte di avena">Latte di avena</option>
+        <option value="Latte di soia">Latte di soia</option>
+      </select>
+    </label>`;
+  } else {
+    html += `<strong>Brunch – 22 €</strong><br>
+    <label>Bevanda calda:
+      <select class="formule-select" name="brunch_${formuleId}">
+        <option value="">Seleziona</option>
+        <option value="Caffè">Caffè</option>
+        <option value="Espresso">Espresso</option>
+      </select>
+    </label>`;
+  }
 
-</body>
+  div.innerHTML += html;
+  document.getElementById('formuleContainer').appendChild(div);
+}
+
+function removeFormula(id) {
+  const el = document.getElementById(id);
+  if (el) el.remove();
+}
+
+function generateSummary() {
+  const dateInput = document.querySelector('[name="delivery_date"]').value;
+  const timeInput = document.querySelector('[name="delivery_time"]').value;
+  const phoneInput = document.querySelector('[name="whatsapp"]').value;
+
+  if (isInvalid(dateInput)) {
+    alert("❌ Questa data non è disponibile. Scegli un altro giorno.");
+    return;
+  }
+
+  if (!dateInput || !timeInput || !phoneInput) {
+    alert("Compila data, ora e numero WhatsApp.");
+    return;
+  }
+
+  const today = new Date();
+  const deliveryDate = new Date(dateInput + 'T00:00:00');
+  const now = new Date();
+  const isSameDay = today.toDateString() === deliveryDate.toDateString();
+  const isTomorrow = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 1).toDateString() === deliveryDate.toDateString();
+  const currentHour = now.getHours();
+
+  if (isSameDay) {
+    setTimeout(() => {
+      alert("❌ Gli ordini devono essere fatti entro le 18:00 del giorno prima. Scegli un'altra data.");
+    }, 5000);
+    return;
+  }
+
+  if (isTomorrow && currentHour >= 18) {
+    setTimeout(() => {
+      alert("❌ È troppo tardi per ordinare per domani. Gli ordini chiudono alle 18:00 del giorno prima.");
+    }, 5000);
+    return;
+  }
+
+  let riepilogo = `📅 Consegna: ${dateInput} alle ${timeInput}
+📍 Indirizzo: 19 Rue Neuve, Nizza – 2° piano, porta a destra (🔔 Rossi-Lamrabet)
+📱 Contatto: ${phoneInput}
+`;
+
+  let totale = 0;
+  const prezzi = { petitdej: 13, brunch: 22 };
+
+  document.querySelectorAll('.formule-block').forEach(block => {
+    const selects = block.querySelectorAll('select');
+
+    if (block.querySelector('select[name^="petitdej"]')) {
+      const viennoiserie = selects[0]?.value || 'non specificato';
+      const latte = selects[1]?.value || 'non specificato';
+      riepilogo += `\nColazione – 13 €:\n- Viennoiserie: ${viennoiserie}\n- Latte: ${latte}\n- Succo d’arancia\n`;
+      totale += prezzi.petitdej;
+    }
+
+    if (block.querySelector('select[name^="brunch"]')) {
+      const bevanda = selects[0]?.value || 'non specificata';
+      riepilogo += `\nBrunch – 22 €:\n- Avocado toast\n- Pane, burro e marmellata\n- Granola\n- Bevanda calda: ${bevanda}\n- Succo d’arancia\n`;
+      totale += prezzi.brunch;
+    }
+  });
+
+  const addons = [
+    ["addon_avocado", "Avocado toast", 16.5],
+    ["addon_pain", "Pane / Burro / Marmellata", 9.5],
+    ["addon_brioche", "Omelette bacon su brioche", 10],
+    ["addon_granola", "Granola", 12.5],
+    ["addon_jus", "Succo d’arancia bio", 6.5],
+    ["addon_cafe", "Caffè", 4],
+    ["addon_espresso", "Espresso", 2.5],
+    ["addon_latte_normal", "Latte (normale)", 6.5],
+    ["addon_latte_avoine", "Latte (avena)", 6.5],
+    ["addon_latte_soja", "Latte (soia)", 6.5]
+  ];
+
+  addons.forEach(([nome, etichetta, prezzo]) => {
+    const el = document.querySelector(`[name="${nome}"]`);
+    if (!el) return;
+    const qty = parseInt(el.value || 0);
+    if (qty > 0) {
+      riepilogo += `${etichetta} (${prezzo} €) – Quantità: ${qty}\n`;
+      totale += qty * prezzo;
+    }
+  });
+
+  riepilogo += `\n🚚 Consegna: 7 € con Delicity.`;
+  totale += 7;
+  riepilogo += `\n💰 Totale: ${totale.toFixed(2)} €`;
+
+  document.getElementById('orderSummary').style.display = 'block';
+  document.getElementById('orderSummary').textContent = riepilogo;
+}
+
+function generateStripeSummary() {
+  const summary = document.getElementById("orderSummary").textContent;
+  const maxLength = 500;
+
+  if (summary.length <= maxLength) {
+    return summary;
+  }
+
+  const date = document.querySelector('[name="delivery_date"]').value;
+  const time = document.querySelector('[name="delivery_time"]').value;
+  const phone = document.querySelector('[name="whatsapp"]').value;
+  const count = document.querySelectorAll('.formule-block').length;
+
+  return `Data: ${date} ${time}, Cliente: ${phone}, Formule: ${count}, Totale: ${summary.match(/Totale: ([\d.,]+)/)?.[1]} €`;
+}
+
+document.getElementById("orderForm").addEventListener("submit", function(e) {
+  e.preventDefault();
+  const summary = document.getElementById("orderSummary").textContent;
+  const totalMatch = summary.match(/Totale: ([\d.,]+)/);
+  const total = totalMatch ? parseFloat(totalMatch[1].replace(',', '.')) : 0;
+
+  const toast = document.getElementById('toastOverlay');
+  toast.style.display = 'block';
+  setTimeout(() => { toast.style.display = 'none'; }, 8000);
+
+  fetch('https://Zielinska.onrender.com/create-checkout-session', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      total,
+      orderDetails: summary,
+      stripeSummary: generateStripeSummary(),
+      delivery_date: document.querySelector('[name="delivery_date"]').value
+    })
+  })
+  .then(res => res.json())
+  .then(data => {
+    if (data.url) {
+      window.location.href = data.url;
+    } else {
+      alert("❌ Pagamento al momento non disponibile. Riprova più tardi.");
+    }
+  })
+  .catch(err => {
+    console.error("❌ Errore Stripe:", err);
+    alert("❌ Si è verificato un errore durante il pagamento.");
+  });
+});
+</script>
+
+<script>
+window.addEventListener('DOMContentLoaded', async () => {
+  const dateInput = document.getElementById('deliveryDate');
+  let dateTimeout;
+  dateInput.addEventListener('input', () => {
+    clearTimeout(dateTimeout);
+    dateTimeout = setTimeout(() => {
+      const selectedDate = dateInput.value;
+      if (isInvalid(selectedDate)) {
+        alert("❌ Questa data non è disponibile. Scegli un altro giorno.");
+        dateInput.value = "";
+      }
+    }, 8000);
+  });
+
+  await fetchUnavailableDates();
+});
+</script>
+
+<script>
+const START_DATE = new Date("2025-05-23");
+const sheetUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vScTm1j0tp3F7h89bhmLGqEJr4nlJuqPCPm8j57qn3xqFfIYk3Mf89KXRWqbxzmxA/pub?output=csv";
+
+let unavailableDatesFromSheet = [];
+
+async function fetchUnavailableDates() {
+  try {
+    const response = await fetch(sheetUrl);
+    const text = await response.text();
+    const rows = text.split('\n');
+    unavailableDatesFromSheet = rows
+      .map(row => row.trim())
+      .filter(r => r.match(/^\d{4}-\d{2}-\d{2}$/));
+  } catch (err) {
+    console.error("❌ Errore nel caricamento delle date non disponibili:", err);
+  }
+}
+
+function isWednesday(dateStr) {
+  const d = new Date(dateStr);
+  return d.getDay() === 3;
+}
+
+function isInvalid(dateStr) {
+  const d = new Date(dateStr);
+  return (
+    isNaN(d) ||
+    d < START_DATE ||
+    isWednesday(dateStr) ||
+    unavailableDatesFromSheet.includes(dateStr)
+  );
+}
+
+function formatDateShort(dateStr) {
+  const d = new Date(dateStr);
+  return d.toLocaleDateString('it-IT', {
+    day: 'numeric',
+    month: 'short'
+  });
+}
+
+async function showNextUnavailable() {
+  await fetchUnavailableDates();
+
+  const result = [];
+  const today = new Date();
+  let date = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+
+  while (result.length < 3) {
+    const iso = date.toISOString().split('T')[0];
+    if (isInvalid(iso)) result.push(formatDateShort(iso));
+    date.setDate(date.getDate() + 1);
+  }
+
+  document.getElementById("nextUnavailable").textContent =
+    `⚠️ Prossime date non disponibili: ${result.join(', ')}`;
+}
+
+document.addEventListener("DOMContentLoaded", showNextUnavailable);
+</script>
+  </body>
 </html>
