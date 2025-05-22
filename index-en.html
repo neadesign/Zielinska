@@ -446,7 +446,8 @@ function generateSummary() {
 
   summary += `\n🚚 Delivery fee €7 via our partner Delicity.`;
   total += 7;
-  summary += `\n💰 Total: ${total.toFixed(2)} €`;
+  - summary += `\n💰 Total: €${total.toFixed(2)}`;
++ summary += `\n💰 Total: ${total.toFixed(2)} €`;
 
   document.getElementById('orderSummary').style.display = 'block';
   document.getElementById('orderSummary').textContent = summary;
