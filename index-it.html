@@ -1,16 +1,6 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-<style>
-  .menu-container {
-    max-width: 800px;
-    margin: auto;
-    background: #fff;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
-  }
-</style>
 
 <style>
   #toastOverlay {
@@ -103,103 +93,299 @@
 </head>
 <body>
 <div id="toastOverlay">Grazie, verrai reindirizzato alla pagina di pagamento…</div>
-
-<div class="menu-container">
-  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
-    <img src="https://le-de.cdn-website.com/8bc9f943e09f48bb852cb048d9ca0a57/dms3rep/multi/opt/Senza-titolo-230w.png" alt="Nea logo" style="height: 50px; object-fit: contain;">
-    <div style="text-align: center; flex: 1; margin: 0 20px;">
-      <h1 style="margin: 0; font-style: italic;">Il tuo menù</h1>
-      <em style="font-size: 16px;">in collaborazione con Zielinska</em>
-    </div>
-    <img src="https://delicity.b-cdn.net/public/merchants/fournil-zielinska/logo/dOX32S57QSm0SibS_200x200.jpg" alt="Zielinska logo" style="height: 50px; border-radius: 8px; object-fit: cover;">
-  </div>
-
-  <div class="formule-hero" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; max-width: 800px; margin: 0 auto 30px auto;">
-    <div class="formule-hero-item" style="background: #fff; padding: 10px; border-radius: 10px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); text-align:center;">
-      <img src="https://raw.githubusercontent.com/neadesign/Zielinska/refs/heads/main/petdej.png" alt="Formule Colazione" style="width:100%; height:250px; object-fit:cover; border-radius:12px; margin-bottom:10px;">
-      <div><strong>Formula Colazione</strong><br>1 viennoiserie, 1 latté (a scelta: latte normale, avena o soia), 1 succo d’arancia<br>
-      <em>Un risveglio dolce, con sapori artigianali.</em></div>
-    </div>
-    <div class="formule-hero-item" style="background: #fff; padding: 10px; border-radius: 10px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); text-align:center;">
-      <img src="https://raw.githubusercontent.com/neadesign/Zielinska/refs/heads/main/formbrunch.png" alt="Formule Brunch" style="width:100%; height:250px; object-fit:cover; border-radius:12px; margin-bottom:10px;">
-      <div><strong>Formula Brunch</strong><br>Avocado toast, pane, burro e marmellata, granola, bevanda calda (a scelta: caffè o espresso), succo d’arancia<br>
-      <em>Un brunch generoso per iniziare la giornata con piacere.</em></div>
-    </div>
-  </div>
-  <div class="gallery">
-    <div class="gallery-item">
-      <img src="https://raw.githubusercontent.com/neadesign/Zielinska/refs/heads/main/avoto.png" alt="Avocado toast">
-      Avocado toast – tartina generosa con avocado fresco
-    </div>
-    <div class="gallery-item">
-      <img src="https://raw.githubusercontent.com/neadesign/Zielinska/refs/heads/main/panbeur.png" alt="Pane burro marmellata">
-      Pane / Burro / Marmellata – classico del mattino
-    </div>
-    <div class="gallery-item">
-      <img src="https://raw.githubusercontent.com/neadesign/Zielinska/refs/heads/main/babka.jpeg" alt="Babka cioccolato">
-      Babka al cioccolato – brioche intrecciata con cuore di cioccolato. Deliziosa e mai troppo dolce!
-    </div>
-    <div class="gallery-item">
-      <img src="https://raw.githubusercontent.com/neadesign/Zielinska/refs/heads/main/roule.jpeg" alt="Girella cannella">
-      Girella alla cannella – brioche al lievito madre alla cannella. Il nostro best-seller!
-    </div>
-    <div class="gallery-item">
-      <img src="https://raw.githubusercontent.com/neadesign/Zielinska/refs/heads/main/panbri.png" alt="Brioche omelette bacon">
-      Omelette e bacon su pane brioche – un trio salato e goloso
-    </div>
-    <div class="gallery-item">
-      <img src="https://raw.githubusercontent.com/neadesign/Zielinska/refs/heads/main/granola.png" alt="Granola">
-      Granola – croccante, nutriente, fatta con amore
-    </div>
-    <div class="gallery-item">
-      <img src="https://raw.githubusercontent.com/neadesign/Zielinska/refs/heads/main/juisbio1.png" alt="Succo d’arancia">
-      Succo d’arancia – 100% bio e appena spremuto
-    </div>
-  </div>
-
-  <form id="orderForm">
-    <div style="display: flex; flex-wrap: wrap; gap: 20px; margin-bottom: 20px;">
-      <label style="flex: 1 1 250px; min-width: 200px;">Data di consegna:
-        <input type="date" id="deliveryDate" name="delivery_date" required>
-      </label>
-      <label style="flex: 1 1 250px; min-width: 200px;">Ora:
-        <select name="delivery_time" required>
-          <option value="">Seleziona</option>
-          <option>07:30</option><option>08:00</option><option>08:30</option>
-          <option>09:00</option><option>09:30</option><option>10:00</option>
-        </select>
-      </label>
-      <label style="flex: 1 1 250px; min-width: 200px;">WhatsApp:
-        <input type="tel" name="whatsapp" required placeholder="+39...">
-      </label>
-    </div>
-
-    <div class="btn-container">
-      <button type="button" onclick="addFormula('petitdej')">+ Aggiungi Formula Colazione</button>
-      <button type="button" onclick="addFormula('brunch')">+ Aggiungi Formula Brunch</button>
-    </div>
-
-    <div id="formuleContainer"></div>
-
-    <div style="margin-top: 40px;">
-      <h2>Supplementi</h2>
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px;">
-        <!-- Qui ci sono già le voci in italiano nel file originale -->
-      </div>
-      <p style="margin-top: 20px; font-style: italic; color: #666;">* Consegna 7 € tramite Delicity.</p>
-    </div>
-
-    <button type="button" onclick="generateSummary()">🧺 Aggiungi al carrello</button>
-    <pre id="orderSummary" style="display:none; background:#eee; padding:15px; margin-top:20px; border-radius:8px;"></pre>
-    <button type="submit">✅ Procedi al pagamento</button>
-  </form>
-</div>
-
 <script>
-// Script già aggiornato con messaggi tipo:
-// "Questa data non è disponibile", "Compila data, ora e WhatsApp", ecc.
-// Nessuna modifica strutturale necessaria
+function generateSummary() {
+  const dateInput = document.querySelector('[name="delivery_date"]').value;
+  const timeInput = document.querySelector('[name="delivery_time"]').value;
+  const phoneInput = document.querySelector('[name="whatsapp"]').value;
+
+  if (!dateInput || !timeInput || !phoneInput) {
+    alert("❌ Inserisci data, ora e numero WhatsApp.");
+    return;
+  }
+
+  const today = new Date();
+  const deliveryDate = new Date(dateInput + 'T00:00:00');
+  const now = new Date();
+  const isSameDay = today.toDateString() === deliveryDate.toDateString();
+  const isTomorrow = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 1).toDateString() === deliveryDate.toDateString();
+  const currentHour = now.getHours();
+
+  if (isSameDay || (isTomorrow && currentHour >= 18)) {
+    alert("❌ Ordina almeno il giorno prima, entro le 18:00.");
+    return;
+  }
+
+  let summary = `📅 Consegna: ${dateInput} alle ${timeInput}\n📱 Contatto: ${phoneInput}\n`;
+  let total = 0;
+
+  const prezzi = { petitdej: 13, brunch: 22 };
+
+  document.querySelectorAll('.formule-block').forEach(block => {
+    const selects = block.querySelectorAll('select');
+    if (block.querySelector('select[name^="petitdej"]')) {
+      const viennoiserie = selects[0]?.value || 'non specificato';
+      const latte = selects[1]?.value || 'non specificato';
+      summary += `\n🍞 Colazione – 13 €:\n- Viennoiserie: ${viennoiserie}\n- Latte: ${latte}\n- Succo d’arancia\n`;
+      total += prezzi.petitdej;
+    }
+    if (block.querySelector('select[name^="brunch"]')) {
+      const bevanda = selects[0]?.value || 'non specificato';
+      summary += `\n🥑 Brunch – 22 €:\n- Avocado toast\n- Pane, burro e marmellata\n- Granola\n- Bevanda: ${bevanda}\n- Succo d’arancia\n`;
+      total += prezzi.brunch;
+    }
+  });
+
+  const addons = [
+    ["addon_avocado", "Avocado toast", 16.5],
+    ["addon_pain", "Pane / Burro / Marmellata", 9.5],
+    ["addon_brioche", "Omelette e bacon", 10],
+    ["addon_granola", "Granola", 12.5],
+    ["addon_jus", "Succo d’arancia", 6.5],
+    ["addon_cafe", "Caffè", 4],
+    ["addon_espresso", "Espresso", 2.5],
+    ["addon_latte_normal", "Latte normale", 6.5],
+    ["addon_latte_avoine", "Latte avena", 6.5],
+    ["addon_latte_soja", "Latte soia", 6.5]
+  ];
+
+  addons.forEach(([name, label, price]) => {
+    const el = document.querySelector(`[name="${name}"]`);
+    const qty = parseInt(el?.value || 0);
+    if (qty > 0) {
+      summary += `➕ ${label} (${price} €) × ${qty}\n`;
+      total += qty * price;
+    }
+  });
+
+  summary += `\n🚚 Consegna: 7 € tramite Delicity\n💰 Totale: ${total + 7} €`;
+
+  const output = document.getElementById("orderSummary");
+  output.textContent = summary;
+  output.style.display = "block";
+}
+
+document.getElementById("orderForm").addEventListener("submit", function(e) {
+  e.preventDefault();
+  const summary = document.getElementById("orderSummary").textContent;
+  const totalMatch = summary.match(/Totale: ([\\d.,]+)/);
+  const total = totalMatch ? parseFloat(totalMatch[1].replace(',', '.')) : 0;
+
+  const toast = document.getElementById('toastOverlay');
+  toast.style.display = 'block';
+  setTimeout(() => { toast.style.display = 'none'; }, 8000);
+
+  fetch('https://Zielinska.onrender.com/create-checkout-session', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      total,
+      orderDetails: summary,
+      stripeSummary: `Totale: ${total} €, Cliente: ${document.querySelector('[name=\"whatsapp\"]').value}`,
+      delivery_date: document.querySelector('[name=\"delivery_date\"]').value
+    })
+  })
+  .then(res => res.json())
+  .then(data => {
+    if (data.url) {
+      window.location.href = data.url;
+    } else {
+      alert("❌ Errore durante il pagamento.");
+    }
+  })
+  .catch(err => {
+    console.error(err);
+    alert("❌ Errore durante la connessione a Stripe.");
+  });
+});
+
+const START_DATE = new Date("2025-05-23");
+const sheetUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vScTm1j0tp3F7h89bhmLGqEJr4nlJuqPCPm8j57qn3xqFfIYk3Mf89KXRWqbxzmxA/pub?output=csv";
+let unavailableDatesFromSheet = [];
+
+async function fetchUnavailableDates() {
+  try {
+    const response = await fetch(sheetUrl);
+    const text = await response.text();
+    const rows = text.split('\\n');
+    unavailableDatesFromSheet = rows.map(row => row.trim()).filter(r => /^\\d{4}-\\d{2}-\\d{2}$/.test(r));
+  } catch (err) {
+    console.error(\"Errore caricamento date bloccate:\", err);
+  }
+}
+
+function isInvalid(dateStr) {
+  const d = new Date(dateStr);
+  return (
+    isNaN(d) ||
+    d < START_DATE ||
+    d.getDay() === 3 || // mercoledì chiuso
+    unavailableDatesFromSheet.includes(dateStr)
+  );
+}
+
+window.addEventListener('DOMContentLoaded', async () => {
+  await fetchUnavailableDates();
+  const today = new Date();
+  const next = [];
+  for (let i = 0; i < 15; i++) {
+    const d = new Date(today);
+    d.setDate(today.getDate() + i);
+    const iso = d.toISOString().split('T')[0];
+    if (isInvalid(iso)) next.push(iso);
+    if (next.length >= 3) break;
+  }
+  document.getElementById("nextUnavailable").textContent =
+    `⚠️ Prossime date non disponibili: ${next.map(d => new Date(d).toLocaleDateString('it-IT')).join(', ')}`;
+});
 </script>
+<script>
+function generateSummary() {
+  const dateInput = document.querySelector('[name="delivery_date"]').value;
+  const timeInput = document.querySelector('[name="delivery_time"]').value;
+  const phoneInput = document.querySelector('[name="whatsapp"]').value;
+
+  if (!dateInput || !timeInput || !phoneInput) {
+    alert("❌ Inserisci data, ora e numero WhatsApp.");
+    return;
+  }
+
+  const today = new Date();
+  const deliveryDate = new Date(dateInput + 'T00:00:00');
+  const now = new Date();
+  const isSameDay = today.toDateString() === deliveryDate.toDateString();
+  const isTomorrow = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 1).toDateString() === deliveryDate.toDateString();
+  const currentHour = now.getHours();
+
+  if (isSameDay || (isTomorrow && currentHour >= 18)) {
+    alert("❌ Ordina almeno il giorno prima, entro le 18:00.");
+    return;
+  }
+
+  let summary = `📅 Consegna: ${dateInput} alle ${timeInput}\n📱 Contatto: ${phoneInput}\n`;
+  let total = 0;
+
+  const prezzi = { petitdej: 13, brunch: 22 };
+
+  document.querySelectorAll('.formule-block').forEach(block => {
+    const selects = block.querySelectorAll('select');
+    if (block.querySelector('select[name^="petitdej"]')) {
+      const viennoiserie = selects[0]?.value || 'non specificato';
+      const latte = selects[1]?.value || 'non specificato';
+      summary += `\n🍞 Colazione – 13 €:\n- Viennoiserie: ${viennoiserie}\n- Latte: ${latte}\n- Succo d’arancia\n`;
+      total += prezzi.petitdej;
+    }
+    if (block.querySelector('select[name^="brunch"]')) {
+      const bevanda = selects[0]?.value || 'non specificato';
+      summary += `\n🥑 Brunch – 22 €:\n- Avocado toast\n- Pane, burro e marmellata\n- Granola\n- Bevanda: ${bevanda}\n- Succo d’arancia\n`;
+      total += prezzi.brunch;
+    }
+  });
+
+  const addons = [
+    ["addon_avocado", "Avocado toast", 16.5],
+    ["addon_pain", "Pane / Burro / Marmellata", 9.5],
+    ["addon_brioche", "Omelette e bacon", 10],
+    ["addon_granola", "Granola", 12.5],
+    ["addon_jus", "Succo d’arancia", 6.5],
+    ["addon_cafe", "Caffè", 4],
+    ["addon_espresso", "Espresso", 2.5],
+    ["addon_latte_normal", "Latte normale", 6.5],
+    ["addon_latte_avoine", "Latte avena", 6.5],
+    ["addon_latte_soja", "Latte soia", 6.5]
+  ];
+
+  addons.forEach(([name, label, price]) => {
+    const el = document.querySelector(`[name="${name}"]`);
+    const qty = parseInt(el?.value || 0);
+    if (qty > 0) {
+      summary += `➕ ${label} (${price} €) × ${qty}\n`;
+      total += qty * price;
+    }
+  });
+
+  summary += `\n🚚 Consegna: 7 € tramite Delicity\n💰 Totale: ${total + 7} €`;
+
+  const output = document.getElementById("orderSummary");
+  output.textContent = summary;
+  output.style.display = "block";
+}
+
+document.getElementById("orderForm").addEventListener("submit", function(e) {
+  e.preventDefault();
+  const summary = document.getElementById("orderSummary").textContent;
+  const totalMatch = summary.match(/Totale: ([\\d.,]+)/);
+  const total = totalMatch ? parseFloat(totalMatch[1].replace(',', '.')) : 0;
+
+  const toast = document.getElementById('toastOverlay');
+  toast.style.display = 'block';
+  setTimeout(() => { toast.style.display = 'none'; }, 8000);
+
+  fetch('https://Zielinska.onrender.com/create-checkout-session', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      total,
+      orderDetails: summary,
+      stripeSummary: `Totale: ${total} €, Cliente: ${document.querySelector('[name=\"whatsapp\"]').value}`,
+      delivery_date: document.querySelector('[name=\"delivery_date\"]').value
+    })
+  })
+  .then(res => res.json())
+  .then(data => {
+    if (data.url) {
+      window.location.href = data.url;
+    } else {
+      alert("❌ Errore durante il pagamento.");
+    }
+  })
+  .catch(err => {
+    console.error(err);
+    alert("❌ Errore durante la connessione a Stripe.");
+  });
+});
+
+const START_DATE = new Date("2025-05-23");
+const sheetUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vScTm1j0tp3F7h89bhmLGqEJr4nlJuqPCPm8j57qn3xqFfIYk3Mf89KXRWqbxzmxA/pub?output=csv";
+let unavailableDatesFromSheet = [];
+
+async function fetchUnavailableDates() {
+  try {
+    const response = await fetch(sheetUrl);
+    const text = await response.text();
+    const rows = text.split('\\n');
+    unavailableDatesFromSheet = rows.map(row => row.trim()).filter(r => /^\\d{4}-\\d{2}-\\d{2}$/.test(r));
+  } catch (err) {
+    console.error(\"Errore caricamento date bloccate:\", err);
+  }
+}
+
+function isInvalid(dateStr) {
+  const d = new Date(dateStr);
+  return (
+    isNaN(d) ||
+    d < START_DATE ||
+    d.getDay() === 3 || // mercoledì chiuso
+    unavailableDatesFromSheet.includes(dateStr)
+  );
+}
+
+window.addEventListener('DOMContentLoaded', async () => {
+  await fetchUnavailableDates();
+  const today = new Date();
+  const next = [];
+  for (let i = 0; i < 15; i++) {
+    const d = new Date(today);
+    d.setDate(today.getDate() + i);
+    const iso = d.toISOString().split('T')[0];
+    if (isInvalid(iso)) next.push(iso);
+    if (next.length >= 3) break;
+  }
+  document.getElementById("nextUnavailable").textContent =
+    `⚠️ Prossime date non disponibili: ${next.map(d => new Date(d).toLocaleDateString('it-IT')).join(', ')}`;
+});
+</script>
+
 <script>
 let formuleId = 0;
 
@@ -209,10 +395,10 @@ function addFormula(type) {
   div.className = 'formule-block';
   div.id = 'formule_' + formuleId;
   let html = '<button class="remove-btn" onclick="removeFormula(\'' + div.id + '\')">×</button>';
-  
+
   if (type === 'petitdej') {
-    html += `<strong>Formula Colazione – 13 €</strong><br>
-    <label>Seleziona viennoiserie:
+    html += `<strong>Colazione – 13 €</strong><br>
+    <label>Tipo di viennoiserie:
       <select class="formule-select" name="petitdej_${formuleId}_viennoiserie">
         <option value="">Seleziona</option>
         <option value="Girella">Girella</option>
@@ -224,12 +410,12 @@ function addFormula(type) {
       <select class="formule-select" name="petitdej_${formuleId}_lait">
         <option value="">Seleziona</option>
         <option value="Latte normale">Latte normale</option>
-        <option value="Latte di avena">Latte di avena</option>
+        <option value="Latte d'avena">Latte d'avena</option>
         <option value="Latte di soia">Latte di soia</option>
       </select>
     </label>`;
   } else {
-    html += `<strong>Formula Brunch – 22 €</strong><br>
+    html += `<strong>Brunch – 22 €</strong><br>
     <label>Bevanda calda:
       <select class="formule-select" name="brunch_${formuleId}">
         <option value="">Seleziona</option>
@@ -248,6 +434,5 @@ function removeFormula(id) {
   if (el) el.remove();
 }
 </script>
-
 </body>
 </html>
