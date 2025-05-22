@@ -150,6 +150,57 @@
     z-index: 10000;
     text-align: center;
   }
+  form label {
+  display: block;
+  margin-bottom: 10px;
+  font-weight: 500;
+}
+
+#formuleContainer {
+  margin-bottom: 30px;
+}
+
+form h2 {
+  margin-top: 40px;
+  font-size: 22px;
+}
+
+form .btn-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin: 20px 0;
+}
+
+form .btn-container button {
+  flex: 1 1 250px;
+  font-size: 16px;
+}
+
+form label input[type="number"] {
+  width: 50px;
+  margin-left: 10px;
+  padding: 4px;
+}
+
+form .addon-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 15px;
+  margin-top: 20px;
+}
+
+#orderSummary {
+  margin-top: 25px;
+  background: #f1f1f1;
+  padding: 15px;
+  border-radius: 10px;
+  font-family: monospace;
+  white-space: pre-line;
+  max-width: 100%;
+  overflow-x: auto;
+}
+
 </style>
 
 </head>
@@ -229,19 +280,21 @@
 
     <div id="formuleContainer"></div>
 
-    <h2>Supplementi</h2>
-    <label>Avocado toast 16.5 € <input type="number" name="addon_avocado" min="0" max="5" value="0"></label>
-    <label>Pain / Burro / Marmellata 9.5 € <input type="number" name="addon_pain" min="0" max="5" value="0"></label>
-    <label>Omelette bacon su brioche 10 € <input type="number" name="addon_brioche" min="0" max="5" value="0"></label>
-    <label>Granola 12.5 € <input type="number" name="addon_granola" min="0" max="5" value="0"></label>
-    <label>Succo d’arancia bio 6.5 € <input type="number" name="addon_jus" min="0" max="5" value="0"></label>
-    <label>Caffè 4 € <input type="number" name="addon_cafe" min="0" max="5" value="0"></label>
-    <label>Espresso 2.5 € <input type="number" name="addon_espresso" min="0" max="5" value="0"></label>
-    <label>Latte (normale) 6.5 € <input type="number" name="addon_latte_normal" min="0" max="5" value="0"></label>
-    <label>Latte (avena) 6.5 € <input type="number" name="addon_latte_avoine" min="0" max="5" value="0"></label>
-    <label>Latte (soia) 6.5 € <input type="number" name="addon_latte_soja" min="0" max="5" value="0"></label>
+<h2>Supplementi</h2>
+<div class="addon-grid">
+  <label>Avocado toast 16.5 € <input type="number" name="addon_avocado" min="0" max="5" value="0"></label>
+  <label>Pain / Burro / Marmellata 9.5 € <input type="number" name="addon_pain" min="0" max="5" value="0"></label>
+  <label>Omelette bacon su brioche 10 € <input type="number" name="addon_brioche" min="0" max="5" value="0"></label>
+  <label>Granola 12.5 € <input type="number" name="addon_granola" min="0" max="5" value="0"></label>
+  <label>Succo d’arancia bio 6.5 € <input type="number" name="addon_jus" min="0" max="5" value="0"></label>
+  <label>Caffè 4 € <input type="number" name="addon_cafe" min="0" max="5" value="0"></label>
+  <label>Espresso 2.5 € <input type="number" name="addon_espresso" min="0" max="5" value="0"></label>
+  <label>Latte (normale) 6.5 € <input type="number" name="addon_latte_normal" min="0" max="5" value="0"></label>
+  <label>Latte (avena) 6.5 € <input type="number" name="addon_latte_avoine" min="0" max="5" value="0"></label>
+  <label>Latte (soia) 6.5 € <input type="number" name="addon_latte_soja" min="0" max="5" value="0"></label>
+</div>
+<p style="margin-top: 20px; font-style: italic; color: #666;">* Consegna 7 € tramite Delicity.</p>
 
-    <p>* Consegna 7 € con il nostro partner Delicity.</p>
 
     <button type="button" onclick="generateSummary()">🧺 Aggiungi al carrello</button>
     <pre id="orderSummary" style="display:none;"></pre>
