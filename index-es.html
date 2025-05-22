@@ -446,8 +446,7 @@ function generateSummary() {
 
   summary += `\n🚚 Entrega con recargo de 7 € a través de nuestro socio Delicity.`;
   total += 7;
-- summary += `\n💰 Total: €${total.toFixed(2)}`;
-+ summary += `\n💰 Total: ${total.toFixed(2)} €`;
+summary += `\n💰 Total: ${total.toFixed(2)} €`;
 
   document.getElementById('orderSummary').style.display = 'block';
   document.getElementById('orderSummary').textContent = summary;
