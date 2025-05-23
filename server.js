@@ -129,12 +129,7 @@ app.post('/create-checkout-session', async (req, res) => {
       success_url: 'https://tuosito.com/success.html',
       cancel_url: 'https://tuosito.com/cancel.html',
       metadata: {
-        orderDetailsFr,
-        // se ti servono, puoi aggiungere anche questi:
-        // orderDetailsIt,
-        // orderDetailsEs,
-        // orderDetailsEn,
-        stripeSummary,
+               stripeSummary,
         total: total.toFixed(2),
         delivery_date
       }
