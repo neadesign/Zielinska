@@ -1,20 +1,71 @@
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <title>Merci pour votre commande !</title>
+  <title>Merci pour votre commande ! / Grazie per il tuo ordine! / ¡Gracias por tu pedido! / Thank you for your order!</title>
   <style>
-    body { font-family: Arial, sans-serif; background-color: #f0fff0; text-align: center; padding: 50px; }
-    h1 { color: #28a745; }
-    p { font-size: 18px; }
-    a { color: #0077cc; text-decoration: none; }
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f9f9f9;
+      text-align: center;
+      padding: 50px;
+      line-height: 1.6;
+      color: #333;
+    }
+    h1 {
+      margin-bottom: 20px;
+    }
+    .lang-section {
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      padding: 20px;
+      margin: 20px auto;
+      max-width: 500px;
+    }
+    .lang-section h2 {
+      margin-top: 0;
+      color: #0077cc;
+    }
+    .back-link {
+      display: inline-block;
+      margin-top: 30px;
+      color: #0077cc;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    .back-link:hover {
+      text-decoration: underline;
+    }
   </style>
 </head>
 <body>
-  <h1>✅ Merci !</h1>
-  <p>Votre petit-déjeuner a été commandé avec succès.</p>
-  <p>Nous le préparerons avec soin et le livrerons à l'heure convenue.</p>
-  <a href="https://github.com/neadesign/Zielinska/">← Retour à Neaspace</a>
+
+  <div class="lang-section" lang="fr">
+    <h2>✅ Merci !</h2>
+    <p>Votre petit-déjeuner a été commandé avec succès.</p>
+    <p>Nous le préparerons avec soin et le livrerons à l’heure convenue.</p>
+  </div>
+
+  <div class="lang-section" lang="it">
+    <h2>✅ Grazie !</h2>
+    <p>La tua colazione è stata ordinata con successo.</p>
+    <p>La prepareremo con cura e la consegneremo all’orario stabilito.</p>
+  </div>
+
+  <div class="lang-section" lang="es">
+    <h2>✅ ¡Gracias !</h2>
+    <p>Tu desayuno se ha solicitado con éxito.</p>
+    <p>Lo prepararemos con esmero y lo entregaremos a la hora acordada.</p>
+  </div>
+
+  <div class="lang-section" lang="en">
+    <h2>✅ Thank you !</h2>
+    <p>Your breakfast has been successfully ordered.</p>
+    <p>We’ll prepare it carefully and deliver it at the agreed time.</p>
+  </div>
+
+  <a class="back-link" href="https://github.com/neadesign/Zielinska/">← Retour à Neaspace</a>
+
 </body>
 </html>
