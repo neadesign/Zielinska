@@ -439,7 +439,32 @@ const addons = [
   summary += `\n🚚 Livraison facturée 7 € via notre partenaire Delicity.`;
   total += 7;
   summary += `\n💰 Total: ${total.toFixed(2)} €`;
+  document.getElementById('orderSummary').style.display = 'block';
+  document.getElementById('orderSummary').textContent = summary;
+}
+  <script>
+function generateStripeSummary() {
+  const summary = document.getElementById("orderSummary").textContent;
+  const maxLength = 500;
+
+  if (summary.length <= maxLength) {
+    return summary;
+  }
+
+  const date = document.querySelector('[name="delivery_date"]').value;
+  const time = document.querySelector('[name="delivery_time"]').value;
+  const phone = document.querySelector('[name="whatsapp"]').value;
+  const count = document.querySelectorAll('.formule-block').length;
+
+  return `Date: ${date} ${time}, Client: ${phone}, Formules: ${count}, Total: ${summary.match(/Total: ([\d.,]+)/)?.[1]} €`;
+}
+
+// ⬇️ FUNZIONE MESSA FUORI come richiesto
 function generateSummaryFr() {
+  return document.getElementById("orderSummary").textContent || "Résumé indisponible.";
+}
+</script>
+  function generateSummaryFr() {
   const date = document.querySelector('[name="delivery_date"]').value;
   const time = document.querySelector('[name="delivery_time"]').value;
   const phone = document.querySelector('[name="whatsapp"]').value;
@@ -498,32 +523,8 @@ function generateSummaryFr() {
   summaryFr += `\n💰 Total : ${total.toFixed(2)} €`;
 
   return summaryFr;
-}
-  document.getElementById('orderSummary').style.display = 'block';
-  document.getElementById('orderSummary').textContent = summary;
-}
-  <script>
-function generateStripeSummary() {
-  const summary = document.getElementById("orderSummary").textContent;
-  const maxLength = 500;
-
-  if (summary.length <= maxLength) {
-    return summary;
-  }
-
-  const date = document.querySelector('[name="delivery_date"]').value;
-  const time = document.querySelector('[name="delivery_time"]').value;
-  const phone = document.querySelector('[name="whatsapp"]').value;
-  const count = document.querySelectorAll('.formule-block').length;
-
-  return `Date: ${date} ${time}, Client: ${phone}, Formules: ${count}, Total: ${summary.match(/Total: ([\d.,]+)/)?.[1]} €`;
-}
-
-// ⬇️ FUNZIONE MESSA FUORI come richiesto
-function generateSummaryFr() {
-  return document.getElementById("orderSummary").textContent || "Résumé indisponible.";
-}
-
+} 
+</script>
 document.getElementById("orderForm").addEventListener("submit", function(e) {
   e.preventDefault();
   const summary = document.getElementById("orderSummary").textContent;
