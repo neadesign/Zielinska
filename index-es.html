@@ -466,7 +466,6 @@ function generateStripeSummary() {
 
   return `Fecha: ${date} ${time}, Cliente: ${phone}, Fórmulas: ${count}, Total: ${summary.match(/Total: ([\d.,]+)/)?.[1]} €`;
 }
-<script>
 function generateSummaryFr() {
   const date = document.querySelector('[name="delivery_date"]').value;
   const time = document.querySelector('[name="delivery_time"]').value;
