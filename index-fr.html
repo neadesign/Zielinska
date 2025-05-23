@@ -351,6 +351,66 @@ function generateSummary() {
   alert("❌ Cette date n'est pas disponible. Merci de choisir un autre jour.");
   return;
 }
+function generateSummaryFr() {
+  const date = document.querySelector('[name="delivery_date"]').value;
+  const time = document.querySelector('[name="delivery_time"]').value;
+  const phone = document.querySelector('[name="whatsapp"]').value;
+  let total = 0;
+
+  let summaryFr = `📅 Livraison : ${date} à ${time}
+📍 Adresse : 19 Rue Neuve, Nice – 2ᵉ étage, porte à droite (🔔 Rossi-Lamrabet)
+📱 Contact : ${phone}
+`;
+
+  // Formules
+  document.querySelectorAll('.formule-block').forEach(block => {
+    if (block.querySelector('select[name^="petitdej"]')) {
+      summaryFr += `\nFormule Petit-déjeuner – 13 €\n`;
+      summaryFr += `- Viennoiserie : ${block.querySelector('select[name$="_viennoiserie"]').value || 'non précisée'}\n`;
+      summaryFr += `- Lait : ${block.querySelector('select[name$="_lait"]').value || 'non précisé'}\n`;
+      summaryFr += `- Jus d’orange pressé\n`;
+      total += 13;
+    }
+    if (block.querySelector('select[name^="brunch"]')) {
+      summaryFr += `\nFormule Brunch – 22 €\n`;
+      summaryFr += `- Avocado toast\n`;
+      summaryFr += `- Pain, beurre et confiture\n`;
+      summaryFr += `- Granola\n`;
+      summaryFr += `- Boisson chaude : ${block.querySelector('select[name^="brunch"]').value || 'non précisée'}\n`;
+      summaryFr += `- Jus d’orange pressé\n`;
+      total += 22;
+    }
+  });
+
+  // Suppléments
+  const addons = [
+    ["addon_avocado",        "Avocado toast",                              16.5],
+    ["addon_pain",           "Pain, beurre et confiture",                   9.5],
+    ["addon_brioche",        "Omelette et bacon sur pain brioché",         10.0],
+    ["addon_granola",        "Granola",                                    12.5],
+    ["addon_jus",            "Jus d’orange pressé bio",                    6.5],
+    ["addon_cafe",           "Café",                                       4.0],
+    ["addon_espresso",       "Espresso",                                   2.5],
+    ["addon_latte_normal",   "Latte (normal)",                             6.5],
+    ["addon_latte_avoine",   "Latte (avoine)",                             6.5],
+    ["addon_latte_soja",     "Latte (soja)",                               6.5]
+  ];
+  addons.forEach(([name, label, price]) => {
+    const el = document.querySelector(`[name="${name}"]`);
+    const qty = el ? parseInt(el.value, 10) || 0 : 0;
+    if (qty > 0) {
+      summaryFr += `${label} (${price} €) – Quantité : ${qty}\n`;
+      total += qty * price;
+    }
+  });
+
+  // Livraison et total
+  summaryFr += `\n🚚 Livraison facturée 7 € via notre partenaire Delicity.`;
+  total += 7;
+  summaryFr += `\n💰 Total : ${total.toFixed(2)} €`;
+
+  return summaryFr;
+}
 
   if (!dateInput || !timeInput || !phoneInput) {
     alert("Veuillez remplir la date, l'heure et le numéro WhatsApp.");
