@@ -6,7 +6,6 @@ const cors = require('cors');
 const nodemailer = require('nodemailer');
 const axios = require('axios');
 const fetch = require('node-fetch');
-const csv = require('csvtojson');
 
 const stripe = Stripe(process.env.STRIPE_SECRET_KEY);
 const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET;
@@ -15,20 +14,31 @@ const TELEGRAM_TOKEN = process.env.TELEGRAM_TOKEN;
 const TELEGRAM_CHAT_ID = process.env.TELEGRAM_CHAT_ID;
 const GMAIL_PASS = process.env.GMAIL_PASS;
 
+// Transporter per Nodemailer
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: '19rueneuve@gmail.com',
+    pass: GMAIL_PASS
+  }
+});
+
 const START_DATE = new Date("2025-05-23");
 const sheetUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vScTm1j0tp3F7h89bhmLGqEJr4nlJuqPCPm8j57qn3xqFfIYk3Mf89KXRWqbxzmxA/pub?output=csv";
 
+// Funzione di utilità per controllare se la data è aperta
 async function isDateOpen(dateStr) {
   const date = new Date(dateStr);
   if (isNaN(date)) return false;
   if (date < START_DATE) return false;
-  if (date.getDay() === 3) return false;
-
+  if (date.getDay() === 3) return false; // mercoledì chiuso
   try {
     const response = await fetch(sheetUrl);
     const text = await response.text();
-    const rows = text.split('\n').map(r => r.trim());
-    const blockedDates = rows.filter(r => /^\d{4}-\d{2}-\d{2}$/.test(r));
+    const blockedDates = text
+      .split('\n')
+      .map(r => r.trim())
+      .filter(r => /^\d{4}-\d{2}-\d{2}$/.test(r));
     return !blockedDates.includes(dateStr);
   } catch (err) {
     console.error("❌ Errore fetch calendario:", err);
@@ -39,10 +49,10 @@ async function isDateOpen(dateStr) {
 const app = express();
 app.use(cors());
 
+// Webhook Stripe: deve usare express.raw
 app.post('/webhook', express.raw({ type: 'application/json' }), async (req, res) => {
   const sig = req.headers['stripe-signature'];
   let event;
-
   try {
     event = stripe.webhooks.constructEvent(req.body, sig, endpointSecret);
     console.log('✅ Webhook ricevuto:', event.type);
@@ -50,34 +60,35 @@ app.post('/webhook', express.raw({ type: 'application/json' }), async (req, res)
     console.error('❌ Webhook verification failed:', err.message);
     return res.status(400).send(`Webhook Error: ${err.message}`);
   }
-if (event.type === 'checkout.session.completed') {
-  const session = event.data.object;
 
-  // Prendi il riepilogo in francese dai metadata della sessione
-  const orderDetailsFr = session.metadata?.orderDetailsFr || '⚠️ Nessun dettaglio ordine';
+  if (event.type === 'checkout.session.completed') {
+    const session = event.data.object;
+    // Leggi il riepilogo breve dai metadata
+    const summary = session.metadata?.stripeSummary || '⚠️ Nessun dettaglio ordine';
+    const message = `📦 *Nuovo ordine Neaspace!*\n\n${summary}`;
 
-  // Componi il messaggio da inviare
-  const message = `📦 *Nuovo ordine Neaspace!*\n\n${orderDetailsFr}`;
+    // Invia l'email
+    try {
+      await transporter.sendMail({
+        from: 'Neaspace <design@francescorossi.co>',
+        to: 'design@francescorossi.co, dominika@zielinska.fr',
+        subject: '✅ Ordine confermato',
+        text: message.replace(/\*/g, '')
+      });
+      console.log('📧 Email inviata');
+    } catch (err) {
+      console.error('❌ Errore invio email:', err.message);
+    }
 
-  // Invia l'email a Zielinska
-  await transporter.sendMail({
-    from: 'Neaspace <design@francescorossi.co>',
-    to: 'design@francescorossi.co, dominika@zielinska.frf',
-    subject: '✅ Ordine confermato',
-    text: message.replace(/\*/g, '')
-  });
-
-  // Invia la notifica su Telegram
-  await axios.post(`https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`, {
-    chat_id: TELEGRAM_CHAT_ID,
-    text: message,
-    parse_mode: 'Markdown'
-  });
-}
-
-
-  
-  catch (err) {
+    // Invia la notifica su Telegram
+    try {
+      await axios.post(`https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`, {
+        chat_id: TELEGRAM_CHAT_ID,
+        text: message,
+        parse_mode: 'Markdown'
+      });
+      console.log('✅ Notifica Telegram inviata');
+    } catch (err) {
       console.error('❌ Errore invio Telegram:', err.message);
     }
   }
@@ -85,20 +96,23 @@ if (event.type === 'checkout.session.completed') {
   res.sendStatus(200);
 });
 
+// Aggiungi il parser JSON **dopo** il webhook
 app.use(express.json());
 
+// Endpoint per creare la sessione di Checkout
 app.post('/create-checkout-session', async (req, res) => {
   const {
     total,
-    orderDetailsFr,
-    orderDetailsIt,
-    orderDetailsEs,
-    orderDetailsEn,
+    // puoi rimuovere gli altri orderDetails* se non li usi nei metadata
+    // orderDetailsFr,
+    // orderDetailsIt,
+    // orderDetailsEs,
+    // orderDetailsEn,
     delivery_date,
     stripeSummary
   } = req.body;
 
-  // Verifica che il totale sia valido
+  // Verifica totale
   if (!total || total <= 0) {
     return res.status(400).json({
       error: "❌ L'importo totale non può essere zero. Seleziona almeno una formula o un supplemento."
@@ -114,7 +128,6 @@ app.post('/create-checkout-session', async (req, res) => {
   }
 
   try {
-    // Crea la sessione Stripe, includendo il riepilogo in francese nei metadata
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
       line_items: [{
@@ -126,28 +139,19 @@ app.post('/create-checkout-session', async (req, res) => {
         quantity: 1,
       }],
       mode: 'payment',
-      success_url: 'https://tuosito.com/success.html',
-      cancel_url: 'https://tuosito.com/cancel.html',
+      success_url: 'https://neadesign.github.io/Zielinska/success.html',
+      cancel_url: 'https://neadesign.github.io/Zielinska/cancel.html',
       metadata: {
-               stripeSummary,
+        stripeSummary,
         total: total.toFixed(2),
         delivery_date
       }
     });
 
-    // Restituisci l'URL di Checkout a chi chiama
     res.json({ url: session.url });
   } catch (err) {
     console.error('❌ Errore creazione sessione Stripe:', err.message);
     res.status(500).json({ error: 'Errore interno creazione sessione Stripe' });
-  }
-});
-
-
-    res.json({ url: session.url });
-  } catch (err) {
-    console.error('❌ Errore creazione sessione Stripe:', err.message);
-    res.status(500).json({ error: 'Errore creazione sessione Stripe' });
   }
 });
 
