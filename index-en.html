@@ -358,6 +358,66 @@ function generateSummary() {
     alert("❌ This date is not available. Please choose another day.");
     return;
   }
+function generateSummaryEn() {
+  const date = document.querySelector('[name="delivery_date"]').value;
+  const time = document.querySelector('[name="delivery_time"]').value;
+  const phone = document.querySelector('[name="whatsapp"]').value;
+  let total = 0;
+
+  let summaryEn = `📅 Delivery: ${date} at ${time}
+📍 Address: 19 Rue Neuve, Nice – 2nd floor, door on the right (🔔 Rossi-Lamrabet)
+📱 Contact: ${phone}
+`;
+
+  // Formulas
+  document.querySelectorAll('.formule-block').forEach(block => {
+    if (block.querySelector('select[name^="petitdej"]')) {
+      summaryEn += `\nBreakfast Formula – €13\n`;
+      summaryEn += `- Pastry: ${block.querySelector('select[name$="_viennoiserie"]').value || 'not specified'}\n`;
+      summaryEn += `- Latte: ${block.querySelector('select[name$="_lait"]').value || 'not specified'}\n`;
+      summaryEn += `- Freshly squeezed orange juice\n`;
+      total += 13;
+    }
+    if (block.querySelector('select[name^="brunch"]')) {
+      summaryEn += `\nBrunch Formula – €22\n`;
+      summaryEn += `- Avocado toast\n`;
+      summaryEn += `- Bread, butter and jam\n`;
+      summaryEn += `- Granola\n`;
+      summaryEn += `- Hot drink: ${block.querySelector('select[name^="brunch"]').value || 'not specified'}\n`;
+      summaryEn += `- Freshly squeezed orange juice\n`;
+      total += 22;
+    }
+  });
+
+  // Add-ons
+  const addons = [
+    ["addon_avocado",      "Avocado toast",                              16.5],
+    ["addon_pain",         "Bread / Butter / Jam",                       9.5],
+    ["addon_brioche",      "Omelette & bacon on brioche",               10.0],
+    ["addon_granola",      "Granola",                                   12.5],
+    ["addon_jus",          "Freshly pressed orange juice",              6.5],
+    ["addon_cafe",         "Coffee",                                     4.0],
+    ["addon_espresso",     "Espresso",                                   2.5],
+    ["addon_latte_normal", "Latte (regular)",                           6.5],
+    ["addon_latte_avoine", "Latte (oat)",                               6.5],
+    ["addon_latte_soja",   "Latte (soy)",                               6.5]
+  ];
+  addons.forEach(([name, label, price]) => {
+    const el = document.querySelector(`[name="${name}"]`);
+    const qty = el ? parseInt(el.value, 10) || 0 : 0;
+    if (qty > 0) {
+      summaryEn += `${label} (€${price}) – Quantity: ${qty}\n`;
+      total += qty * price;
+    }
+  });
+
+  // Delivery fee and total
+  summaryEn += `\n🚚 Delivery fee €7 via our partner Delicity.`;
+  total += 7;
+  summaryEn += `\n💰 Total: €${total.toFixed(2)}`;
+
+  return summaryEn;
+}
 
   if (!dateInput || !timeInput || !phoneInput) {
     alert("Please fill in the date, time, and WhatsApp number.");
