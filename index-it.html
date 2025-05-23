@@ -526,16 +526,13 @@ document.getElementById("orderForm").addEventListener("submit", function(e) {
 fetch('https://Zielinska.onrender.com/create-checkout-session', {
   method: 'POST',
   headers: { 'Content-Type': 'application/json' },
-  body: JSON.stringify({
+body: JSON.stringify({
   total,
-  orderDetails: summary,           // riepilogo in lingua del sito
-  orderDetailsFr: generateSummaryFr(),
-  orderDetailsIt: generateSummaryIt(),
-  orderDetailsEs: generateSummaryEs(),
-  orderDetailsEn: generateSummaryEn(),
+  orderDetails: summary,
   stripeSummary: generateStripeSummary(),
   delivery_date: document.querySelector('[name="delivery_date"]').value
 })
+
 })
 
   .then(res => res.json())
