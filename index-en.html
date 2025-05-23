@@ -540,11 +540,15 @@ document.getElementById("orderForm").addEventListener("submit", function(e) {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
-      total,
-      orderDetails: summary, // for email
-      stripeSummary: generateStripeSummary(), // for Stripe metadata
-      delivery_date: document.querySelector('[name="delivery_date"]').value
-    })
+  total,
+  orderDetails: summary,           // riepilogo in lingua sito (inglese)
+  orderDetailsFr: generateSummaryFr(),
+  orderDetailsIt: generateSummaryIt(),
+  orderDetailsEs: generateSummaryEs(),
+  orderDetailsEn: generateSummaryEn(),
+  stripeSummary: generateStripeSummary(),
+  delivery_date: document.querySelector('[name="delivery_date"]').value
+})
   })
 
   .then(res => res.json())
