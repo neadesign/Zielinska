@@ -71,7 +71,7 @@ app.post('/webhook', express.raw({ type: 'application/json' }), async (req, res)
     try {
       await transporter.sendMail({
         from: 'Neaspace <design@francescorossi.co>',
-        to: 'design@francescorossi.co, dominika@zielinska.fr',
+        to: 'design@francescorossi.co, dominika@zielinska.frr',
         subject: '✅ Ordine confermato',
         text: message.replace(/\*/g, '')
       });
