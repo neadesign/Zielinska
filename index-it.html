@@ -527,11 +527,15 @@ fetch('https://Zielinska.onrender.com/create-checkout-session', {
   method: 'POST',
   headers: { 'Content-Type': 'application/json' },
   body: JSON.stringify({
-    total,
-    orderDetails: summary, // per email
-    stripeSummary: generateStripeSummary(), // per metadata Stripe
-    delivery_date: document.querySelector('[name="delivery_date"]').value
-  })
+  total,
+  orderDetails: summary,           // riepilogo in lingua del sito
+  orderDetailsFr: generateSummaryFr(),
+  orderDetailsIt: generateSummaryIt(),
+  orderDetailsEs: generateSummaryEs(),
+  orderDetailsEn: generateSummaryEn(),
+  stripeSummary: generateStripeSummary(),
+  delivery_date: document.querySelector('[name="delivery_date"]').value
+})
 })
 
   .then(res => res.json())
