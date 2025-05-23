@@ -50,43 +50,34 @@ app.post('/webhook', express.raw({ type: 'application/json' }), async (req, res)
     console.error('❌ Webhook verification failed:', err.message);
     return res.status(400).send(`Webhook Error: ${err.message}`);
   }
+if (event.type === 'checkout.session.completed') {
+  const session = event.data.object;
 
-  if (event.type === 'checkout.session.completed') {
-    const session = event.data.object;
-    const orderDetails = session.metadata?.orderDetails || '⚠️ Nessun dettaglio ordine';
-    const total = session.metadata?.total || '0.00';
+  // Prendi il riepilogo in francese dai metadata della sessione
+  const orderDetailsFr = session.metadata?.orderDetailsFr || '⚠️ Nessun dettaglio ordine';
 
-    const message = `📦 *Nuovo ordine Neaspace!*\n\n${orderDetails}`;
+  // Componi il messaggio da inviare
+  const message = `📦 *Nuovo ordine Neaspace!*\n\n${orderDetailsFr}`;
 
-    try {
-      const transporter = nodemailer.createTransport({
-        service: 'gmail',
-        auth: {
-          user: '19rueneuve@gmail.com',
-          pass: GMAIL_PASS
-        }
-      });
+  // Invia l'email a Zielinska
+  await transporter.sendMail({
+    from: 'Neaspace <design@francescorossi.co>',
+    to: 'design@francescorossi.co, dominika@zielinska.frf',
+    subject: '✅ Ordine confermato',
+    text: message.replace(/\*/g, '')
+  });
 
-      const mailOptions = {
-        from: 'Neaspace <design@francescorossi.co>',
-        to: 'design@francescorossi.co, dominika@zielinska.fr',
-        subject: '✅ Ordine confermato',
-        text: message.replace(/\*/g, '')
-      };
+  // Invia la notifica su Telegram
+  await axios.post(`https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`, {
+    chat_id: TELEGRAM_CHAT_ID,
+    text: message,
+    parse_mode: 'Markdown'
+  });
+}
 
-      const info = await transporter.sendMail(mailOptions);
-      console.log('📧 Email inviata:', info.response);
-    } catch (error) {
-      console.error('❌ Errore invio email:', error.message);
-    }
 
-    try {
-      await axios.post(`https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`, {
-        chat_id: TELEGRAM_CHAT_ID,
-        text: message,
-        parse_mode: 'Markdown'
-      });
-    } catch (err) {
+  
+  catch (err) {
       console.error('❌ Errore invio Telegram:', err.message);
     }
   }
@@ -97,43 +88,66 @@ app.post('/webhook', express.raw({ type: 'application/json' }), async (req, res)
 app.use(express.json());
 
 app.post('/create-checkout-session', async (req, res) => {
-  const { total, orderDetails, delivery_date, stripeSummary } = req.body;
+  const {
+    total,
+    orderDetailsFr,
+    orderDetailsIt,
+    orderDetailsEs,
+    orderDetailsEn,
+    delivery_date,
+    stripeSummary
+  } = req.body;
 
+  // Verifica che il totale sia valido
   if (!total || total <= 0) {
     return res.status(400).json({
-      error: "❌ Le montant total ne peut pas être zéro. Veuillez sélectionner une formule ou un supplément."
+      error: "❌ L'importo totale non può essere zero. Seleziona almeno una formula o un supplemento."
     });
   }
 
+  // Controllo disponibilità data
   const available = await isDateOpen(delivery_date);
   if (!available) {
     return res.status(400).json({
-      error: "❌ Désolé, mais le fournil est fermé le jour sélectionné. Merci de choisir une autre date."
+      error: "❌ Siamo chiusi in quella data. Scegli un altro giorno."
     });
   }
 
   try {
+    // Crea la sessione Stripe, includendo il riepilogo in francese nei metadata
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
       line_items: [{
         price_data: {
           currency: 'eur',
-          product_data: {
-            name: 'Petit-déjeuner Neaspace',
-          },
+          product_data: { name: 'Neaspace Order' },
           unit_amount: Math.round(total * 100),
         },
         quantity: 1,
       }],
       mode: 'payment',
-      success_url: 'https://neadesign.github.io/Zielinska/success.html',
-      cancel_url: 'https://neadesign.github.io/Zielinska/cancel.html',
+      success_url: 'https://tuosito.com/success.html',
+      cancel_url: 'https://tuosito.com/cancel.html',
       metadata: {
+        orderDetailsFr,
+        // se ti servono, puoi aggiungere anche questi:
+        // orderDetailsIt,
+        // orderDetailsEs,
+        // orderDetailsEn,
         stripeSummary,
         total: total.toFixed(2),
         delivery_date
       }
     });
+
+    // Restituisci l'URL di Checkout a chi chiama
+    res.json({ url: session.url });
+  } catch (err) {
+    console.error('❌ Errore creazione sessione Stripe:', err.message);
+    res.status(500).json({ error: 'Errore interno creazione sessione Stripe' });
+  }
+});
+
 
     res.json({ url: session.url });
   } catch (err) {
