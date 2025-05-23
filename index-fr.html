@@ -504,7 +504,8 @@ const addons = [
   document.getElementById('orderSummary').style.display = 'block';
   document.getElementById('orderSummary').textContent = summary;
 }
-  function generateStripeSummary() {
+  <script>
+function generateStripeSummary() {
   const summary = document.getElementById("orderSummary").textContent;
   const maxLength = 500;
 
@@ -520,31 +521,35 @@ const addons = [
   return `Date: ${date} ${time}, Client: ${phone}, Formules: ${count}, Total: ${summary.match(/Total: ([\d.,]+)/)?.[1]} €`;
 }
 
+// ⬇️ FUNZIONE MESSA FUORI come richiesto
+function generateSummaryFr() {
+  return document.getElementById("orderSummary").textContent || "Résumé indisponible.";
+}
+
 document.getElementById("orderForm").addEventListener("submit", function(e) {
   e.preventDefault();
   const summary = document.getElementById("orderSummary").textContent;
   const totalMatch = summary.match(/Total: ([\d.,]+)/);
   const total = totalMatch ? parseFloat(totalMatch[1].replace(',', '.')) : 0;
- 
+
   const toast = document.getElementById('toastOverlay');
   toast.style.display = 'block';
   setTimeout(() => { toast.style.display = 'none'; }, 8000);
 
-fetch('https://Zielinska.onrender.com/create-checkout-session', {
-  method: 'POST',
-  headers: { 'Content-Type': 'application/json' },
-  body: JSON.stringify({
-  total,
-  orderDetails: summary,           // riepilogo in lingua del sito
-  orderDetailsFr: generateSummaryFr(),
-  orderDetailsIt: generateSummaryIt(),
-  orderDetailsEs: generateSummaryEs(),
-  orderDetailsEn: generateSummaryEn(),
-  stripeSummary: generateStripeSummary(),
-  delivery_date: document.querySelector('[name="delivery_date"]').value
-})
-})
-
+  fetch('https://zielinska.onrender.com/create-checkout-session', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      total,
+      orderDetails: summary,
+      orderDetailsFr: generateSummaryFr(),
+      orderDetailsIt: generateSummaryIt(),
+      orderDetailsEs: generateSummaryEs(),
+      orderDetailsEn: generateSummaryEn(),
+      stripeSummary: generateStripeSummary(),
+      delivery_date: document.querySelector('[name="delivery_date"]').value
+    })
+  })
   .then(res => res.json())
   .then(data => {
     if (data.url) {
