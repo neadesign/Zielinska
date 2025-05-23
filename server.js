@@ -64,7 +64,7 @@ app.post('/webhook', express.raw({ type: 'application/json' }), async (req, res)
   if (event.type === 'checkout.session.completed') {
     const session = event.data.object;
     // Leggi il riepilogo breve dai metadata
-    const summary = session.metadata?.stripeSummary || '⚠️ Nessun dettaglio ordine';
+    const summary = session.metadata?.orderDetails || session.metadata?.stripeSummary || '⚠️ Nessun dettaglio ordine';
     const message = `📦 *Nuovo ordine Neaspace!*\n\n${summary}`;
 
     // Invia l'email
@@ -103,6 +103,7 @@ app.use(express.json());
 app.post('/create-checkout-session', async (req, res) => {
   const {
     total,
+    orderDetails,
     // puoi rimuovere gli altri orderDetails* se non li usi nei metadata
     // orderDetailsFr,
     // orderDetailsIt,
