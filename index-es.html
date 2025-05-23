@@ -358,66 +358,7 @@ function generateSummary() {
     alert("❌ Esta fecha no está disponible. Por favor, elige otra.");
     return;
   }
-function generateSummaryEs() {
-  const date = document.querySelector('[name="delivery_date"]').value;
-  const time = document.querySelector('[name="delivery_time"]').value;
-  const phone = document.querySelector('[name="whatsapp"]').value;
-  let total = 0;
 
-  let summaryEs = `📅 Entrega: ${date} a las ${time}
-📍 Dirección: 19 Rue Neuve, Niza – 2.º piso, puerta de la derecha (🔔 Rossi-Lamrabet)
-📱 Contacto: ${phone}
-`;
-
-  // Fórmulas
-  document.querySelectorAll('.formule-block').forEach(block => {
-    if (block.querySelector('select[name^="petitdej"]')) {
-      summaryEs += `\nFórmula Desayuno – 13 €\n`;
-      summaryEs += `- Bollería: ${block.querySelector('select[name$="_viennoiserie"]').value || 'no especificada'}\n`;
-      summaryEs += `- Leche: ${block.querySelector('select[name$="_lait"]').value || 'no especificada'}\n`;
-      summaryEs += `- Zumo de naranja exprimido\n`;
-      total += 13;
-    }
-    if (block.querySelector('select[name^="brunch"]')) {
-      summaryEs += `\nFórmula Brunch – 22 €\n`;
-      summaryEs += `- Tostada de aguacate\n`;
-      summaryEs += `- Pan, mantequilla y mermelada\n`;
-      summaryEs += `- Granola\n`;
-      summaryEs += `- Bebida caliente: ${block.querySelector('select[name^="brunch"]').value || 'no especificada'}\n`;
-      summaryEs += `- Zumo de naranja exprimido\n`;
-      total += 22;
-    }
-  });
-
-  // Complementos
-  const addons = [
-    ["addon_avocado",      "Tostada de aguacate",                       16.5],
-    ["addon_pain",         "Pan/Mantequilla/Mermelada",                  9.5],
-    ["addon_brioche",      "Tortilla con bacon en brioche",             10.0],
-    ["addon_granola",      "Granola",                                   12.5],
-    ["addon_jus",          "Zumo de naranja exprimido bio",             6.5],
-    ["addon_cafe",         "Café",                                       4.0],
-    ["addon_espresso",     "Espresso",                                   2.5],
-    ["addon_latte_normal", "Latte (normal)",                            6.5],
-    ["addon_latte_avoine", "Latte (avena)",                             6.5],
-    ["addon_latte_soja",   "Latte (soja)",                              6.5]
-  ];
-  addons.forEach(([name, label, price]) => {
-    const el = document.querySelector(`[name="${name}"]`);
-    const qty = el ? parseInt(el.value, 10) || 0 : 0;
-    if (qty > 0) {
-      summaryEs += `${label} (${price} €) – Cantidad: ${qty}\n`;
-      total += qty * price;
-    }
-  });
-
-  // Envío y total
-  summaryEs += `\n🚚 Entrega con recargo de 7 € a través de Delicity.`;
-  total += 7;
-  summaryEs += `\n💰 Total: ${total.toFixed(2)} €`;
-
-  return summaryEs;
-}
 
   if (!dateInput || !timeInput || !phoneInput) {
     alert("Por favor, rellena la fecha, hora y número de WhatsApp.");
@@ -583,8 +524,67 @@ function generateSummaryFr() {
 
   return summaryFr;
 }
-</script>
+function generateSummaryEs() {
+  const date = document.querySelector('[name="delivery_date"]').value;
+  const time = document.querySelector('[name="delivery_time"]').value;
+  const phone = document.querySelector('[name="whatsapp"]').value;
+  let total = 0;
 
+  let summaryEs = `📅 Entrega: ${date} a las ${time}
+📍 Dirección: 19 Rue Neuve, Niza – 2.º piso, puerta de la derecha (🔔 Rossi-Lamrabet)
+📱 Contacto: ${phone}
+`;
+
+  // Fórmulas
+  document.querySelectorAll('.formule-block').forEach(block => {
+    if (block.querySelector('select[name^="petitdej"]')) {
+      summaryEs += `\nFórmula Desayuno – 13 €\n`;
+      summaryEs += `- Bollería: ${block.querySelector('select[name$="_viennoiserie"]').value || 'no especificada'}\n`;
+      summaryEs += `- Leche: ${block.querySelector('select[name$="_lait"]').value || 'no especificada'}\n`;
+      summaryEs += `- Zumo de naranja exprimido\n`;
+      total += 13;
+    }
+    if (block.querySelector('select[name^="brunch"]')) {
+      summaryEs += `\nFórmula Brunch – 22 €\n`;
+      summaryEs += `- Tostada de aguacate\n`;
+      summaryEs += `- Pan, mantequilla y mermelada\n`;
+      summaryEs += `- Granola\n`;
+      summaryEs += `- Bebida caliente: ${block.querySelector('select[name^="brunch"]').value || 'no especificada'}\n`;
+      summaryEs += `- Zumo de naranja exprimido\n`;
+      total += 22;
+    }
+  });
+
+  // Complementos
+  const addons = [
+    ["addon_avocado",      "Tostada de aguacate",                       16.5],
+    ["addon_pain",         "Pan/Mantequilla/Mermelada",                  9.5],
+    ["addon_brioche",      "Tortilla con bacon en brioche",             10.0],
+    ["addon_granola",      "Granola",                                   12.5],
+    ["addon_jus",          "Zumo de naranja exprimido bio",             6.5],
+    ["addon_cafe",         "Café",                                       4.0],
+    ["addon_espresso",     "Espresso",                                   2.5],
+    ["addon_latte_normal", "Latte (normal)",                            6.5],
+    ["addon_latte_avoine", "Latte (avena)",                             6.5],
+    ["addon_latte_soja",   "Latte (soja)",                              6.5]
+  ];
+  addons.forEach(([name, label, price]) => {
+    const el = document.querySelector(`[name="${name}"]`);
+    const qty = el ? parseInt(el.value, 10) || 0 : 0;
+    if (qty > 0) {
+      summaryEs += `${label} (${price} €) – Cantidad: ${qty}\n`;
+      total += qty * price;
+    }
+  });
+
+  // Envío y total
+  summaryEs += `\n🚚 Entrega con recargo de 7 € a través de Delicity.`;
+  total += 7;
+  summaryEs += `\n💰 Total: ${total.toFixed(2)} €`;
+
+  return summaryEs;
+}
+  
 document.getElementById("orderForm").addEventListener("submit", function(e) {
   e.preventDefault();
   const summary = document.getElementById("orderSummary").textContent;
