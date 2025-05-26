@@ -398,9 +398,10 @@ function generateSummaryIt() {
   });
 
   // Consegna e totale
-  summaryIt += `\n🚚 Delivery charged €7 via Delicity.`;
-  total += 7;
-  summaryIt += `\n💰 Total: ${total.toFixed(2)} €`;
+  summary += `\n🚚 Delivery: 7,50 € via our partner Delicity`;
+summary += `\n🧾 Service & handling fee: 1,50 € (payment, packaging, customer care)`;
+total += 7.5 + 1.5;
+summary += `\n💰 Total: ${total.toFixed(2)} €`;
 
   return summaryIt;
 }
@@ -490,9 +491,10 @@ const addons = [
   }
 });
 
-  summary += `\n🚚 Delivery charged €7 via our partner Delicity.`;
-  total += 7;
-  summary += `\n💰 Total: ${total.toFixed(2)} €`;
+  summary += `\n🚚 Delivery: 7,50 € via our partner Delicity`;
+summary += `\n🧾 Service & handling fee: 1,50 € (payment, packaging, customer care)`;
+total += 7.5 + 1.5;
+summary += `\n💰 Total: ${total.toFixed(2)} €`;
 
   document.getElementById('orderSummary').style.display = 'block';
   document.getElementById('orderSummary').textContent = summary;
