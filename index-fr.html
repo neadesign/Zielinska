@@ -299,7 +299,7 @@
       </label>
     </div>
 
-    <p style="margin-top: 20px; font-style: italic; color: #666;">* Livraison 7 € via Delicity.</p>
+    <p style="margin-top: 20px; font-style: italic; color: #666;">* Frais de livraison et de service 9 € (dont 7,50 € pour la livraison via Delicity et 1,50 € pour la gestion de la commande).</p>
   </div>
 
   <button type="button" onclick="generateSummary()">🧺 Ajouter au panier</button>
@@ -451,9 +451,10 @@ function generateSummary() {
     }
   });
 
-  summary += `\n🚚 Livraison facturée 7 € via notre partenaire Delicity.`;
-  total += 7;
-  summary += `\n💰 Total : ${total.toFixed(2)} €`;
+  summary += `\n🚚 Livraison : 7,50 € via notre partenaire Delicity`;
+summary += `\n🧾 Frais de service et de traitement : 1,50 € (paiement, emballage, service client)`;
+total += 7.5 + 1.5;
+summary += `\n💰 Total : ${total.toFixed(2)} €`;
 
   document.getElementById('orderSummary').style.display = 'block';
   document.getElementById('orderSummary').textContent = summary;
@@ -555,9 +556,10 @@ function generateSummary() {
     }
   });
 
-  summary += `\n🚚 Livraison facturée 7 € via notre partenaire Delicity.`;
-  total += 7;
-  summary += `\n💰 Total : ${total.toFixed(2)} €`;
+  summary += `\n🚚 Livraison : 7,50 € via notre partenaire Delicity`;
+summary += `\n🧾 Frais de service et de traitement : 1,50 € (paiement, emballage, service client)`;
+total += 7.5 + 1.5;
+summary += `\n💰 Total : ${total.toFixed(2)} €`;
 
   document.getElementById('orderSummary').style.display = 'block';
   document.getElementById('orderSummary').textContent = summary;
