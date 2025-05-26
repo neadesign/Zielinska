@@ -291,7 +291,7 @@
     </label>
   </div>
 
-  <p style="margin-top: 20px; font-style: italic; color: #666;">* Entrega 7 € a través de Delicity.</p>
+  <p style="margin-top: 20px; font-style: italic; color: #666;">* Entrega y tarifa de servicio 9 € (incluye 7,50 € por entrega vía Delicity y 1,50 € por gestión del pedido).</p>
 </div>
 
 <button type="button" onclick="generateSummary()">🧺 Añadir al carrito</button>
@@ -444,9 +444,10 @@ function generateSummary() {
       total += qty * price;
     }
   });
-  summary += `\n🚚 Entrega con recargo de 7 € a través de nuestro socio Delicity.`;
-  total += 7;
-  summary += `\n💰 Total: ${total.toFixed(2)} €`;
+  summary += `\n🚚 Entrega: 7,50 € a través de nuestro socio Delicity`;
+summary += `\n🧾 Tarifa de servicio y gestión: 1,50 € (pago, embalaje, atención al cliente)`;
+total += 7.5 + 1.5;
+summary += `\n💰 Total: ${total.toFixed(2)} €`;
 
   document.getElementById('orderSummary').style.display = 'block';
   document.getElementById('orderSummary').textContent = summary;
@@ -577,9 +578,10 @@ function generateSummaryEs() {
   });
 
   // Envío y total
-  summaryEs += `\n🚚 Entrega con recargo de 7 € a través de Delicity.`;
-  total += 7;
-  summaryEs += `\n💰 Total: ${total.toFixed(2)} €`;
+  summary += `\n🚚 Entrega: 7,50 € a través de nuestro socio Delicity`;
+summary += `\n🧾 Tarifa de servicio y gestión: 1,50 € (pago, embalaje, atención al cliente)`;
+total += 7.5 + 1.5;
+summary += `\n💰 Total: ${total.toFixed(2)} €`;
 
   return summaryEs;
 }
