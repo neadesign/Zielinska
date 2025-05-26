@@ -348,77 +348,8 @@ function removeFormula(id) {
   const el = document.getElementById(id);
   if (el) el.remove();
 }
-
-function generateSummary() {
-  const dateInput = document.querySelector('[name="delivery_date"]').value;
-  const timeInput = document.querySelector('[name="delivery_time"]').value;
-  const phoneInput = document.querySelector('[name="whatsapp"]').value;
-
-  if (isInvalid(dateInput)) {
-    alert("❌ This date is not available. Please choose another day.");
-    return;
-  }
-function generateSummaryEn() {
-  const date = document.querySelector('[name="delivery_date"]').value;
-  const time = document.querySelector('[name="delivery_time"]').value;
-  const phone = document.querySelector('[name="whatsapp"]').value;
-  let total = 0;
-
-  let summaryEn = `📅 Delivery: ${date} at ${time}
-📍 Address: 19 Rue Neuve, Nice – 2nd floor, door on the right (🔔 Rossi-Lamrabet)
-📱 Contact: ${phone}
-`;
-
-  // Formulas
-  document.querySelectorAll('.formule-block').forEach(block => {
-    if (block.querySelector('select[name^="petitdej"]')) {
-      summaryEn += `\nBreakfast Formula – €13\n`;
-      summaryEn += `- Pastry: ${block.querySelector('select[name$="_viennoiserie"]').value || 'not specified'}\n`;
-      summaryEn += `- Latte: ${block.querySelector('select[name$="_lait"]').value || 'not specified'}\n`;
-      summaryEn += `- Freshly squeezed orange juice\n`;
-      total += 13;
-    }
-    if (block.querySelector('select[name^="brunch"]')) {
-      summaryEn += `\nBrunch Formula – €22\n`;
-      summaryEn += `- Avocado toast\n`;
-      summaryEn += `- Bread, butter and jam\n`;
-      summaryEn += `- Granola\n`;
-      summaryEn += `- Hot drink: ${block.querySelector('select[name^="brunch"]').value || 'not specified'}\n`;
-      summaryEn += `- Freshly squeezed orange juice\n`;
-      total += 22;
-    }
-  });
-
-  // Add-ons
-  const addons = [
-    ["addon_avocado",      "Avocado toast",                              16.5],
-    ["addon_pain",         "Bread / Butter / Jam",                       9.5],
-    ["addon_brioche",      "Omelette & bacon on brioche",               10.0],
-    ["addon_granola",      "Granola",                                   12.5],
-    ["addon_jus",          "Freshly pressed orange juice",              6.5],
-    ["addon_cafe",         "Coffee",                                     4.0],
-    ["addon_espresso",     "Espresso",                                   2.5],
-    ["addon_latte_normal", "Latte (regular)",                           6.5],
-    ["addon_latte_avoine", "Latte (oat)",                               6.5],
-    ["addon_latte_soja",   "Latte (soy)",                               6.5]
-  ];
-  addons.forEach(([name, label, price]) => {
-    const el = document.querySelector(`[name="${name}"]`);
-    const qty = el ? parseInt(el.value, 10) || 0 : 0;
-    if (qty > 0) {
-      summaryEn += `${label} (€${price}) – Quantity: ${qty}\n`;
-      total += qty * price;
-    }
-  });
-
-  // Delivery fee and total
-  summaryEn += `\n🚚 Delivery fee €7 via our partner Delicity.`;
-  total += 7;
-  summaryEn += `\n💰 Total: €${total.toFixed(2)}`;
-
-  return summaryEn;
-}
-  function generateSummaryFr() {
+<script>
+function generateSummaryFr() {
   const date = document.querySelector('[name="delivery_date"]').value;
   const time = document.querySelector('[name="delivery_time"]').value;
   const phone = document.querySelector('[name="whatsapp"]').value;
@@ -477,9 +408,23 @@ function generateSummaryEn() {
   return summaryFr;
 }
 
+// Copia e struttura allo stesso modo le altre lingue: It, Es, En
+function generateSummaryIt() { /* ... */ }
+function generateSummaryEs() { /* ... */ }
+function generateSummaryEn() { /* ... */ }
+
+function generateSummary() {
+  const dateInput = document.querySelector('[name="delivery_date"]').value;
+  const timeInput = document.querySelector('[name="delivery_time"]').value;
+  const phoneInput = document.querySelector('[name="whatsapp"]').value;
 
   if (!dateInput || !timeInput || !phoneInput) {
     alert("Please fill in the date, time, and WhatsApp number.");
+    return;
+  }
+
+  if (isInvalid(dateInput)) {
+    alert("❌ This date is not available. Please choose another day.");
     return;
   }
 
@@ -504,78 +449,17 @@ function generateSummaryEn() {
     return;
   }
 
-  let summary = `📅 Delivery: ${dateInput} at ${timeInput}
-📍 Address: 19 Rue Neuve, Nice – 2nd floor, door on the right (🔔 Rossi-Lamrabet)
-📱 Contact: ${phoneInput}
-`;
-
-  let total = 0;
-  const prix = { petitdej: 13, brunch: 22 };
-
-  document.querySelectorAll('.formule-block').forEach(block => {
-    const selects = block.querySelectorAll('select');
-
-    if (block.querySelector('select[name^="petitdej"]')) {
-      const viennoiserie = selects[0]?.value || 'not specified';
-      const lait = selects[1]?.value || 'not specified';
-
-      summary += `\nBreakfast Formula – €13:\n` +
-                 `- Pastry: ${viennoiserie}\n` +
-                 `- Latte: ${lait}\n` +
-                 `- Freshly squeezed orange juice\n`;
-      total += prix.petitdej;
-    }
-
-    if (block.querySelector('select[name^="brunch"]')) {
-      const boisson = selects[0]?.value || 'not specified';
-
-      summary += `\nBrunch Formula – €22:\n` +
-                 `- Avocado toast\n` +
-                 `- Bread, butter and jam\n` +
-                 `- Granola\n` +
-                 `- Hot drink: ${boisson}\n` +
-                 `- Freshly squeezed orange juice\n`;
-      total += prix.brunch;
-    }
-  });
-
-  const addons = [
-    ["addon_avocado", "Avocado toast", 16.5],
-    ["addon_pain", "Bread / Butter / Jam", 9.5],
-    ["addon_brioche", "Omelette & bacon on brioche", 10],
-    ["addon_granola", "Granola", 12.5],
-    ["addon_jus", "Freshly pressed organic orange juice", 6.5],
-    ["addon_cafe", "Coffee", 4],
-    ["addon_espresso", "Espresso", 2.5],
-    ["addon_latte_normal", "Latte (regular)", 6.5],
-    ["addon_latte_avoine", "Latte (oat)", 6.5],
-    ["addon_latte_soja", "Latte (soy)", 6.5]
-  ];
-
-  addons.forEach(([name, label, price]) => {
-    const el = document.querySelector(`[name="${name}"]`);
-    if (!el) return;
-
-    const qty = parseInt(el.value || 0);
-    if (qty > 0) {
-      summary += `${label} (€${price}) – Quantity: ${qty}\n`;
-      total += qty * price;
-    }
-  });
-summary += `\n🚚 Delivery fee €7 via our partner Delicity.`;
-  total += 7;
-  summary += `\n💰 Total: ${total.toFixed(2)} €`;
-
+  // Usa direttamente il riepilogo in inglese per visualizzazione
+  const summary = generateSummaryEn();
   document.getElementById('orderSummary').style.display = 'block';
   document.getElementById('orderSummary').textContent = summary;
 }
+
 function generateStripeSummary() {
   const summary = document.getElementById("orderSummary").textContent;
   const maxLength = 500;
 
-  if (summary.length <= maxLength) {
-    return summary;
-  }
+  if (summary.length <= maxLength) return summary;
 
   const date = document.querySelector('[name="delivery_date"]').value;
   const time = document.querySelector('[name="delivery_time"]').value;
@@ -587,11 +471,12 @@ function generateStripeSummary() {
 
 document.getElementById("orderForm").addEventListener("submit", function(e) {
   e.preventDefault();
-  generateSummary(); // <-- aggiungi questa riga prima di leggere il riepilogo
+  generateSummary();
+
   const summary = document.getElementById("orderSummary").textContent;
   const totalMatch = summary.match(/Total: ([\d.,]+)/);
   const total = totalMatch ? parseFloat(totalMatch[1].replace(',', '.')) : 0;
- 
+
   const toast = document.getElementById('toastOverlay');
   toast.style.display = 'block';
   setTimeout(() => { toast.style.display = 'none'; }, 8000);
@@ -600,17 +485,16 @@ document.getElementById("orderForm").addEventListener("submit", function(e) {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
-  total,
-  orderDetails: summary,           // riepilogo in lingua sito (inglese)
-  orderDetailsFr: generateSummaryFr(),
-  orderDetailsIt: generateSummaryIt(),
-  orderDetailsEs: generateSummaryEs(),
-  orderDetailsEn: generateSummaryEn(),
-  stripeSummary: generateStripeSummary(),
-  delivery_date: document.querySelector('[name="delivery_date"]').value
-})
+      total,
+      orderDetails: summary,
+      orderDetailsFr: generateSummaryFr(),
+      orderDetailsIt: generateSummaryIt(),
+      orderDetailsEs: generateSummaryEs(),
+      orderDetailsEn: generateSummaryEn(),
+      stripeSummary: generateStripeSummary(),
+      delivery_date: document.querySelector('[name="delivery_date"]').value
+    })
   })
-
   .then(res => res.json())
   .then(data => {
     if (data.url) {
@@ -626,7 +510,7 @@ document.getElementById("orderForm").addEventListener("submit", function(e) {
 });
 </script>
 
-<script>
+
 window.addEventListener('DOMContentLoaded', async () => {
   const dateInput = document.getElementById('deliveryDate');
   let dateTimeout;
