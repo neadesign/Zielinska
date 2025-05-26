@@ -152,6 +152,7 @@ app.post('/create-checkout-session', async (req, res) => {
     orderDetailsShort,
     orderDetailsLong,
     delivery_date
+    phone // ✅ AGGIUNGI QUESTA RIGA
   } = req.body;
 
   if (!total || total <= 0) {
@@ -162,7 +163,7 @@ app.post('/create-checkout-session', async (req, res) => {
   if (!available) {
     return res.status(400).json({ error: "❌ Siamo chiusi in quella data. Scegli un altro giorno." });
   }
-await appendToSheet(delivery_date, phone, orderDetails, total);
+await appendToSheet(delivery_date, phone, orderDetailsLong, total);
 
   try {
     const session = await stripe.checkout.sessions.create({
