@@ -398,7 +398,7 @@ function generateSummary() {
 `;
 
   let total = 0;
-  const prix = { petitdej: 13, brunch: 22 };
+  const prix = { petitdej: 17, brunch: 50 };
 
   document.querySelectorAll('.formule-block').forEach(block => {
     const selects = block.querySelectorAll('select');
@@ -407,7 +407,7 @@ function generateSummary() {
       const viennoiserie = selects[0]?.value || 'non spécifié';
       const lait = selects[1]?.value || 'non spécifié';
 
-      summary += `\nFormule Petit-déj – 13 € :\n` +
+      summary += `\nFormule Petit-déj – 17 € :\n` +
                  `- Viennoiserie : ${viennoiserie}\n` +
                  `- Lait : ${lait}\n` +
                  `- Jus d’orange\n`;
@@ -417,7 +417,7 @@ function generateSummary() {
     if (block.querySelector('select[name^="brunch"]')) {
       const boisson = selects[0]?.value || 'non spécifié';
 
-      summary += `\nFormule Brunch – 22 € :\n` +
+      summary += `\nFormule Brunch – 50 € :\n` +
                  `- Avocado toast\n` +
                  `- Pain, beurre et confiture\n` +
                  `- Granola\n` +
@@ -502,7 +502,7 @@ function generateSummary() {
 `;
 
   let total = 0;
-  const prix = { petitdej: 13, brunch: 22 };
+  const prix = { petitdej: 17, brunch: 50 };
 
   document.querySelectorAll('.formule-block').forEach(block => {
     const selects = block.querySelectorAll('select');
@@ -511,7 +511,7 @@ function generateSummary() {
       const viennoiserie = selects[0]?.value || 'non spécifié';
       const lait = selects[1]?.value || 'non spécifié';
 
-      summary += `\nFormule Petit-déj – 13 € :\n` +
+      summary += `\nFormule Petit-déj – 17 € :\n` +
                  `- Viennoiserie : ${viennoiserie}\n` +
                  `- Lait : ${lait}\n` +
                  `- Jus d’orange\n`;
@@ -521,7 +521,7 @@ function generateSummary() {
     if (block.querySelector('select[name^="brunch"]')) {
       const boisson = selects[0]?.value || 'non spécifié';
 
-      summary += `\nFormule Brunch – 22 € :\n` +
+      summary += `\nFormule Brunch – 50 € :\n` +
                  `- Avocado toast\n` +
                  `- Pain, beurre et confiture\n` +
                  `- Granola\n` +
