@@ -93,7 +93,7 @@ app.post('/webhook', express.raw({ type: 'application/json' }), async (req, res)
     }
  // Invia anche a Zapier
 try {
-  await fetch('https://hooks.zapier.com/hooks/catch/123456/abcde123/', {
+  await fetch('https://hooks.zapier.com/hooks/catch/15200900/2js6103/', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
