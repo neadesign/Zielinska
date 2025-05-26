@@ -518,24 +518,25 @@ summary += `\n💰 Total: ${total.toFixed(2)} €`;
 document.getElementById("orderForm").addEventListener("submit", function(e) {
   e.preventDefault();
   const summary = document.getElementById("orderSummary").textContent;
-  const totalMatch = summary.match(/Total: ([\d.,]+)/);
+  const totalMatch = summary.match(/Totale: ([\d.,]+)/);
   const total = totalMatch ? parseFloat(totalMatch[1].replace(',', '.')) : 0;
- 
+  const phone = document.querySelector('[name="whatsapp"]').value;
+
   const toast = document.getElementById('toastOverlay');
   toast.style.display = 'block';
   setTimeout(() => { toast.style.display = 'none'; }, 8000);
 
-fetch('https://Zielinska.onrender.com/create-checkout-session', {
-  method: 'POST',
-  headers: { 'Content-Type': 'application/json' },
-  body: JSON.stringify({
-    total,
-    orderDetails: summary,  // completo per Telegram/email
-    stripeSummary: generateStripeSummary().slice(0, 500),  // accorciato per Stripe
-    delivery_date: document.querySelector('[name="delivery_date"]').value
+  fetch('https://Zielinska.onrender.com/create-checkout-session', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      total,
+      orderDetails: summary,
+      stripeSummary: generateStripeSummary(),
+      delivery_date: document.querySelector('[name="delivery_date"]').value,
+      phone
+    })
   })
-});
-
 
 
   .then(res => res.json())
