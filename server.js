@@ -1,3 +1,30 @@
+const { google } = require('googleapis');
+
+const auth = new google.auth.GoogleAuth({
+  credentials: {
+    type: "service_account",
+    project_id: "rue-neuve",
+    private_key_id: "4e2c19d39078455fb00f0ac350aea60e1c15a864",
+    private_key: process.env.GOOGLE_PRIVATE_KEY.replace(/\\n/g, '\n'),
+    client_email: "design-francescorossi-co@rue-neuve.iam.gserviceaccount.com",
+    token_uri: "https://oauth2.googleapis.com/token"
+  },
+  scopes: ['https://www.googleapis.com/auth/spreadsheets']
+});
+
+async function appendToSheet(date, phone, summary, total) {
+  const client = await auth.getClient();
+  const sheets = google.sheets({ version: 'v4', auth: client });
+
+  await sheets.spreadsheets.values.append({
+    spreadsheetId: '1KEkvZp2kg4fA5snVhJBupgR6J-CuLqlbtodd8g9Rfag',
+    range: 'Foglio1!A:D',
+    valueInputOption: 'USER_ENTERED',
+    requestBody: {
+      values: [[date, phone, summary, total]]
+    }
+  });
+}
 require('dotenv').config(); // Carica variabili ambiente dal file .env se presente
 
 const express = require('express');
@@ -135,6 +162,7 @@ app.post('/create-checkout-session', async (req, res) => {
   if (!available) {
     return res.status(400).json({ error: "❌ Siamo chiusi in quella data. Scegli un altro giorno." });
   }
+await appendToSheet(delivery_date, phone, orderDetails, total);
 
   try {
     const session = await stripe.checkout.sessions.create({
