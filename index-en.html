@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="it">
 <head>
 
 <style>
@@ -127,8 +127,9 @@
     min-width: 200px;
   }
 </style>
+
   <meta charset="UTF-8">
-  <title>Neaspace Order</title>
+  <title>Order Neaspace</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     body { font-family: Arial, sans-serif; padding: 20px; background: #f9f9f9; }
@@ -170,7 +171,7 @@
 <div class="formule-hero" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; max-width: 800px; margin: 0 auto 30px auto;">
   <div class="formule-hero-item" style="background: #fff; padding: 10px; border-radius: 10px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); text-align:center;">
     <img src="https://raw.githubusercontent.com/neadesign/Zielinska/refs/heads/main/petdej.png" alt="Formule Petit-déj" style="width:100%; height:250px; object-fit:cover; border-radius:12px; margin-bottom:10px;">
-    <div><strong>Breakfast Formula</strong><br>1 viennoiserie, 1 milk (choice: regular, oat or soy), 1 orange juice  
+    <div><strong>Breakfast Formula</strong><br>1 pastry, 1 milk (choice: regular, oat or soy), 1 orange juice  
 <em>A gentle awakening with artisanal flavors.</em></div>
   </div>
   <div class="formule-hero-item" style="background: #fff; padding: 10px; border-radius: 10px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); text-align:center;">
@@ -182,15 +183,15 @@
 <div class="gallery" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin: 30px auto; max-width: 1000px;">
   <div class="gallery-item" style="text-align: center; font-size: 14px; color: #333; padding: 10px; background: #fff; border-radius: 10px; box-shadow: 0 2px 6px rgba(0,0,0,0.1);">
     <img src="https://raw.githubusercontent.com/neadesign/Zielinska/refs/heads/main/avoto.png" alt="Avocado toast" style="width: 100%; height: 180px; object-fit: cover; border-radius: 8px;">
-    Avocado toast – generous slice with fresh avocado
+    Avocado toast – fetta generosa con avocado fresco
   </div>
   <div class="gallery-item" style="text-align: center; font-size: 14px; color: #333; padding: 10px; background: #fff; border-radius: 10px; box-shadow: 0 2px 6px rgba(0,0,0,0.1);">
     <img src="https://raw.githubusercontent.com/neadesign/Zielinska/refs/heads/main/panbeur.png" alt="Pain, beurre et confiture" style="width: 100%; height: 180px; object-fit: cover; border-radius: 8px;">
-    Bread / Butter / Jam – morning classic
+    Pane / Burro / Marmellata – classico del mattino
   </div>
   <div class="gallery-item" style="text-align: center; font-size: 14px; color: #333; padding: 10px; background: #fff; border-radius: 10px; box-shadow: 0 2px 6px rgba(0,0,0,0.1);">
     <img src="https://raw.githubusercontent.com/neadesign/Zielinska/refs/heads/main/babka.jpeg" alt="Babka chocolat" style="width: 100%; height: 180px; object-fit: cover; border-radius: 8px;">
-    Chocolate babka – braided brioche with chocolate heart. Delicious and never too sweet!
+    Chocolate babka – braided brioche with a chocolate heart. Delicious and never too sweet!
   </div>
   <div class="gallery-item" style="text-align: center; font-size: 14px; color: #333; padding: 10px; background: #fff; border-radius: 10px; box-shadow: 0 2px 6px rgba(0,0,0,0.1);">
     <img src="https://raw.githubusercontent.com/neadesign/Zielinska/refs/heads/main/roule.jpeg" alt="Roulé cannelle" style="width: 100%; height: 180px; object-fit: cover; border-radius: 8px;">
@@ -210,95 +211,88 @@
   </div>
 </div>
 <div id="nextUnavailable" style="margin-bottom: 15px; font-style: italic; color: #aa0000;"></div>
-<form id="orderForm">
-  <div style="display: flex; flex-wrap: wrap; gap: 20px; margin-bottom: 20px;">
-    <label style="flex: 1 1 250px; min-width: 200px;">Delivery date:
-      <input type="date" id="deliveryDate" name="delivery_date" required style="width: 100%; padding: 6px;">
-    </label>
+  <form id="orderForm">
+    <div style="display: flex; flex-wrap: wrap; gap: 20px; margin-bottom: 20px;">
+  <label style="flex: 1 1 250px; min-width: 200px;">Data di consegna:
+    <input type="date" id="deliveryDate" name="delivery_date" required style="width: 100%; padding: 6px;">
+  </label>
 
-    <label style="flex: 1 1 250px; min-width: 200px;">Time:
-      <select name="delivery_time" required style="width: 100%; padding: 6px;">
-        <option value="">Select</option>
-        <option>07:30</option><option>08:00</option><option>08:30</option>
-        <option>09:00</option><option>09:30</option><option>10:00</option>
-      </select>
-    </label>
+<label style="flex: 1 1 250px; min-width: 200px;">Ora: <select name="delivery_time" required style="width: 100%; padding: 6px;"> <option value="">Seleziona</option> <option>07:30</option><option>08:00</option><option>08:30</option> <option>09:00</option><option>09:30</option><option>10:00</option> </select> </label>
 
-    <label style="flex: 1 1 250px; min-width: 200px;">WhatsApp:
-      <input type="tel" name="whatsapp" required placeholder="+33 6..." style="width: 100%; padding: 6px;">
-    </label>
-  </div>
-<div class="btn-container">
-  <button type="button" onclick="addFormula('petitdej')">+ Add a Breakfast Formula</button>
-  <button type="button" onclick="addFormula('brunch')">+ Add a Brunch Formula</button>
+<label style="flex: 1 1 250px; min-width: 200px;">WhatsApp: <input type="tel" name="whatsapp" required placeholder="+33 6..." style="width: 100%; padding: 6px;"> </label>
+
 </div>
-<div id="formuleContainer"></div>
+    <div class="btn-container">
+      <button type="button" onclick="addFormula('petitdej')">+ Add a Breakfast Formula</button>
+      <button type="button" onclick="addFormula('brunch')">+ Add a Brunch Formula</button>
+    </div>
+    <div id="formuleContainer"></div>
 
 <div style="margin-top: 40px;">
-  <h2>Add-ons</h2>
-  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px;">
-    <label style="display: flex; justify-content: space-between; align-items: center;">
-      Avocado toast €16.5
-      <input type="number" name="addon_avocado" min="0" max="5" value="0" style="width: 35px; margin-left: 10px;">
-    </label>
+<h2>Add-ons</h2>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px;">
+  <label style="display: flex; justify-content: space-between; align-items: center;">
+    Avocado toast 16,5 €
+    <input type="number" name="addon_avocado" min="0" max="5" value="0" style="width: 35px; margin-left: 10px;">
+  </label>
 
-    <label style="display: flex; justify-content: space-between; align-items: center;">
-      Bread/Butter/Jam €9.5
-      <input type="number" name="addon_pain" min="0" max="5" value="0" style="width: 35px; margin-left: 10px;">
-    </label>
+  <label style="display: flex; justify-content: space-between; align-items: center;">
+    Bread / Butter / Jam 9,5 €
+    <input type="number" name="addon_pain" min="0" max="5" value="0" style="width: 35px; margin-left: 10px;">
+  </label>
 
-    <label style="display: flex; justify-content: space-between; align-items: center;">
-      Omelette and bacon on brioche bread €10
-      <input type="number" name="addon_brioche" min="0" max="5" value="0" style="width: 35px; margin-left: 10px;">
-    </label>
+  <label style="display: flex; justify-content: space-between; align-items: center;">
+    Omelette and bacon on brioche bread 10 €
+    <input type="number" name="addon_brioche" min="0" max="5" value="0" style="width: 35px; margin-left: 10px;">
+  </label>
 
-    <label style="display: flex; justify-content: space-between; align-items: center;">
-      Granola €12.5
-      <input type="number" name="addon_granola" min="0" max="5" value="0" style="width: 35px; margin-left: 10px;">
-    </label>
+  <label style="display: flex; justify-content: space-between; align-items: center;">
+    Granola 12,5 €
+    <input type="number" name="addon_granola" min="0" max="5" value="0" style="width: 35px; margin-left: 10px;">
+  </label>
 
-    <label style="display: flex; justify-content: space-between; align-items: center;">
-      Fresh orange juice €6.5
-      <input type="number" name="addon_jus" min="0" max="5" value="0" style="width: 35px; margin-left: 10px;">
-    </label>
+  <label style="display: flex; justify-content: space-between; align-items: center;">
+    Freshly squeezed orange juice 6,5 €
+    <input type="number" name="addon_jus" min="0" max="5" value="0" style="width: 35px; margin-left: 10px;">
+  </label>
+  <label style="display: flex; justify-content: space-between; align-items: center;">
+  Coffee 4 €
+  <input type="number" name="addon_cafe" min="0" max="5" value="0" style="width: 35px; margin-left: 10px;">
+</label>
 
-    <label style="display: flex; justify-content: space-between; align-items: center;">
-      Coffee €4
-      <input type="number" name="addon_cafe" min="0" max="5" value="0" style="width: 35px; margin-left: 10px;">
-    </label>
+<label style="display: flex; justify-content: space-between; align-items: center;">
+  Espresso 2,5 €
+  <input type="number" name="addon_espresso" min="0" max="5" value="0" style="width: 35px; margin-left: 10px;">
+</label>
+  <label style="display: flex; justify-content: space-between; align-items: center;">
+  Regular milk 6,5 €
+  <input type="number" name="addon_latte_normal" min="0" max="5" value="0" style="width: 35px; margin-left: 10px;">
+</label>
 
-    <label style="display: flex; justify-content: space-between; align-items: center;">
-      Espresso €2.5
-      <input type="number" name="addon_espresso" min="0" max="5" value="0" style="width: 35px; margin-left: 10px;">
-    </label>
+<label style="display: flex; justify-content: space-between; align-items: center;">
+  Oat milk 6,5 €
+  <input type="number" name="addon_latte_avoine" min="0" max="5" value="0" style="width: 35px; margin-left: 10px;">
+</label>
 
-    <label style="display: flex; justify-content: space-between; align-items: center;">
-      Latte (regular) €6.5
-      <input type="number" name="addon_latte_normal" min="0" max="5" value="0" style="width: 35px; margin-left: 10px;">
-    </label>
+<label style="display: flex; justify-content: space-between; align-items: center;">
+  Soy milk 6,5 €
+  <input type="number" name="addon_latte_soja" min="0" max="5" value="0" style="width: 35px; margin-left: 10px;">
+</label>
 
-    <label style="display: flex; justify-content: space-between; align-items: center;">
-      Latte (oat) €6.5
-      <input type="number" name="addon_latte_avoine" min="0" max="5" value="0" style="width: 35px; margin-left: 10px;">
-    </label>
-
-    <label style="display: flex; justify-content: space-between; align-items: center;">
-      Latte (soy) €6.5
-      <input type="number" name="addon_latte_soja" min="0" max="5" value="0" style="width: 35px; margin-left: 10px;">
-    </label>
-  </div>
-
-  <p style="margin-top: 20px; font-style: italic; color: #666;">* Delivery €7 via Delicity.</p>
 </div>
 
-<button type="button" onclick="generateSummary()">🧺 Add to cart</button>
-<pre id="orderSummary" style="display:none; background:#eee; padding:15px; margin-top:20px; border-radius:8px;"></pre>
-<button type="submit">✅ Checkout</button>
+<p style="margin-top: 20px; font-style: italic; color: #666;">* Delivery €7 via Delicity.</p>
+</div>
+
+<button type="button" onclick="generateSummary()">🧺 Add to cart</button> <pre id="orderSummary" style="display:none; background:#eee; padding:15px; margin-top:20px; border-radius:8px;"></pre> <button type="submit">✅ Check-out</button>
+
+  </form>
+</div>
 <script>
 let formuleId = 0;
 
 function addFormula(type) {
-  console.log("Add formula", type);
+  console.log("Aggiunta formula", type);
   formuleId++;
   const div = document.createElement('div');
   div.className = 'formule-block';
@@ -306,8 +300,8 @@ function addFormula(type) {
   let html = '<button class="remove-btn" onclick="removeFormula(\'' + div.id + '\')">×</button>';
   
   if (type === 'petitdej') {
-    html += `<strong>Breakfast – €17</strong><br>
-    <label>Choose viennoiserie:
+    html += `<strong>Colazione – 17 €</strong><br>
+    <label>Choice of pastry:
       <select class="formule-select" name="petitdej_${formuleId}_viennoiserie">
         <option value="">Select</option>
         <option value="Roulée">Cinnamon roll</option>
@@ -320,14 +314,14 @@ function addFormula(type) {
         <option value="">Select</option>
         <option value="Lait normal">Regular milk</option>
         <option value="Lait d’avoine">Oat milk</option>
-        <option value="Lait de soja">Soy milk</option>
+        <option value="Lait de soja">Soja milk</option>
       </select>
     </label>`;
   } else {
-    html += `<strong>Brunch – €50</strong><br>
+    html += `<strong>Brunch – 50 €</strong><br>
     <label>Hot drink:
       <select class="formule-select" name="brunch_${formuleId}">
-        <option value="">Select</option>
+        <option value="">Seleziona</option>
         <option value="Café">Coffee</option>
         <option value="Espresso">Espresso</option>
       </select>
@@ -341,17 +335,75 @@ function removeFormula(id) {
   const el = document.getElementById(id);
   if (el) el.remove();
 }
-</script>
-<script>
 function generateSummary() {
   const dateInput = document.querySelector('[name="delivery_date"]').value;
   const timeInput = document.querySelector('[name="delivery_time"]').value;
   const phoneInput = document.querySelector('[name="whatsapp"]').value;
 
   if (isInvalid(dateInput)) {
-    alert("❌ This date is not available. Please choose another day.");
-    return;
-  }
+  alert("❌ This date is not available. Please choose another day.");
+  return;
+}
+function generateSummaryIt() {
+  const date = document.querySelector('[name="delivery_date"]').value;
+  const time = document.querySelector('[name="delivery_time"]').value;
+  const phone = document.querySelector('[name="whatsapp"]').value;
+  let total = 0;
+
+  let summaryIt = `📅 Delivery: ${date} alle ${time}
+📍 Address: 19 Rue Neuve, Nice – 2° floor, right roor (🔔 Rossi-Lamrabet)
+📱 Contact: ${phone}
+`;
+
+  // Formule
+  document.querySelectorAll('.formule-block').forEach(block => {
+    if (block.querySelector('select[name^="petitdej"]')) {
+      summaryIt += `\nFormula Colazione – 17 €\n`;
+      summaryIt += `- Pastry: ${block.querySelector('select[name$="_viennoiserie"]').value || 'non specificato'}\n`;
+      summaryIt += `- Milk: ${block.querySelector('select[name$="_lait"]').value || 'non specificato'}\n`;
+      summaryIt += `- Orange Juice\n`;
+      total += 17;
+    }
+    if (block.querySelector('select[name^="brunch"]')) {
+      summaryIt += `\nFormula Brunch – 22 €\n`;
+      summaryIt += `- Avocado toast\n`;
+      summaryIt += `- Bread / Butter / Jam\n`;
+      summaryIt += `- Granola\n`;
+      summaryIt += `- Hot Drink: ${block.querySelector('select[name^="brunch"]').value || 'non specificato'}\n`;
+      summaryIt += `- Orange Juice\n`;
+      total += 22;
+    }
+  });
+
+  // Supplementi
+  const addons = [
+    ["addon_avocado",        "Avocado toast",                        16.5],
+    ["addon_pain",           "Bread / Butter / Jam",                9.5],
+    ["addon_brioche",        "Omelette and bacon on brioche bread",    10.0],
+    ["addon_granola",        "Granola",                              12.5],
+    ["addon_jus",            "Freshly orange juice bio",               6.5],
+    ["addon_cafe",           "Coffee",                                4.0],
+    ["addon_espresso",       "Espresso",                             2.5],
+    ["addon_latte_normal",   "Regular milk",                      6.5],
+    ["addon_latte_avoine",   "Oat milk",                        6.5],
+    ["addon_latte_soja",     "Soja milk",                         6.5]
+  ];
+  addons.forEach(([name, label, price]) => {
+    const el = document.querySelector(`[name="${name}"]`);
+    const qty = el ? parseInt(el.value, 10) || 0 : 0;
+    if (qty > 0) {
+      summaryIt += `${label} (${price} €) – Quantità: ${qty}\n`;
+      total += qty * price;
+    }
+  });
+
+  // Consegna e totale
+  summaryIt += `\n🚚 Delivery charged €7 via Delicity.`;
+  total += 7;
+  summaryIt += `\n💰 Total: ${total.toFixed(2)} €`;
+
+  return summaryIt;
+}
 
   if (!dateInput || !timeInput || !phoneInput) {
     alert("Please fill in the date, time and WhatsApp number.");
@@ -374,13 +426,13 @@ function generateSummary() {
 
   if (isTomorrow && currentHour >= 18) {
     setTimeout(() => {
-      alert("❌ It's too late to order for tomorrow. Orders close at 6:00 PM the day before.");
+      alert("❌ It’s too late to order for tomorrow. Orders close at 6:00 PM the day before.");
     }, 5000);
     return;
   }
 
-  let summary = `📅 Delivery: ${dateInput} at ${timeInput}
-📍 Address: 19 Rue Neuve, Nice – 2nd floor, right door (🔔 Rossi-Lamrabet)
+let summary = `📅 Delivery: ${dateInput} alle ${timeInput}
+📍 Address: 19 Rue Neuve, Nice – 2° floor, right door (🔔 Rossi-Lamrabet)
 📱 Contact: ${phoneInput}
 `;
 
@@ -388,64 +440,64 @@ function generateSummary() {
   const prix = { petitdej: 13, brunch: 22 };
 
   document.querySelectorAll('.formule-block').forEach(block => {
-    const selects = block.querySelectorAll('select');
+  const selects = block.querySelectorAll('select');
 
-    if (block.querySelector('select[name^="petitdej"]')) {
-      const viennoiserie = selects[0]?.value || 'not specified';
-      const lait = selects[1]?.value || 'not specified';
+  if (block.querySelector('select[name^="petitdej"]')) {
+    const viennoiserie = selects[0]?.value || 'non specificato';
+    const lait = selects[1]?.value || 'non specificato';
 
-      summary += `\nBreakfast Formula – €13:\n` +
-                 `- Pastry: ${viennoiserie}\n` +
-                 `- Milk: ${lait}\n` +
-                 `- Orange juice\n`;
-      total += prix.petitdej;
-    }
+    summary += `\nFormula Colazione – 17 €:\n` +
+               `- Pastry: ${viennoiserie}\n` +
+               `- Milk: ${lait}\n` +
+               `- Orange Juice\n`;
+    total += prix.petitdej;
+  }
 
-    if (block.querySelector('select[name^="brunch"]')) {
-      const boisson = selects[0]?.value || 'not specified';
+  if (block.querySelector('select[name^="brunch"]')) {
+    const boisson = selects[0]?.value || 'non specificato';
 
-      summary += `\nBrunch Formula – €22:\n` +
-                 `- Avocado toast\n` +
-                 `- Bread, butter & jam\n` +
-                 `- Granola\n` +
-                 `- Hot drink: ${boisson}\n` +
-                 `- Orange juice\n`;
-      total += prix.brunch;
-    }
-  });
+    summary += `\nFormula Brunch – 22 €:\n` +
+               `- Avocado toast\n` +
+               `- Bread / Butter / Jam\n` +
+               `- Granola\n` +
+               `- Hot dtink: ${boisson}\n` +
+               `- Orange Juice\n`;
+    total += prix.brunch;
+  }
+});
 
-  const addons = [
-    ["addon_avocado", "Avocado toast", 16.5],
-    ["addon_pain", "Bread / Butter / Jam", 9.5],
-    ["addon_brioche", "Omelette & bacon on brioche", 10],
-    ["addon_granola", "Granola", 12.5],
-    ["addon_jus", "Fresh orange juice", 6.5],
-    ["addon_cafe", "Coffee", 4],
-    ["addon_espresso", "Espresso", 2.5],
-    ["addon_latte_normal", "Latte (regular)", 6.5],
-    ["addon_latte_avoine", "Latte (oat)", 6.5],
-    ["addon_latte_soja", "Latte (soy)", 6.5]
-  ];
+const addons = [
+  ["addon_avocado", "Avocado toast", 16.5],
+  ["addon_pain", "Bread / Butter / Jam", 9.5],
+  ["addon_brioche", "Omelette and bacon on brioche bread", 10],
+  ["addon_granola", "Granola", 12.5],
+  ["addon_jus", "Freshly squeezed orange juice", 6.5],
+  ["addon_cafe", "Cofee", 4],
+  ["addon_espresso", "Espresso", 2.5],
+  ["addon_latte_normal", "Regular Milk", 6.5],
+  ["addon_latte_avoine", "Oat Milk", 6.5],
+  ["addon_latte_soja", "Soja milk", 6.5]
+];
 
   addons.forEach(([name, label, price]) => {
-    const el = document.querySelector(`[name="${name}"]`);
-    if (!el) return;
-    const qty = parseInt(el.value || 0);
-    if (qty > 0) {
-      summary += `${label} (€${price}) – Quantity: ${qty}\n`;
-      total += qty * price;
-    }
-  });
+  const el = document.querySelector(`[name="${name}"]`);
+  if (!el) return;
+
+  const qty = parseInt(el.value || 0);
+  if (qty > 0) {
+    summary += `${label} (${price} €) – Quantità: ${qty}\n`;
+    total += qty * price;
+  }
+});
 
   summary += `\n🚚 Delivery charged €7 via our partner Delicity.`;
   total += 7;
-  summary += `\n💰 Total: €${total.toFixed(2)}`;
+  summary += `\n💰 Total: ${total.toFixed(2)} €`;
 
   document.getElementById('orderSummary').style.display = 'block';
   document.getElementById('orderSummary').textContent = summary;
 }
-
-function generateStripeSummary() {
+  function generateStripeSummary() {
   const summary = document.getElementById("orderSummary").textContent;
   const maxLength = 500;
 
@@ -458,30 +510,31 @@ function generateStripeSummary() {
   const phone = document.querySelector('[name="whatsapp"]').value;
   const count = document.querySelectorAll('.formule-block').length;
 
-  return `Date: ${date} ${time}, Customer: ${phone}, Formulas: ${count}, Total: ${summary.match(/Total: ([\d.,]+)/)?.[1]} €`;
+  return `Date: ${date} ${time}, Client: ${phone}, Formulas: ${count}, Total: ${summary.match(/Total: ([\d.,]+)/)?.[1]} €`;
 }
 
 document.getElementById("orderForm").addEventListener("submit", function(e) {
   e.preventDefault();
-  generateSummary();
   const summary = document.getElementById("orderSummary").textContent;
-  const totalMatch = summary.match(/Total: ([\d.,]+)/);
+  const totalMatch = summary.match(/Totale: ([\d.,]+)/);
   const total = totalMatch ? parseFloat(totalMatch[1].replace(',', '.')) : 0;
-
+ 
   const toast = document.getElementById('toastOverlay');
   toast.style.display = 'block';
   setTimeout(() => { toast.style.display = 'none'; }, 8000);
 
-  fetch('https://Zielinska.onrender.com/create-checkout-session', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      total,
-      orderDetails: summary,
-      stripeSummary: generateStripeSummary(),
-      delivery_date: document.querySelector('[name="delivery_date"]').value
-    })
-  })
+fetch('https://Zielinska.onrender.com/create-checkout-session', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+body: JSON.stringify({
+  total,
+  orderDetails: summary,
+  stripeSummary: generateStripeSummary(),
+  delivery_date: document.querySelector('[name="delivery_date"]').value
+})
+
+})
+
   .then(res => res.json())
   .then(data => {
     if (data.url) {
@@ -491,12 +544,11 @@ document.getElementById("orderForm").addEventListener("submit", function(e) {
     }
   })
   .catch(err => {
-    console.error("❌ Stripe error:", err);
+    console.error("❌ Errore Stripe:", err);
     alert("❌ An error occurred during payment.");
   });
 });
 </script>
-
 <script>
 window.addEventListener('DOMContentLoaded', async () => {
   const dateInput = document.getElementById('deliveryDate');
@@ -506,12 +558,13 @@ window.addEventListener('DOMContentLoaded', async () => {
     dateTimeout = setTimeout(() => {
       const selectedDate = dateInput.value;
       if (isInvalid(selectedDate)) {
-        alert("❌ This date is not available. Please choose another one.");
+        alert("❌ This date is not available. Please choose another day.");
         dateInput.value = "";
       }
-    }, 800);
+    }, 800); // ritardo di 0.8 secondi
   });
 
+  // Assicura che unavailableDatesFromSheet sia caricata
   await fetchUnavailableDates();
 });
 </script>
@@ -552,7 +605,7 @@ function isInvalid(dateStr) {
 
 function formatDateShort(dateStr) {
   const d = new Date(dateStr);
-  return d.toLocaleDateString('en-GB', {
+  return d.toLocaleDateString('it-IT', {
     day: 'numeric',
     month: 'short'
   });
