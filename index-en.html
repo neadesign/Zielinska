@@ -507,9 +507,7 @@ document.getElementById("orderForm").addEventListener("submit", function(e) {
     alert("❌ An error occurred during payment.");
   });
 });
-</script>
-
-
+  <script>
 window.addEventListener('DOMContentLoaded', async () => {
   const dateInput = document.getElementById('deliveryDate');
   let dateTimeout;
@@ -521,14 +519,13 @@ window.addEventListener('DOMContentLoaded', async () => {
         alert("❌ This date is not available. Please choose another day.");
         dateInput.value = "";
       }
-    }, 8000); // 0.8 second delay
+    }, 8000);
   });
 
   // Ensure unavailableDatesFromSheet is loaded
   await fetchUnavailableDates();
 });
 </script>
-
 <script>
 const START_DATE = new Date("2025-05-23");
 const sheetUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vScTm1j0tp3F7h89bhmLGqEJr4nlJuqPCPm8j57qn3xqFfIYk3Mf89KXRWqbxzmxA/pub?output=csv";
@@ -590,6 +587,7 @@ async function showNextUnavailable() {
 
 document.addEventListener("DOMContentLoaded", showNextUnavailable);
 </script>
+
 
 </body>
 </html>
