@@ -71,7 +71,7 @@ app.post('/webhook', express.raw({ type: 'application/json' }), async (req, res)
     try {
       await transporter.sendMail({
         from: 'Neaspace <design@francescorossi.co>',
-        to: 'design@francescorossi.co, dominika@zielinska.frr',
+        to: 'design@francescorossi.co',
         subject: '✅ Ordine confermato',
         text: message.replace(/\*/g, '')
       });
@@ -91,7 +91,23 @@ app.post('/webhook', express.raw({ type: 'application/json' }), async (req, res)
     } catch (err) {
       console.error('❌ Errore invio Telegram:', err.message);
     }
-  }
+ // Invia anche a Zapier
+try {
+  await fetch('https://hooks.zapier.com/hooks/catch/123456/abcde123/', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      orderDetails: summary,
+      deliveryDate: session.metadata?.delivery_date,
+      source: 'stripe-webhook',
+      language: 'fr' // oppure calcolato in base al contesto
+    })
+  });
+  console.log('✅ Inviato a Zapier con successo');
+} catch (err) {
+  console.error('❌ Errore invio Zapier:', err.message);
+}
+ }
 
   res.sendStatus(200);
 });
