@@ -281,7 +281,7 @@
 
 </div>
 
-<p style="margin-top: 20px; font-style: italic; color: #666;">* Consegna 7 € tramite Delicity.</p>
+<p style="margin-top: 20px; font-style: italic; color: #666;">* Consegna e servizio: 9 € (includono 7,50 € per la consegna tramite Delicity e 1,50 € per la gestione dell’ordine).</p>
 </div>
 
 <button type="button" onclick="generateSummary()">🧺 Aggiungi al carrello</button> <pre id="orderSummary" style="display:none; background:#eee; padding:15px; margin-top:20px; border-radius:8px;"></pre> <button type="submit">✅ Pagamento</button>
@@ -490,9 +490,10 @@ const addons = [
   }
 });
 
-  summary += `\n🚚 Consegna addebitata 7 € tramite il nostro partner Delicity.`;
-  total += 7;
-  summary += `\n💰 Totale: ${total.toFixed(2)} €`;
+  summary += `\n🚚 Consegna: 7,50 € tramite il nostro partner Delicity`;
+summary += `\n🧾 Spese di servizio e gestione: 1,50 € (pagamento, imballaggio, assistenza clienti)`;
+total += 7.5 + 1.5;
+summary += `\n💰 Totale: ${total.toFixed(2)} €`;
 
   document.getElementById('orderSummary').style.display = 'block';
   document.getElementById('orderSummary').textContent = summary;
