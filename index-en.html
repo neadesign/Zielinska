@@ -418,6 +418,65 @@ function generateSummaryEn() {
 
   return summaryEn;
 }
+  function generateSummaryFr() {
+  const date = document.querySelector('[name="delivery_date"]').value;
+  const time = document.querySelector('[name="delivery_time"]').value;
+  const phone = document.querySelector('[name="whatsapp"]').value;
+  let total = 0;
+
+  let summaryFr = `📅 Livraison : ${date} à ${time}
+📍 Adresse : 19 Rue Neuve, Nice – 2ᵉ étage, porte à droite (🔔 Rossi-Lamrabet)
+📱 Contact : ${phone}
+`;
+
+  document.querySelectorAll('.formule-block').forEach(block => {
+    if (block.querySelector('select[name^="petitdej"]')) {
+      summaryFr += `\nFormule Petit-déj – 13 €\n`;
+      summaryFr += `- Viennoiserie : ${block.querySelector('select[name$="_viennoiserie"]').value || 'non spécifié'}\n`;
+      summaryFr += `- Lait : ${block.querySelector('select[name$="_lait"]').value || 'non spécifié'}\n`;
+      summaryFr += `- Jus d’orange pressé\n`;
+      total += 13;
+    }
+    if (block.querySelector('select[name^="brunch"]')) {
+      summaryFr += `\nFormule Brunch – 22 €\n`;
+      summaryFr += `- Avocado toast\n`;
+      summaryFr += `- Pain, beurre et confiture\n`;
+      summaryFr += `- Granola\n`;
+      summaryFr += `- Boisson chaude : ${block.querySelector('select[name^="brunch"]').value || 'non spécifié'}\n`;
+      summaryFr += `- Jus d’orange pressé\n`;
+      total += 22;
+    }
+  });
+
+  const addons = [
+    ["addon_avocado", "Avocado toast", 16.5],
+    ["addon_pain", "Pain / Beurre / Confiture", 9.5],
+    ["addon_brioche", "Omelette et bacon sur brioche", 10],
+    ["addon_granola", "Granola", 12.5],
+    ["addon_jus", "Jus d’orange pressé bio", 6.5],
+    ["addon_cafe", "Café", 4],
+    ["addon_espresso", "Espresso", 2.5],
+    ["addon_latte_normal", "Lait (normal)", 6.5],
+    ["addon_latte_avoine", "Lait (avoine)", 6.5],
+    ["addon_latte_soja", "Lait (soja)", 6.5]
+  ];
+
+  addons.forEach(([name, label, price]) => {
+    const el = document.querySelector(`[name="${name}"]`);
+    const qty = el ? parseInt(el.value, 10) || 0 : 0;
+    if (qty > 0) {
+      summaryFr += `${label} (${price} €) – Quantité : ${qty}\n`;
+      total += qty * price;
+    }
+  });
+
+  summaryFr += `\n🚚 Livraison facturée 7 € via notre partenaire Delicity.`;
+  total += 7;
+  summaryFr += `\n💰 Total : ${total.toFixed(2)} €`;
+
+  return summaryFr;
+}
+
 
   if (!dateInput || !timeInput || !phoneInput) {
     alert("Please fill in the date, time, and WhatsApp number.");
