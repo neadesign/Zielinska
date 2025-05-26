@@ -358,20 +358,20 @@ function generateSummaryIt() {
   // Formule
   document.querySelectorAll('.formule-block').forEach(block => {
     if (block.querySelector('select[name^="petitdej"]')) {
-      summaryIt += `\nFormula Colazione – 13 €\n`;
+      summaryIt += `\nFormula Colazione – 17 €\n`;
       summaryIt += `- Viennoiserie: ${block.querySelector('select[name$="_viennoiserie"]').value || 'non specificato'}\n`;
       summaryIt += `- Latte: ${block.querySelector('select[name$="_lait"]').value || 'non specificato'}\n`;
       summaryIt += `- Spremuta d’arancia\n`;
-      total += 13;
+      total += 17;
     }
     if (block.querySelector('select[name^="brunch"]')) {
-      summaryIt += `\nFormula Brunch – 22 €\n`;
+      summaryIt += `\nFormula Brunch – 50 €\n`;
       summaryIt += `- Avocado toast\n`;
       summaryIt += `- Pane, burro e marmellata\n`;
       summaryIt += `- Granola\n`;
       summaryIt += `- Bevanda calda: ${block.querySelector('select[name^="brunch"]').value || 'non specificato'}\n`;
       summaryIt += `- Spremuta d’arancia\n`;
-      total += 22;
+      total += 50;
     }
   });
 
@@ -437,7 +437,7 @@ let summary = `📅 Consegna: ${dateInput} alle ${timeInput}
 `;
 
   let total = 0;
-  const prix = { petitdej: 13, brunch: 22 };
+  const prix = { petitdej: 17, brunch: 50 };
 
   document.querySelectorAll('.formule-block').forEach(block => {
   const selects = block.querySelectorAll('select');
@@ -446,7 +446,7 @@ let summary = `📅 Consegna: ${dateInput} alle ${timeInput}
     const viennoiserie = selects[0]?.value || 'non specificato';
     const lait = selects[1]?.value || 'non specificato';
 
-    summary += `\nFormula Colazione – 13 €:\n` +
+    summary += `\nFormula Colazione – 17 €:\n` +
                `- Viennoiserie: ${viennoiserie}\n` +
                `- Latte: ${lait}\n` +
                `- Spremuta d’arancia\n`;
@@ -456,7 +456,7 @@ let summary = `📅 Consegna: ${dateInput} alle ${timeInput}
   if (block.querySelector('select[name^="brunch"]')) {
     const boisson = selects[0]?.value || 'non specificato';
 
-    summary += `\nFormula Brunch – 22 €:\n` +
+    summary += `\nFormula Brunch – 50 €:\n` +
                `- Avocado toast\n` +
                `- Pane, burro e marmellata\n` +
                `- Granola\n` +
