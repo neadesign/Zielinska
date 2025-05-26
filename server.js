@@ -151,7 +151,7 @@ app.post('/create-checkout-session', async (req, res) => {
     total,
     orderDetailsShort,
     orderDetailsLong,
-    delivery_date
+    delivery_date,
     phone // ✅ AGGIUNGI QUESTA RIGA
   } = req.body;
 
