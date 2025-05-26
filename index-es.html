@@ -392,7 +392,7 @@ function generateSummary() {
 `;
 
   let total = 0;
-  const prix = { petitdej: 13, brunch: 22 };
+  const prix = { petitdej: 17, brunch: 50 };
 
   document.querySelectorAll('.formule-block').forEach(block => {
     const selects = block.querySelectorAll('select');
@@ -401,7 +401,7 @@ function generateSummary() {
       const viennoiserie = selects[0]?.value || 'no especificado';
       const lait = selects[1]?.value || 'no especificado';
 
-      summary += `\nFórmula Desayuno – 13 €:\n` +
+      summary += `\nFórmula Desayuno – 17 €:\n` +
                  `- Bollería: ${viennoiserie}\n` +
                  `- Café: ${lait}\n` +
                  `- Zumo de naranja exprimido\n`;
@@ -411,7 +411,7 @@ function generateSummary() {
     if (block.querySelector('select[name^="brunch"]')) {
       const boisson = selects[0]?.value || 'no especificado';
 
-      summary += `\nFórmula Brunch – 22 €:\n` +
+      summary += `\nFórmula Brunch – 50 €:\n` +
                  `- Tostada de aguacate\n` +
                  `- Pan, mantequilla y mermelada\n` +
                  `- Granola\n` +
@@ -479,20 +479,20 @@ function generateSummaryFr() {
 
   document.querySelectorAll('.formule-block').forEach(block => {
     if (block.querySelector('select[name^="petitdej"]')) {
-      summaryFr += `\nFormule Petit-déj – 13 €\n`;
+      summaryFr += `\nFormule Petit-déj – 17 €\n`;
       summaryFr += `- Viennoiserie : ${block.querySelector('select[name$="_viennoiserie"]').value || 'non précisé'}\n`;
       summaryFr += `- Lait : ${block.querySelector('select[name$="_lait"]').value || 'non précisé'}\n`;
       summaryFr += `- Jus d’orange pressé\n`;
-      total += 13;
+      total += 17;
     }
     if (block.querySelector('select[name^="brunch"]')) {
-      summaryFr += `\nFormule Brunch – 22 €\n`;
+      summaryFr += `\nFormule Brunch – 50 €\n`;
       summaryFr += `- Avocado toast\n`;
       summaryFr += `- Pain, beurre et confiture\n`;
       summaryFr += `- Granola\n`;
       summaryFr += `- Boisson chaude : ${block.querySelector('select[name^="brunch"]').value || 'non précisée'}\n`;
       summaryFr += `- Jus d’orange pressé\n`;
-      total += 22;
+      total += 50;
     }
   });
 
@@ -537,20 +537,20 @@ function generateSummaryEs() {
   // Fórmulas
   document.querySelectorAll('.formule-block').forEach(block => {
     if (block.querySelector('select[name^="petitdej"]')) {
-      summaryEs += `\nFórmula Desayuno – 13 €\n`;
+      summaryEs += `\nFórmula Desayuno – 17 €\n`;
       summaryEs += `- Bollería: ${block.querySelector('select[name$="_viennoiserie"]').value || 'no especificada'}\n`;
       summaryEs += `- Leche: ${block.querySelector('select[name$="_lait"]').value || 'no especificada'}\n`;
       summaryEs += `- Zumo de naranja exprimido\n`;
-      total += 13;
+      total += 17;
     }
     if (block.querySelector('select[name^="brunch"]')) {
-      summaryEs += `\nFórmula Brunch – 22 €\n`;
+      summaryEs += `\nFórmula Brunch – 50 €\n`;
       summaryEs += `- Tostada de aguacate\n`;
       summaryEs += `- Pan, mantequilla y mermelada\n`;
       summaryEs += `- Granola\n`;
       summaryEs += `- Bebida caliente: ${block.querySelector('select[name^="brunch"]').value || 'no especificada'}\n`;
       summaryEs += `- Zumo de naranja exprimido\n`;
-      total += 22;
+      total += 50;
     }
   });
 
