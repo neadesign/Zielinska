@@ -501,14 +501,17 @@ document.getElementById("orderForm").addEventListener("submit", function(e) {
     } else {
       alert("❌ Payment currently unavailable. Please try again later.");
     }
-  })
+    })
   .catch(err => {
     console.error("❌ Stripe error:", err);
     alert("❌ An error occurred during payment.");
   });
 });
-  <script>
+</script>
+
+<script>
 window.addEventListener('DOMContentLoaded', async () => {
+
   const dateInput = document.getElementById('deliveryDate');
   let dateTimeout;
   dateInput.addEventListener('input', () => {
@@ -525,8 +528,7 @@ window.addEventListener('DOMContentLoaded', async () => {
   // Ensure unavailableDatesFromSheet is loaded
   await fetchUnavailableDates();
 });
-</script>
-<script>
+
 const START_DATE = new Date("2025-05-23");
 const sheetUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vScTm1j0tp3F7h89bhmLGqEJr4nlJuqPCPm8j57qn3xqFfIYk3Mf89KXRWqbxzmxA/pub?output=csv";
 
@@ -587,7 +589,6 @@ async function showNextUnavailable() {
 
 document.addEventListener("DOMContentLoaded", showNextUnavailable);
 </script>
-
 
 </body>
 </html>
