@@ -97,7 +97,7 @@ try {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
-      orderDetails: "summary",
+      orderDetails: summary,
       deliveryDate: session.metadata?.delivery_date,
       source: 'stripe-webhook',
       language: 'fr' // oppure calcolato in base al contesto
