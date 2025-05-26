@@ -471,7 +471,7 @@ document.getElementById("orderForm").addEventListener("submit", function(e) {
   toast.style.display = 'block';
   setTimeout(() => { toast.style.display = 'none'; }, 8000);
 
-  fetch('https://Zielinska.onrender.com/create-checkout-session', {
+  fetch('https://neaspacedejcheckout.onrender.com/create-checkout-session', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
