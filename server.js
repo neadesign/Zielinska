@@ -65,7 +65,7 @@ app.post('/webhook', express.raw({ type: 'application/json' }), async (req, res)
     const session = event.data.object;
     // Leggi il riepilogo breve dai metadata
     const summary = session.metadata?.orderDetails || session.metadata?.stripeSummary || '⚠️ Nessun dettaglio ordine';
-    const message = `📦 *Nuovo ordine Neaspace!*\n\n${summary}`;
+    const message = `📦 *Neaspace!*\n\n${summary}`;
 
     // Invia l'email
     try {
