@@ -591,16 +591,17 @@ document.getElementById("orderForm").addEventListener("submit", function(e) {
   toast.style.display = 'block';
   setTimeout(() => { toast.style.display = 'none'; }, 8000);
 
-  fetch('https://Zielinska.onrender.com/create-checkout-session', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      total,
-      orderDetails: summary,
-      stripeSummary: generateStripeSummary(),
-      delivery_date: document.querySelector('[name="delivery_date"]').value
-    })
+fetch('https://Zielinska.onrender.com/create-checkout-session', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({
+    total,
+    orderDetails: summary, // dettagli completi per email/telegram
+    stripeSummary: summary.split("\n")[0].slice(0, 50), // solo prima riga, max 50 caratteri
+    delivery_date: document.querySelector('[name="delivery_date"]').value
   })
+})
+
   .then(res => res.json())
   .then(data => {
     if (data.url) {
