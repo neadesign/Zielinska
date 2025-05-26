@@ -159,11 +159,9 @@ app.post('/create-checkout-session', async (req, res) => {
       success_url: 'https://neadesign.github.io/Zielinska/success.html',
       cancel_url: 'https://neadesign.github.io/Zielinska/cancel.html',
       metadata: {
-        stripeSummary,
-        orderDetails,
-        total: total.toFixed(2),
-        delivery_date
-      }
+  total: total.toFixed(2),
+  delivery_date
+}
     });
 
     res.json({ url: session.url });
