@@ -14,7 +14,9 @@ const TELEGRAM_TOKEN = process.env.TELEGRAM_TOKEN;
 const TELEGRAM_CHAT_ID = process.env.TELEGRAM_CHAT_ID;
 const GMAIL_PASS = process.env.GMAIL_PASS;
 
-// Transporter per Nodemailer
+const sessionOrderDetails = new Map(); // 🧠 memoria temporanea
+
+// Nodemailer
 const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
@@ -26,19 +28,15 @@ const transporter = nodemailer.createTransport({
 const START_DATE = new Date("2025-05-23");
 const sheetUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vScTm1j0tp3F7h89bhmLGqEJr4nlJuqPCPm8j57qn3xqFfIYk3Mf89KXRWqbxzmxA/pub?output=csv";
 
-// Funzione di utilità per controllare se la data è aperta
 async function isDateOpen(dateStr) {
   const date = new Date(dateStr);
   if (isNaN(date)) return false;
   if (date < START_DATE) return false;
-  if (date.getDay() === 3) return false; // mercoledì chiuso
+  if (date.getDay() === 3) return false;
   try {
     const response = await fetch(sheetUrl);
     const text = await response.text();
-    const blockedDates = text
-      .split('\n')
-      .map(r => r.trim())
-      .filter(r => /^\d{4}-\d{2}-\d{2}$/.test(r));
+    const blockedDates = text.split('\n').map(r => r.trim()).filter(r => /^\d{4}-\d{2}-\d{2}$/.test(r));
     return !blockedDates.includes(dateStr);
   } catch (err) {
     console.error("❌ Errore fetch calendario:", err);
@@ -49,10 +47,11 @@ async function isDateOpen(dateStr) {
 const app = express();
 app.use(cors());
 
-// Webhook Stripe: deve usare express.raw
+// ✅ WEBHOOK STRIPE
 app.post('/webhook', express.raw({ type: 'application/json' }), async (req, res) => {
   const sig = req.headers['stripe-signature'];
   let event;
+
   try {
     event = stripe.webhooks.constructEvent(req.body, sig, endpointSecret);
     console.log('✅ Webhook ricevuto:', event.type);
@@ -63,11 +62,14 @@ app.post('/webhook', express.raw({ type: 'application/json' }), async (req, res)
 
   if (event.type === 'checkout.session.completed') {
     const session = event.data.object;
-    // Leggi il riepilogo breve dai metadata
-    const summary = session.metadata?.orderDetails || session.metadata?.stripeSummary || '⚠️ Nessun dettaglio ordine';
+    let summary = session.metadata?.orderDetails || '⚠️ Nessun dettaglio ordine';
+    if (sessionOrderDetails.has(session.id)) {
+      summary = sessionOrderDetails.get(session.id);
+    }
+
     const message = `📦 *Neaspace!*\n\n${summary}`;
 
-    // Invia l'email
+    // 📧 Email
     try {
       await transporter.sendMail({
         from: 'Neaspace <design@francescorossi.co>',
@@ -80,7 +82,7 @@ app.post('/webhook', express.raw({ type: 'application/json' }), async (req, res)
       console.error('❌ Errore invio email:', err.message);
     }
 
-    // Invia la notifica su Telegram
+    // 📲 Telegram
     try {
       await axios.post(`https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`, {
         chat_id: TELEGRAM_CHAT_ID,
@@ -91,57 +93,47 @@ app.post('/webhook', express.raw({ type: 'application/json' }), async (req, res)
     } catch (err) {
       console.error('❌ Errore invio Telegram:', err.message);
     }
- // Invia anche a Zapier
-try {
-  await fetch('https://hooks.zapier.com/hooks/catch/15200900/2js6103/', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      orderDetails: summary,
-      deliveryDate: session.metadata?.delivery_date,
-      source: 'stripe-webhook',
-      language: 'fr' // oppure calcolato in base al contesto
-    })
-  });
-  console.log('✅ Inviato a Zapier con successo');
-} catch (err) {
-  console.error('❌ Errore invio Zapier:', err.message);
-}
- }
+
+    // 🔄 Zapier
+    try {
+      await fetch('https://hooks.zapier.com/hooks/catch/15200900/2js6103/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          orderDetails: summary,
+          deliveryDate: session.metadata?.delivery_date,
+          source: 'stripe-webhook',
+          language: 'fr'
+        })
+      });
+      console.log('✅ Inviato a Zapier con successo');
+    } catch (err) {
+      console.error('❌ Errore invio Zapier:', err.message);
+    }
+  }
 
   res.sendStatus(200);
 });
 
-// Aggiungi il parser JSON **dopo** il webhook
+// 🔁 Dopo il webhook mettiamo il parser JSON
 app.use(express.json());
 
-// Endpoint per creare la sessione di Checkout
+// ✅ ENDPOINT CHECKOUT
 app.post('/create-checkout-session', async (req, res) => {
   const {
     total,
-    orderDetails,
-    // puoi rimuovere gli altri orderDetails* se non li usi nei metadata
-    // orderDetailsFr,
-    // orderDetailsIt,
-    // orderDetailsEs,
-    // orderDetailsEn,
-    delivery_date,
-    stripeSummary
+    orderDetailsShort,
+    orderDetailsLong,
+    delivery_date
   } = req.body;
 
-  // Verifica totale
   if (!total || total <= 0) {
-    return res.status(400).json({
-      error: "❌ L'importo totale non può essere zero. Seleziona almeno una formula o un supplemento."
-    });
+    return res.status(400).json({ error: "❌ L'importo totale non può essere zero. Seleziona almeno una formula o un supplemento." });
   }
 
-  // Controllo disponibilità data
   const available = await isDateOpen(delivery_date);
   if (!available) {
-    return res.status(400).json({
-      error: "❌ Siamo chiusi in quella data. Scegli un altro giorno."
-    });
+    return res.status(400).json({ error: "❌ Siamo chiusi in quella data. Scegli un altro giorno." });
   }
 
   try {
@@ -151,18 +143,22 @@ app.post('/create-checkout-session', async (req, res) => {
         price_data: {
           currency: 'eur',
           product_data: { name: 'Neaspace Order' },
-          unit_amount: Math.round(total * 100),
+          unit_amount: Math.round(total * 100)
         },
-        quantity: 1,
+        quantity: 1
       }],
       mode: 'payment',
       success_url: 'https://neadesign.github.io/Zielinska/success.html',
       cancel_url: 'https://neadesign.github.io/Zielinska/cancel.html',
       metadata: {
-  total: total.toFixed(2),
-  delivery_date
-}
+        total: total.toFixed(2),
+        delivery_date,
+        orderDetails: orderDetailsShort // solo riepilogo breve per Stripe
+      }
     });
+
+    // Salva il riepilogo completo
+    sessionOrderDetails.set(session.id, orderDetailsLong);
 
     res.json({ url: session.url });
   } catch (err) {
