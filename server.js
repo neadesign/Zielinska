@@ -97,7 +97,7 @@ try {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
-      orderDetails: summary,
+      orderDetails: "Formula Petit-déj – 13 €:\n- Viennoiserie: Babka\n- Lait: Lait d’avoine\n- Jus d’orange\nLivraison: 27 mai à 08:30",
       deliveryDate: session.metadata?.delivery_date,
       source: 'stripe-webhook',
       language: 'fr' // oppure calcolato in base al contesto
