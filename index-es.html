@@ -605,7 +605,7 @@ document.getElementById("orderForm").addEventListener("submit", function(e) {
       orderDetails: summary,
       stripeSummary: generateStripeSummary(),
       delivery_date: document.querySelector('[name="delivery_date"]').value,
-      phone
+      phone: document.querySelector('[name="whatsapp"]').value  // 👈 aggiungi questo
     })
   })
 
