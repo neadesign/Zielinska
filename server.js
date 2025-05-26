@@ -163,7 +163,7 @@ app.post('/create-checkout-session', async (req, res) => {
     res.json({ url: session.url });
   } catch (err) {
     console.error('❌ Errore creazione sessione Stripe:', err.message);
-    res.status(500).json({ error: 'Errore interno creazione sessione Stripe' });
+    res.status(50).json({ error: 'Errore interno creazione sessione Stripe' });
   }
 });
 
