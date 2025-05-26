@@ -437,7 +437,7 @@ let summary = `📅 Delivery: ${dateInput} alle ${timeInput}
 `;
 
   let total = 0;
-  const prix = { petitdej: 13, brunch: 22 };
+  const prix = { petitdej: 17, brunch: 50 };
 
   document.querySelectorAll('.formule-block').forEach(block => {
   const selects = block.querySelectorAll('select');
@@ -456,7 +456,7 @@ let summary = `📅 Delivery: ${dateInput} alle ${timeInput}
   if (block.querySelector('select[name^="brunch"]')) {
     const boisson = selects[0]?.value || 'non specificato';
 
-    summary += `\nFormula Brunch – 22 €:\n` +
+    summary += `\nFormula Brunch – 50 €:\n` +
                `- Avocado toast\n` +
                `- Bread / Butter / Jam\n` +
                `- Granola\n` +
