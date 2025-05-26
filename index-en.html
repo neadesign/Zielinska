@@ -463,6 +463,7 @@ function generateStripeSummary() {
 
 document.getElementById("orderForm").addEventListener("submit", function(e) {
   e.preventDefault();
+  generateSummary();
   const summary = document.getElementById("orderSummary").textContent;
   const totalMatch = summary.match(/Total: ([\d.,]+)/);
   const total = totalMatch ? parseFloat(totalMatch[1].replace(',', '.')) : 0;
