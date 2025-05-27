@@ -456,9 +456,9 @@ function generateSummary() {
     }
   });
 
-  summary += `\n🚚 Livraison : 7,50 € via notre partenaire Delicity`;
+  summary += `\n🚚 Livraison : 7 € via notre partenaire Delicity`;
 total += 7;
-summary += `\n💰 Total : ${total.toFixed(2)} €`;
+
 
   document.getElementById('orderSummary').style.display = 'block';
   document.getElementById('orderSummary').textContent = summary;
@@ -560,9 +560,8 @@ function generateSummary() {
     }
   });
 
-  summary += `\n🚚 Livraison : 7,50 € via notre partenaire Delicity`;
-summary += `\n🧾 Frais de service et de traitement : 1,50 € (paiement, emballage, service client)`;
-total += 7.5 + 1.5;
+  summary += `\n🚚 Livraison : 7 € via notre partenaire Delicity`;
+total += 7;
 summary += `\n💰 Total : ${total.toFixed(2)} €`;
 
   document.getElementById('orderSummary').style.display = 'block';
