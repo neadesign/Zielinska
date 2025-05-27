@@ -1,32 +1,3 @@
-const { google } = require('googleapis');
-const crypto = require('crypto');
-
-const auth = new google.auth.GoogleAuth({
-  credentials: {
-    type: "service_account",
-    project_id: "rue-neuve",
-    private_key_id: "4e2c19d39078455fb00f0ac350aea60e1c15a864",
-    private_key: process.env.GOOGLE_PRIVATE_KEY.replace(/\\n/g, '\n'),
-    client_email: "design-francescorossi-co@rue-neuve.iam.gserviceaccount.com",
-    token_uri: "https://oauth2.googleapis.com/token"
-  },
-  scopes: ['https://www.googleapis.com/auth/spreadsheets']
-});
-
-async function appendToSheet(date, phone, summary, total) {
-  const client = await auth.getClient();
-  const sheets = google.sheets({ version: 'v4', auth: client });
-
-  await sheets.spreadsheets.values.append({
-    spreadsheetId: '1KEkvZp2kg4fA5snVhJBupgR6J-CuLqlbtodd8g9Rfag',
-    range: 'Foglio1!A:D',
-    valueInputOption: 'USER_ENTERED',
-    requestBody: {
-      values: [[date, phone, summary, total]]
-    }
-  });
-}
-
 require('dotenv').config();
 const express = require('express');
 const Stripe = require('stripe');
@@ -34,6 +5,7 @@ const cors = require('cors');
 const nodemailer = require('nodemailer');
 const axios = require('axios');
 const fetch = require('node-fetch');
+const crypto = require('crypto');
 
 const stripe = Stripe(process.env.STRIPE_SECRET_KEY);
 const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET;
@@ -64,7 +36,7 @@ async function isDateOpen(dateStr) {
     const blockedDates = text.split('\n').map(r => r.trim()).filter(r => /^\d{4}-\d{2}-\d{2}$/.test(r));
     return !blockedDates.includes(dateStr);
   } catch (err) {
-    console.error("❌ Errore fetch calendario:", err);
+    console.error("\u274C Errore fetch calendario:", err);
     return false;
   }
 }
@@ -77,32 +49,32 @@ app.post('/webhook', express.raw({ type: 'application/json' }), async (req, res)
   let event;
   try {
     event = stripe.webhooks.constructEvent(req.body, sig, endpointSecret);
-    console.log('✅ Webhook ricevuto:', event.type);
+    console.log('\u2705 Webhook ricevuto:', event.type);
   } catch (err) {
-    console.error('❌ Webhook verification failed:', err.message);
+    console.error('\u274C Webhook verification failed:', err.message);
     return res.status(400).send(`Webhook Error: ${err.message}`);
   }
 
   if (event.type === 'checkout.session.completed') {
     const session = event.data.object;
-    let summary = session.metadata?.orderDetails || '⚠️ Nessun dettaglio ordine';
+    let summary = session.metadata?.orderDetails || '\u26A0\uFE0F Nessun dettaglio ordine';
     if (sessionOrderDetails.has(session.id)) {
       summary = sessionOrderDetails.get(session.id);
     }
 
     const orderId = session.metadata?.orderId || 'Ordine';
-    const message = `📦 *Neaspace – ${orderId}*\n\n${summary}`;
+    const message = `\ud83d\udce6 *Neaspace – ${orderId}*\n\n${summary}`;
 
     try {
       await transporter.sendMail({
         from: 'Neaspace <design@francescorossi.co>',
         to: 'design@francescorossi.co',
-        subject: `✅ Ordine confermato – ${orderId}`,
+        subject: `\u2705 Ordine confermato – ${orderId}`,
         text: message.replace(/\*/g, '')
       });
-      console.log('📧 Email inviata');
+      console.log('\ud83d\udce7 Email inviata');
     } catch (err) {
-      console.error('❌ Errore invio email:', err.message);
+      console.error('\u274C Errore invio email:', err.message);
     }
 
     try {
@@ -111,9 +83,9 @@ app.post('/webhook', express.raw({ type: 'application/json' }), async (req, res)
         text: message,
         parse_mode: 'Markdown'
       });
-      console.log('✅ Notifica Telegram inviata');
+      console.log('\u2705 Notifica Telegram inviata');
     } catch (err) {
-      console.error('❌ Errore invio Telegram:', err.message);
+      console.error('\u274C Errore invio Telegram:', err.message);
     }
 
     try {
@@ -127,9 +99,9 @@ app.post('/webhook', express.raw({ type: 'application/json' }), async (req, res)
           language: 'fr'
         })
       });
-      console.log('✅ Inviato a Zapier con successo');
+      console.log('\u2705 Inviato a Zapier con successo');
     } catch (err) {
-      console.error('❌ Errore invio Zapier:', err.message);
+      console.error('\u274C Errore invio Zapier:', err.message);
     }
   }
 
@@ -142,24 +114,22 @@ app.post('/create-checkout-session', async (req, res) => {
   const { total, orderDetailsShort, orderDetailsLong, delivery_date, phone } = req.body;
 
   if (!total || total <= 0) {
-    return res.status(400).json({ error: "❌ L'importo totale non può essere zero. Seleziona almeno una formula o un supplemento." });
+    return res.status(400).json({ error: "\u274C L'importo totale non pu\u00f2 essere zero. Seleziona almeno una formula o un supplemento." });
   }
 
   const available = await isDateOpen(delivery_date);
   if (!available) {
-    return res.status(400).json({ error: "❌ Siamo chiusi in quella data. Scegli un altro giorno." });
+    return res.status(400).json({ error: "\u274C Siamo chiusi in quella data. Scegli un altro giorno." });
   }
 
   const orderId = crypto.randomUUID().slice(0, 8);
-  await appendToSheet(delivery_date, phone, orderDetailsLong, total);
-
-  const preMessage = `📥 *Nuovo ordine in attesa di pagamento – ${orderId}*\n\n${orderDetailsLong}`;
+  const preMessage = `\ud83d\udce5 *Nuovo ordine in attesa di pagamento – ${orderId}*\n\n${orderDetailsLong}`;
 
   try {
     await transporter.sendMail({
       from: 'Neaspace <design@francescorossi.co>',
       to: 'design@francescorossi.co',
-      subject: `🧺 Nuovo ordine – ${orderId}`,
+      subject: `\ud83e\uddfa Nuovo ordine – ${orderId}`,
       text: preMessage.replace(/\*/g, '')
     });
 
@@ -169,9 +139,9 @@ app.post('/create-checkout-session', async (req, res) => {
       parse_mode: 'Markdown'
     });
 
-    console.log('📧 Email + Telegram inviati PRIMA del pagamento');
+    console.log('\ud83d\udce7 Email + Telegram inviati PRIMA del pagamento');
   } catch (err) {
-    console.error('❌ Errore invio Email o Telegram:', err.message);
+    console.error('\u274C Errore invio Email o Telegram:', err.message);
   }
 
   try {
@@ -199,12 +169,12 @@ app.post('/create-checkout-session', async (req, res) => {
     sessionOrderDetails.set(session.id, orderDetailsLong);
     res.json({ url: session.url });
   } catch (err) {
-    console.error('❌ Errore creazione sessione Stripe:', err.message);
+    console.error('\u274C Errore creazione sessione Stripe:', err.message);
     res.status(500).json({ error: 'Errore interno creazione sessione Stripe' });
   }
 });
 
 const PORT = process.env.PORT || 10000;
 app.listen(PORT, () => {
-  console.log(`🚀 Server attivo su http://localhost:${PORT}`);
+  console.log(`\ud83d\ude80 Server attivo su http://localhost:${PORT}`);
 });
