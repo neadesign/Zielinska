@@ -1,4 +1,5 @@
 const { google } = require('googleapis');
+const crypto = require('crypto');
 
 const auth = new google.auth.GoogleAuth({
   credentials: {
@@ -25,8 +26,8 @@ async function appendToSheet(date, phone, summary, total) {
     }
   });
 }
-require('dotenv').config(); // Carica variabili ambiente dal file .env se presente
 
+require('dotenv').config();
 const express = require('express');
 const Stripe = require('stripe');
 const cors = require('cors');
@@ -41,9 +42,8 @@ const TELEGRAM_TOKEN = process.env.TELEGRAM_TOKEN;
 const TELEGRAM_CHAT_ID = process.env.TELEGRAM_CHAT_ID;
 const GMAIL_PASS = process.env.GMAIL_PASS;
 
-const sessionOrderDetails = new Map(); // 🧠 memoria temporanea
+const sessionOrderDetails = new Map();
 
-// Nodemailer
 const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
@@ -57,9 +57,7 @@ const sheetUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vScTm1j0tp3F7h
 
 async function isDateOpen(dateStr) {
   const date = new Date(dateStr);
-  if (isNaN(date)) return false;
-  if (date < START_DATE) return false;
-  if (date.getDay() === 3) return false;
+  if (isNaN(date) || date < START_DATE || date.getDay() === 3) return false;
   try {
     const response = await fetch(sheetUrl);
     const text = await response.text();
@@ -74,11 +72,9 @@ async function isDateOpen(dateStr) {
 const app = express();
 app.use(cors());
 
-// ✅ WEBHOOK STRIPE
 app.post('/webhook', express.raw({ type: 'application/json' }), async (req, res) => {
   const sig = req.headers['stripe-signature'];
   let event;
-
   try {
     event = stripe.webhooks.constructEvent(req.body, sig, endpointSecret);
     console.log('✅ Webhook ricevuto:', event.type);
@@ -94,14 +90,14 @@ app.post('/webhook', express.raw({ type: 'application/json' }), async (req, res)
       summary = sessionOrderDetails.get(session.id);
     }
 
-    const message = `📦 *Neaspace!*\n\n${summary}`;
+    const orderId = session.metadata?.orderId || 'Ordine';
+    const message = `📦 *Neaspace – ${orderId}*\n\n${summary}`;
 
-    // 📧 Email
     try {
       await transporter.sendMail({
         from: 'Neaspace <design@francescorossi.co>',
         to: 'design@francescorossi.co',
-        subject: '✅ Ordine confermato',
+        subject: `✅ Ordine confermato – ${orderId}`,
         text: message.replace(/\*/g, '')
       });
       console.log('📧 Email inviata');
@@ -109,7 +105,6 @@ app.post('/webhook', express.raw({ type: 'application/json' }), async (req, res)
       console.error('❌ Errore invio email:', err.message);
     }
 
-    // 📲 Telegram
     try {
       await axios.post(`https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`, {
         chat_id: TELEGRAM_CHAT_ID,
@@ -121,7 +116,6 @@ app.post('/webhook', express.raw({ type: 'application/json' }), async (req, res)
       console.error('❌ Errore invio Telegram:', err.message);
     }
 
-    // 🔄 Zapier
     try {
       await fetch('https://hooks.zapier.com/hooks/catch/15200900/2js6103/', {
         method: 'POST',
@@ -142,18 +136,10 @@ app.post('/webhook', express.raw({ type: 'application/json' }), async (req, res)
   res.sendStatus(200);
 });
 
-// 🔁 Dopo il webhook mettiamo il parser JSON
 app.use(express.json());
 
-// ✅ ENDPOINT CHECKOUT
 app.post('/create-checkout-session', async (req, res) => {
-  const {
-    total,
-    orderDetailsShort,
-    orderDetailsLong,
-    delivery_date,
-    phone // ✅ AGGIUNGI QUESTA RIGA
-  } = req.body;
+  const { total, orderDetailsShort, orderDetailsLong, delivery_date, phone } = req.body;
 
   if (!total || total <= 0) {
     return res.status(400).json({ error: "❌ L'importo totale non può essere zero. Seleziona almeno una formula o un supplemento." });
@@ -163,7 +149,30 @@ app.post('/create-checkout-session', async (req, res) => {
   if (!available) {
     return res.status(400).json({ error: "❌ Siamo chiusi in quella data. Scegli un altro giorno." });
   }
-await appendToSheet(delivery_date, phone, orderDetailsLong, total);
+
+  const orderId = crypto.randomUUID().slice(0, 8);
+  await appendToSheet(delivery_date, phone, orderDetailsLong, total);
+
+  const preMessage = `📥 *Nuovo ordine in attesa di pagamento – ${orderId}*\n\n${orderDetailsLong}`;
+
+  try {
+    await transporter.sendMail({
+      from: 'Neaspace <design@francescorossi.co>',
+      to: 'design@francescorossi.co',
+      subject: `🧺 Nuovo ordine – ${orderId}`,
+      text: preMessage.replace(/\*/g, '')
+    });
+
+    await axios.post(`https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`, {
+      chat_id: TELEGRAM_CHAT_ID,
+      text: preMessage,
+      parse_mode: 'Markdown'
+    });
+
+    console.log('📧 Email + Telegram inviati PRIMA del pagamento');
+  } catch (err) {
+    console.error('❌ Errore invio Email o Telegram:', err.message);
+  }
 
   try {
     const session = await stripe.checkout.sessions.create({
@@ -182,17 +191,16 @@ await appendToSheet(delivery_date, phone, orderDetailsLong, total);
       metadata: {
         total: total.toFixed(2),
         delivery_date,
-        orderDetails: orderDetailsShort // solo riepilogo breve per Stripe
+        orderDetails: orderDetailsShort,
+        orderId
       }
     });
 
-    // Salva il riepilogo completo
     sessionOrderDetails.set(session.id, orderDetailsLong);
-
     res.json({ url: session.url });
   } catch (err) {
     console.error('❌ Errore creazione sessione Stripe:', err.message);
-    res.status(50).json({ error: 'Errore interno creazione sessione Stripe' });
+    res.status(500).json({ error: 'Errore interno creazione sessione Stripe' });
   }
 });
 
