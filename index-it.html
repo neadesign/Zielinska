@@ -513,30 +513,27 @@ summary += `\n💰 Totale: ${total.toFixed(2)} €`;
 
   return `Data: ${date} ${time}, Cliente: ${phone}, Formule: ${count}, Totale: ${summary.match(/Totale: ([\d.,]+)/)?.[1]} €`;
 }
-
 document.getElementById("orderForm").addEventListener("submit", function(e) {
   e.preventDefault();
   const summary = document.getElementById("orderSummary").textContent;
-  const totalMatch = summary.match(/Totale: ([\d.,]+)/);
+  const totalMatch = summary.match(/Totale: ([\d.,]+)/) || summary.match(/Total: ([\d.,]+)/) || summary.match(/💰 Total: ([\d.,]+)/);
   const total = totalMatch ? parseFloat(totalMatch[1].replace(',', '.')) : 0;
-  const phone = document.querySelector('[name="whatsapp"]').value;
 
   const toast = document.getElementById('toastOverlay');
   toast.style.display = 'block';
   setTimeout(() => { toast.style.display = 'none'; }, 8000);
 
-  fetch('https://Zielinska.onrender.com/create-checkout-session', {
+  fetch('https://zielinska.onrender.com/create-checkout-session', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
       total,
-      orderDetails: summary,
-      stripeSummary: generateStripeSummary(),
+      phone: document.querySelector('[name="whatsapp"]').value,
       delivery_date: document.querySelector('[name="delivery_date"]').value,
-      phone: document.querySelector('[name="whatsapp"]').value  // 👈 aggiungi questo
+      orderDetailsShort: generateStripeSummary(),
+      orderDetailsLong: summary
     })
   })
-
   .then(res => res.json())
   .then(data => {
     if (data.url) {
@@ -550,6 +547,7 @@ document.getElementById("orderForm").addEventListener("submit", function(e) {
     alert("❌ Si è verificato un errore durante il pagamento.");
   });
 });
+
 </script>
 <script>
 window.addEventListener('DOMContentLoaded', async () => {
