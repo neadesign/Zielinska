@@ -518,40 +518,38 @@ summary += `\n💰 Total: ${total.toFixed(2)} €`;
 document.getElementById("orderForm").addEventListener("submit", function(e) {
   e.preventDefault();
   const summary = document.getElementById("orderSummary").textContent;
-  const totalMatch = summary.match(/Totale: ([\d.,]+)/);
+  const totalMatch = summary.match(/Total: ([\d.,]+)/) || summary.match(/💰 Total: ([\d.,]+)/);
   const total = totalMatch ? parseFloat(totalMatch[1].replace(',', '.')) : 0;
-  const phone = document.querySelector('[name="whatsapp"]').value;
 
   const toast = document.getElementById('toastOverlay');
   toast.style.display = 'block';
   setTimeout(() => { toast.style.display = 'none'; }, 8000);
 
-  fetch('https://Zielinska.onrender.com/create-checkout-session', {
+  fetch('https://zielinska.onrender.com/create-checkout-session', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
       total,
-      orderDetails: summary,
-      stripeSummary: generateStripeSummary(),
+      phone: document.querySelector('[name="whatsapp"]').value,
       delivery_date: document.querySelector('[name="delivery_date"]').value,
-      phone: document.querySelector('[name="whatsapp"]').value  // 👈 aggiungi questo
+      orderDetailsShort: generateStripeSummary(),
+      orderDetailsLong: summary
     })
   })
-
-
   .then(res => res.json())
   .then(data => {
     if (data.url) {
       window.location.href = data.url;
     } else {
-      alert("❌ Payment is currently unavailable. Please try again later.");
+      alert("❌ Payment currently unavailable. Please try again later.");
     }
   })
   .catch(err => {
-    console.error("❌ Errore Stripe:", err);
+    console.error("❌ Stripe error:", err);
     alert("❌ An error occurred during payment.");
   });
 });
+
 </script>
 <script>
 window.addEventListener('DOMContentLoaded', async () => {
