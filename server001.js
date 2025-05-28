@@ -99,8 +99,12 @@ app.use(express.json());
 app.post('/create-checkout-session', async (req, res) => {
   const { total, orderDetailsShort, orderDetailsLong, delivery_date, phone } = req.body;
 
-  if (!total || total <= 0) {
-    return res.status(400).json({ error: "\u274C L'importo totale non pu\u00f2 essere zero." });
+  console.log("✅ Richiesta ricevuta:", req.body);
+
+  const numericTotal = parseFloat(total);
+  if (isNaN(numericTotal) || numericTotal <= 0) {
+    console.error("❌ Totale non valido:", total);
+    return res.status(400).json({ error: "❌ L'importo totale non è valido." });
   }
 
   const orderId = crypto.randomUUID().slice(0, 8);
@@ -134,7 +138,7 @@ ${orderDetailsLong}`;
         price_data: {
           currency: 'eur',
           product_data: { name: 'Minibar Order' },
-          unit_amount: Math.round(total * 100)
+          unit_amount: Math.round(numericTotal * 100)
         },
         quantity: 1
       }],
@@ -142,15 +146,17 @@ ${orderDetailsLong}`;
       success_url: 'https://neadesign.github.io/Zielinska/success001.html',
       cancel_url: 'https://neadesign.github.io/Zielinska/cancel001.html',
       metadata: {
-        total: total.toFixed(2),
-        delivery_date,
-        orderDetails: orderDetailsShort,
+        total: numericTotal.toFixed(2),
+        delivery_date: delivery_date || '',
+        orderDetails: orderDetailsShort || '',
         orderId
       }
     });
 
     sessionOrderDetails.set(session.id, orderDetailsLong);
+    console.log('✅ Sessione Stripe creata:', session.id);
     res.json({ url: session.url });
+
   } catch (err) {
     console.error('❌ Errore creazione sessione Stripe:', err.message);
     res.status(500).json({ error: 'Errore interno creazione sessione Stripe' });
@@ -159,5 +165,5 @@ ${orderDetailsLong}`;
 
 const PORT = process.env.PORT || 10001;
 app.listen(PORT, () => {
-  console.log(`\ud83d\ude80 Minibar Server attivo su http://localhost:${PORT}`);
+  console.log(`🚀 Minibar Server attivo su http://localhost:${PORT}`);
 });
