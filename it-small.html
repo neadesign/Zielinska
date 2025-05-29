@@ -402,7 +402,7 @@ function generateSummaryIt() {
   });
 
   // Consegna e totale
-  summaryIt += `\n🚚 Consegna addebitata 7 € tramite Delicity.`;
+  summaryIt += `\n🚚 Consegna addebitata 0.25 € tramite Delicity.`;
   total += 0.1;
   summaryIt += `\n💰 Totale: ${total.toFixed(0)} €`;
 
@@ -494,10 +494,10 @@ const addons = [
   }
 });
 
-  summary += `\n🚚 Consegna: 7,0.25 € tramite il nostro partner Delicity`;
+  summary += `\n🚚 Consegna: 0.25 € tramite il nostro partner Delicity`;
 summary += `\n🧾 Spese di servizio e gestione: 1,0.25 € (pagamento, imballaggio, assistenza clienti)`;
-total += 7.5 + 1.5;
-summary += `\n💰 Totale: ${total.toFixed(2)} €`;
+total += 0.25;
+summary += `\n💰 Totale: ${total.toFixed(0)} €`;
 
   document.getElementById('orderSummary').style.display = 'block';
   document.getElementById('orderSummary').textContent = summary;
