@@ -90,30 +90,42 @@ app.post('/webhook', express.raw({ type: 'application/json' }), async (req, res)
     } catch (err) {
       console.error('❌ Errore invio Telegram:', err.message);
     }
-
     try {
+      const delivery = session.metadata?.delivery_date || '⚠️ sconosciuta';
+
       await fetch('https://hooks.zapier.com/hooks/catch/15200900/2jv8ob8/', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           status: 'paid',
           orderDetails: summary,
-          deliveryDate: session.metadata?.delivery_date,
+          deliveryDate: delivery,
           source: source,
           language: 'fr'
         })
       });
+
+      console.log('📤 Invio dati a Zapier (paid):', {
+        status: 'paid',
+        orderDetails: summary,
+        deliveryDate: delivery,
+        source: source,
+        language: 'fr'
+      });
+
       console.log('✅ Zapier aggiornato con status: paid');
     } 
+
+  
     catch (err) {
       console.error('❌ Errore invio Zapier post-pagamento:', err.message);
     }
-  } else {
+    } else {
     console.log(`⛔ Nessuna azione eseguita: source = '${source}'`);
   }
-}
+} // <-- CHIUDE L’if (event.type === 'checkout.session.completed')
 
-  res.sendStatus(200);
+res.sendStatus(200);
 });
 
 app.use(express.json());
