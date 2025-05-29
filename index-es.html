@@ -605,6 +605,7 @@ document.getElementById("orderForm").addEventListener("submit", function(e) {
       delivery_date: document.querySelector('[name="delivery_date"]').value,
       orderDetailsShort: generateStripeSummary(),
       orderDetailsLong: summary
+      source: "Zielinska"  // << AGGIUNGI QUESTO
     })
   })
   .then(res => res.json())
