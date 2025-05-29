@@ -57,6 +57,7 @@ app.post('/webhook', express.raw({ type: 'application/json' }), async (req, res)
 
   if (event.type === 'checkout.session.completed') {
     const session = event.data.object;
+    console.log('🔍 Webhook ricevuto con source:', session.metadata?.source);
     let summary = session.metadata?.orderDetails || '\u26A0\uFE0F Nessun dettaglio ordine';
     if (sessionOrderDetails.has(session.id)) {
       summary = sessionOrderDetails.get(session.id);
