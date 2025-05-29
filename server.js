@@ -88,21 +88,26 @@ app.post('/webhook', express.raw({ type: 'application/json' }), async (req, res)
       console.error('\u274C Errore invio Telegram:', err.message);
     }
 
-    try {
-      await fetch('https://hooks.zapier.com/hooks/catch/15200900/2js6103/', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          orderDetails: summary,
-          deliveryDate: session.metadata?.delivery_date,
-          source: 'stripe-webhook',
-          language: 'fr'
-        })
-      });
-      console.log('\u2705 Inviato a Zapier con successo');
-    } catch (err) {
-      console.error('\u274C Errore invio Zapier:', err.message);
-    }
+if ((session.metadata?.source || '').toLowerCase() !== 'zielinska') {
+  try {
+    await fetch('https://hooks.zapier.com/hooks/catch/15200900/2js6103/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        orderDetails: summary,
+        deliveryDate: session.metadata?.delivery_date,
+        source: session.metadata?.source || 'unknown',
+        language: 'fr'
+      })
+    });
+    console.log('\u2705 Inviato a Zapier con successo');
+  } catch (err) {
+    console.error('\u274C Errore invio Zapier:', err.message);
+  }
+} else {
+  console.log('⛔ Zapier NON inviato perché source=Zielinska');
+}
+
   }
 
   res.sendStatus(200);
@@ -111,7 +116,7 @@ app.post('/webhook', express.raw({ type: 'application/json' }), async (req, res)
 app.use(express.json());
 
 app.post('/create-checkout-session', async (req, res) => {
-  const { total, orderDetailsShort, orderDetailsLong, delivery_date, phone } = req.body;
+  const { total, orderDetailsShort, orderDetailsLong, delivery_date, phone, source } = req.body;
 
   if (!total || total <= 0) {
     return res.status(400).json({ error: "\u274C L'importo totale non pu\u00f2 essere zero. Seleziona almeno una formula o un supplemento." });
@@ -159,11 +164,12 @@ app.post('/create-checkout-session', async (req, res) => {
       success_url: 'https://neadesign.github.io/Zielinska/success.html',
       cancel_url: 'https://neadesign.github.io/Zielinska/cancel.html',
       metadata: {
-        total: total.toFixed(2),
-        delivery_date,
-        orderDetails: orderDetailsShort,
-        orderId
-      }
+  total: total.toFixed(2),
+  delivery_date,
+  orderDetails: orderDetailsShort,
+  orderId,
+  source // prende "Zielinska" dal body
+}
     });
 
     sessionOrderDetails.set(session.id, orderDetailsLong);
