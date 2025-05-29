@@ -168,12 +168,8 @@ app.post('/create-checkout-session', async (req, res) => {
       success_url: 'https://neadesign.github.io/Zielinska/success.html',
       cancel_url: 'https://neadesign.github.io/Zielinska/cancel.html',
       metadata: {
-  total: total.toFixed(2),
-  delivery_date,
-  orderDetails: orderDetailsShort,
-  orderId,
-  source // prende "Zielinska" dal body
-}
+    source // SOLO questo nei metadata
+  }
     });
 
     sessionOrderDetails.set(session.id, orderDetailsLong);
