@@ -54,28 +54,30 @@ app.post('/webhook', express.raw({ type: 'application/json' }), async (req, res)
     console.error('\u274C Webhook verification failed:', err.message);
     return res.status(400).send(`Webhook Error: ${err.message}`);
   }
+if (event.type === 'checkout.session.completed') {
+  const session = event.data.object;
+  const source = (session.metadata?.source || '').toLowerCase();
+  console.log('🔍 Webhook ricevuto con source:', source);
 
-  if (event.type === 'checkout.session.completed') {
-    const session = event.data.object;
-    console.log('🔍 Webhook ricevuto con source:', session.metadata?.source);
-    let summary = session.metadata?.orderDetails || '\u26A0\uFE0F Nessun dettaglio ordine';
+  if (source === 'zielinska') {
+    let summary = session.metadata?.orderDetails || '⚠️ Nessun dettaglio ordine';
     if (sessionOrderDetails.has(session.id)) {
       summary = sessionOrderDetails.get(session.id);
     }
 
     const orderId = session.metadata?.orderId || 'Ordine';
-    const message = `\ud83d\udce6 *Neaspace – ${orderId}*\n\n${summary}`;
+    const message = `📦 *Neaspace – ${orderId}*\n\n${summary}`;
 
     try {
       await transporter.sendMail({
         from: 'Neaspace <design@francescorossi.co>',
         to: 'design@francescorossi.co',
-        subject: `\u2705 Ordine confermato – ${orderId}`,
+        subject: `✅ Ordine confermato – ${orderId}`,
         text: message.replace(/\*/g, '')
       });
-      console.log('\ud83d\udce7 Email inviata');
+      console.log('📧 Email inviata');
     } catch (err) {
-      console.error('\u274C Errore invio email:', err.message);
+      console.error('❌ Errore invio email:', err.message);
     }
 
     try {
@@ -84,32 +86,30 @@ app.post('/webhook', express.raw({ type: 'application/json' }), async (req, res)
         text: message,
         parse_mode: 'Markdown'
       });
-      console.log('\u2705 Notifica Telegram inviata');
+      console.log('✅ Notifica Telegram inviata');
     } catch (err) {
-      console.error('\u274C Errore invio Telegram:', err.message);
+      console.error('❌ Errore invio Telegram:', err.message);
     }
 
-if ((session.metadata?.source || '').toLowerCase() === 'zielinska') {
-  try {
-    await fetch('https://hooks.zapier.com/hooks/catch/15200900/2js6103/', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        orderDetails: summary,
-        deliveryDate: session.metadata?.delivery_date,
-        source: session.metadata?.source || 'unknown',
-        language: 'fr'
-      })
-    });
-    console.log('✅ Inviato a Zapier con successo');
-  } catch (err) {
-    console.error('❌ Errore invio Zapier:', err.message);
+    try {
+      await fetch('https://hooks.zapier.com/hooks/catch/15200900/2js6103/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          orderDetails: summary,
+          deliveryDate: session.metadata?.delivery_date,
+          source: source,
+          language: 'fr'
+        })
+      });
+      console.log('✅ Inviato a Zapier con successo');
+    } catch (err) {
+      console.error('❌ Errore invio Zapier:', err.message);
+    }
+  } else {
+    console.log(`⛔ Nessuna azione eseguita: source = '${source}'`);
   }
-} else {
-  console.log(`⛔ Zapier NON attivato perché source = '${session.metadata?.source}'`);
 }
-  }
-
   res.sendStatus(200);
 });
 
