@@ -90,22 +90,26 @@ if (event.type === 'checkout.session.completed') {
     } catch (err) {
       console.error('❌ Errore invio Telegram:', err.message);
     }
-
-    try {
-      await fetch('https://hooks.zapier.com/hooks/catch/15200900/2js6103/', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          orderDetails: summary,
-          deliveryDate: session.metadata?.delivery_date,
-          source: source,
-          language: 'fr'
-        })
-      });
-      console.log('✅ Inviato a Zapier con successo');
-    } catch (err) {
-      console.error('❌ Errore invio Zapier:', err.message);
-    }
+if (source === 'zielinska') {
+  try {
+    await fetch('https://hooks.zapier.com/hooks/catch/15200900/2js6103/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        orderDetails: summary,
+        deliveryDate: session.metadata?.delivery_date,
+        source: source,
+        language: 'fr'
+      })
+    });
+    console.log('✅ Inviato a Zapier con successo');
+  } catch (err) {
+    console.error('❌ Errore invio Zapier:', err.message);
+  }
+} else {
+  console.log(`⛔ Zapier NON attivato perché source = '${source}'`);
+}
+   
   } else {
     console.log(`⛔ Nessuna azione eseguita: source = '${source}'`);
   }
