@@ -90,23 +90,23 @@ if (event.type === 'checkout.session.completed') {
     } catch (err) {
       console.error('❌ Errore invio Telegram:', err.message);
     }
-if (source === 'zielinska') {
-  try {
-    await fetch('https://hooks.zapier.com/hooks/catch/15200900/2js6103/', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        orderDetails: summary,
-        deliveryDate: session.metadata?.delivery_date,
-        source: source,
-        language: 'fr'
-      })
-    });
-    console.log('✅ Inviato a Zapier con successo');
-  } catch (err) {
-    console.error('❌ Errore invio Zapier:', err.message);
-  }
-} else {
+    try {
+  await fetch('https://hooks.zapier.com/hooks/catch/15200900/2jv8ob8/', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      status: 'paid',
+      orderDetails: summary,
+      deliveryDate: session.metadata?.delivery_date,
+      source: source,
+      language: 'fr'
+    })
+  });
+  console.log('✅ Zapier aggiornato con status: paid');
+} catch (err) {
+  console.error('❌ Errore invio Zapier post-pagamento:', err.message);
+}
+ else {
   console.log(`⛔ Zapier NON attivato perché source = '${source}'`);
 }
    
@@ -149,6 +149,22 @@ app.post('/create-checkout-session', async (req, res) => {
     });
 
     console.log('\ud83d\udce7 Email + Telegram inviati PRIMA del pagamento');
+    try {
+await fetch('https://hooks.zapier.com/hooks/catch/15200900/2js6103/', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({
+    status: 'pending',
+    orderDetails: orderDetailsLong,
+    deliveryDate: delivery_date,
+    source: source,
+    language: 'fr'
+  })
+});
+  console.log('✅ Inviato a Zapier subito dopo creazione ordine');
+} catch (err) {
+  console.error('❌ Errore invio Zapier:', err.message);
+}
   } catch (err) {
     console.error('\u274C Errore invio Email o Telegram:', err.message);
   }
