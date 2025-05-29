@@ -54,7 +54,7 @@ app.post('/webhook', express.raw({ type: 'application/json' }), async (req, res)
     console.error('\u274C Webhook verification failed:', err.message);
     return res.status(400).send(`Webhook Error: ${err.message}`);
   }
-if (event.type === 'checkout.session.completed') {
+ if (event.type === 'checkout.session.completed') {
   const session = event.data.object;
   const source = (session.metadata?.source || '').toLowerCase();
   console.log('🔍 Webhook ricevuto con source:', source);
@@ -90,30 +90,29 @@ if (event.type === 'checkout.session.completed') {
     } catch (err) {
       console.error('❌ Errore invio Telegram:', err.message);
     }
+
     try {
-  await fetch('https://hooks.zapier.com/hooks/catch/15200900/2jv8ob8/', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      status: 'paid',
-      orderDetails: summary,
-      deliveryDate: session.metadata?.delivery_date,
-      source: source,
-      language: 'fr'
-    })
-  });
-  console.log('✅ Zapier aggiornato con status: paid');
-} catch (err) {
-  console.error('❌ Errore invio Zapier post-pagamento:', err.message);
-}
- else {
-  console.log(`⛔ Zapier NON attivato perché source = '${source}'`);
-}
-   
+      await fetch('https://hooks.zapier.com/hooks/catch/15200900/2jv8ob8/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          status: 'paid',
+          orderDetails: summary,
+          deliveryDate: session.metadata?.delivery_date,
+          source: source,
+          language: 'fr'
+        })
+      });
+      console.log('✅ Zapier aggiornato con status: paid');
+    } 
+    catch (err) {
+      console.error('❌ Errore invio Zapier post-pagamento:', err.message);
+    }
   } else {
     console.log(`⛔ Nessuna azione eseguita: source = '${source}'`);
   }
 }
+
   res.sendStatus(200);
 });
 
