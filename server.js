@@ -89,7 +89,7 @@ app.post('/webhook', express.raw({ type: 'application/json' }), async (req, res)
       console.error('\u274C Errore invio Telegram:', err.message);
     }
 
-if ((session.metadata?.source || '').toLowerCase() !== 'zielinska') {
+if ((session.metadata?.source || '').toLowerCase() === 'zielinska') {
   try {
     await fetch('https://hooks.zapier.com/hooks/catch/15200900/2js6103/', {
       method: 'POST',
@@ -101,14 +101,13 @@ if ((session.metadata?.source || '').toLowerCase() !== 'zielinska') {
         language: 'fr'
       })
     });
-    console.log('\u2705 Inviato a Zapier con successo');
+    console.log('✅ Inviato a Zapier con successo');
   } catch (err) {
-    console.error('\u274C Errore invio Zapier:', err.message);
+    console.error('❌ Errore invio Zapier:', err.message);
   }
 } else {
-  console.log('⛔ Zapier NON inviato perché source=Zielinska');
+  console.log(`⛔ Zapier NON attivato perché source = '${session.metadata?.source}'`);
 }
-
   }
 
   res.sendStatus(200);
