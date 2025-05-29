@@ -154,9 +154,9 @@ await fetch('https://hooks.zapier.com/hooks/catch/15200900/2js6103/', {
   headers: { 'Content-Type': 'application/json' },
   body: JSON.stringify({
     status: 'pending',
-    orderDetails: orderDetailsLong,
-    deliveryDate: delivery_date,
-    source: source,
+    orderDetails: 'pending',
+    deliveryDate: 'pending',
+    source: 'pending',
     language: 'fr'
   })
 });
